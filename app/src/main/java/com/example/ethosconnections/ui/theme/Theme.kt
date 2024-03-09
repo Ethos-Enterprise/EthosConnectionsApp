@@ -6,8 +6,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import java.lang.reflect.Type
-
+import com.example.ethosconnections.ui.theme.corLetra
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -75,14 +74,14 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-    fun AppTheme(
-        content: @Composable () -> Unit
-    ) {
-        val colors = DarkColors
+fun AppTheme(
+    content: @Composable () -> Unit
+) {
+    val colors = DarkColors
 
-  MaterialTheme(
-    colorScheme = colors,
-    content = content,
-    typography = Typography(),
-  )
+    MaterialTheme(
+        colorScheme = colors,
+        content = content,
+
+        )
 }

@@ -4,21 +4,34 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
 import com.example.ethosconnections.R
+import com.example.ethosconnections.ui.theme.corLetra
+import com.example.ethosconnections.ui.theme.letraButton
+import com.example.ethosconnections.ui.theme.letraPadrao
 
 @Composable
 
@@ -28,7 +41,7 @@ fun Home(navController: NavController) {
         painter = painterResource(id = R.drawable.home),
         contentDescription = null,
         modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.FillBounds
+
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -37,7 +50,7 @@ fun Home(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(35.dp),
+                .padding(40.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
@@ -45,26 +58,62 @@ fun Home(navController: NavController) {
 
             Image(
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(220.dp)
                     .padding(bottom = 4.dp),
                 painter = painterResource(id = R.drawable.logo_branco),
                 contentDescription = "Icone da cor branca"
             )
+            Spacer(modifier = Modifier.height(150.dp))
 
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp),
-                onClick = { navController.navigate("login") }) {
-                Text(text = "Fazer login")
-            }
+            Text(
+                text = "Conectando negócios, moldando o futuro",
+                style = corLetra,
+                modifier = Modifier.width(300.dp),
+                fontSize = 23.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(50.dp))
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 onClick = { navController.navigate("cadastro") }) {
-                Text(text = "Fazer Cadastro")
+                Text(text = "Cadastrar Empresa", style = letraButton)
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row (
+                modifier = Modifier.height(40.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = "Já tem uma conta?",
+                    style = corLetra,
+
+                    )
+
+                TextButton(
+                    onClick = { navController.navigate("login") }) {
+                    Text(
+                        text = "Faça Login")
+                }
+            }
+
+
+
+
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePreview() {
+    AppTheme {
+        val navController = rememberNavController()
+        Home(navController)
+    }
 }
