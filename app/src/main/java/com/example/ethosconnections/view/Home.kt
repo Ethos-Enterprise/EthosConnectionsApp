@@ -84,14 +84,12 @@ fun Home(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             Row (
-                modifier = Modifier.height(40.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ){
                 Text(
                     text = "Já tem uma conta?",
                     style = corLetra,
-
                     )
 
                 TextButton(
@@ -100,9 +98,6 @@ fun Home(navController: NavController) {
                         text = "Faça Login")
                 }
             }
-
-
-
 
         }
     }

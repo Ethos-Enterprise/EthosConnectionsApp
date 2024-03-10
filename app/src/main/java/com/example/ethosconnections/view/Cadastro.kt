@@ -3,13 +3,16 @@ package com.example.ethosconnections.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -19,13 +22,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +48,35 @@ import com.example.ethosconnections.ui.theme.textoTop
 fun Cadastro(navController: NavController) {
     val etapaAtual = remember { mutableStateOf(1) }
     val totalEtapa = 3
+
+
+    val nomeEmpresa = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val cnpj = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val cep = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val telefone = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val email = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val senha = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val confirmacaoSenha = remember {
+        mutableStateOf(TextFieldValue())
+    }
 
     Image(
         painter = painterResource(id = R.drawable.background_login),
@@ -75,13 +109,12 @@ fun Cadastro(navController: NavController) {
 
         ProgressBar(etapaAtual.value, totalEtapa)
 
-
         Spacer(modifier = Modifier.height(16.dp))
 
         when (etapaAtual.value) {
-            1 -> EtapaUm(etapaAtual)
-            2 -> EtapaDois(etapaAtual)
-            3 -> EtapaTres(etapaAtual)
+            1 -> EtapaUm(nomeEmpresa, cnpj)
+            2 -> EtapaDois(cep, telefone, email)
+            3 -> EtapaTres(senha, confirmacaoSenha)
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -94,7 +127,10 @@ fun Cadastro(navController: NavController) {
                 onClick = { etapaAtual.value-- },
                 shape = RoundedCornerShape(2.dp),
                 enabled = etapaAtual.value > 1,
-                border = BorderStroke(1.dp, if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray),
+                border = BorderStroke(
+                    1.dp,
+                    if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp)
@@ -105,8 +141,6 @@ fun Cadastro(navController: NavController) {
                     color = if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray,
                 )
             }
-
-            Spacer(modifier = Modifier.width(8.dp))
 
             Button(
                 onClick = { if (etapaAtual.value < totalEtapa) etapaAtual.value++ },
@@ -123,12 +157,13 @@ fun Cadastro(navController: NavController) {
 }
 
 @Composable
-fun EtapaUm(etapaAtual: MutableState<Int>) {
-    val nomeEmpresa = remember {
+fun EtapaUm(nomeEmpresa: MutableState<TextFieldValue>, cnpj: MutableState<TextFieldValue>) {
+
+    val areaAtuacao = remember {
         mutableStateOf(TextFieldValue())
     }
 
-    val cnpj = remember {
+    val nFuncionarios = remember {
         mutableStateOf(TextFieldValue())
     }
 
@@ -146,51 +181,170 @@ fun EtapaUm(etapaAtual: MutableState<Int>) {
         onValueChange = { cnpj.value = it },
         label = { Text("CNPJ") },
         modifier = Modifier.fillMaxWidth(),
+        keyboardOptions =
+        KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    Row(modifier = Modifier.fillMaxWidth()) {
-        TextField(
-            value = cnpj.value,
-            onValueChange = { cnpj.value = it },
-            label = { Text("Área de Atuação") },
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp)
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+
+        var expanded = remember { mutableStateOf(false) }
+        val selectedOption = remember { mutableStateOf("") }
+        val options = listOf(
+            "Tecnologia da Informação",
+            "Saúde e Medicina",
+            "Educação",
+            "Financeira e Bancária",
+            "Agricultura",
+            "Energia e Sustentabilidade",
+            "Varejo",
+            "Construção e Imóveis",
+            "Alimentos e Bebidas",
+            "Automobilística",
+            "Entretenimento e Mídia",
+            "Turismo e Hospitalidade",
+            "Manufatura",
+            "Telecomunicações",
+            "Serviços de Consultoria",
+            "Transporte e Logística",
+            "Moda e Vestuário",
+            "Outros")
+
+        var expanded2 = remember { mutableStateOf(false) }
+        val selectedOption2 = remember { mutableStateOf("") }
+        val options2 = listOf(
+            "Até 9 funcionários",
+            "10 a 20 funcionários",
+            "21 a 50 funcionários",
+            "51 a 100 funcionários",
+            "101 a 200 funcionários",
+            "201 a 500 funcionários",
+            "501 a 1000 funcionários",
+            "1001 ou mais funcionários"
         )
 
-        TextField(
-            value = cnpj.value,
-            onValueChange = { cnpj.value = it },
-            label = { Text("Nª Funcionários") },
+        Box(
             modifier = Modifier
                 .weight(1f)
-        )
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = { expanded.value = true },
+                shape = RoundedCornerShape(4.dp),
+                border = BorderStroke(1.dp, Color(0xFF98A1A2)),
+                colors = ButtonDefaults.buttonColors(Color(0xff3F484A)),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(
+                    start = 9.dp,
+                    top = 15.dp,
+                    end = 16.dp,
+                    bottom = 15.dp
+
+                )
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = if (selectedOption.value.isEmpty()) "Área de Atuação" else selectedOption.value,
+                    color = Color.White,
+                    style = letraPadrao
+                )
+
+            }
+            DropdownMenu(
+                expanded = expanded.value,
+                onDismissRequest = { expanded.value = false },
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .height(160.dp)
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+
+                        text = { Text(text = option) },
+                        onClick = {
+                            selectedOption.value = option
+                            expanded.value = false
+                        },
+                    )
+                    Divider()
+                }
+            }
+        }
+
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Button(
+                onClick = { expanded2.value = true },
+                shape = RoundedCornerShape(4.dp),
+                border = BorderStroke(1.dp, Color(0xFF98A1A2)),
+                colors = ButtonDefaults.buttonColors(Color(0xff3F484A)),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(
+                    start = 9.dp,
+                    top = 15.dp,
+                    end = 16.dp,
+                    bottom = 15.dp
+                )
+            ) {
+                Text(
+                    style = letraPadrao,
+                    text = if (selectedOption2.value.isEmpty()) "Nº Funcionários" else selectedOption2.value,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = Color.White,
+                )
+
+            }
+            DropdownMenu(
+                expanded = expanded2.value,
+                onDismissRequest = { expanded2.value = false },
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .height(160.dp)
+            ) {
+                options2.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(text = option) },
+                        onClick = {
+                            selectedOption2.value = option
+                            expanded2.value = false
+                        })
+                    Divider()
+                }
+            }
+        }
+
+
     }
 
 
 }
 
 @Composable
-fun EtapaDois(etapaAtual: MutableState<Int>) {
-    val cep = remember {
-        mutableStateOf("")
-    }
-
-    val telefone = remember {
-        mutableStateOf("")
-    }
-
-    val email = remember {
-        mutableStateOf("")
-    }
+fun EtapaDois(
+    cep:MutableState<TextFieldValue>,
+    telefone:MutableState<TextFieldValue>,
+    email:MutableState<TextFieldValue>
+) {
 
     TextField(
         value = cep.value,
         onValueChange = { cep.value = it },
         label = { Text("CEP") },
         modifier = Modifier.fillMaxWidth(),
+        keyboardOptions =
+        KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -200,6 +354,8 @@ fun EtapaDois(etapaAtual: MutableState<Int>) {
         onValueChange = { telefone.value = it },
         label = { Text("Telefone da Empresa") },
         modifier = Modifier.fillMaxWidth(),
+        keyboardOptions =
+        KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -214,20 +370,18 @@ fun EtapaDois(etapaAtual: MutableState<Int>) {
 }
 
 @Composable
-fun EtapaTres(etapaAtual: MutableState<Int>) {
-    val senha = remember {
-        mutableStateOf("")
-    }
+fun EtapaTres(
+    senha:MutableState<TextFieldValue>,
+    confirmacaoSenha:MutableState<TextFieldValue>,
+) {
 
-    val confirmacaoSenha = remember {
-        mutableStateOf("")
-    }
 
     TextField(
         value = senha.value,
         onValueChange = { senha.value = it },
         label = { Text("Senha") },
         modifier = Modifier.fillMaxWidth(),
+        visualTransformation = PasswordVisualTransformation()
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -235,41 +389,70 @@ fun EtapaTres(etapaAtual: MutableState<Int>) {
     TextField(
         value = confirmacaoSenha.value,
         onValueChange = { confirmacaoSenha.value = it },
-        label = { Text("Comfirmar Senha") },
+        label = { Text("Confirmar Senha") },
         modifier = Modifier.fillMaxWidth(),
+        visualTransformation = PasswordVisualTransformation()
     )
     Spacer(modifier = Modifier.height(16.dp))
 
-    var isChecked = remember { mutableStateOf(false) }
+    var checkedTermos = remember { mutableStateOf(false) }
+
+    var checkedNotificacao = remember { mutableStateOf(false) }
 
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Composable Checkbox
+
         Checkbox(
-            checked = isChecked.value,
+            checked = checkedTermos.value,
             onCheckedChange = { newValue ->
-                isChecked.value = newValue // Atualiza o estado
+                checkedTermos.value = newValue
             },
             modifier = Modifier
-                .border(BorderStroke(1.dp, if (isChecked.value) Color(0xFF01A2C3) else Color.Gray), RoundedCornerShape(4.dp)) // Cor da borda com base no estado
+                .size(20.dp)
+                .scale(0.8f)
+
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
-
-        // Texto clicável
         Text(
             text = "Concordo com os termos de uso e política de privacidade.",
             modifier = Modifier
-                .clickable { isChecked.value = !isChecked.value }
-                .padding(8.dp)
+                .clickable { checkedTermos.value = !checkedTermos.value }
+                .padding(start = 8.dp),
+            style = letraPadrao,
+            fontSize = 11.sp,
+
+            )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Checkbox(
+            checked = checkedNotificacao.value,
+            onCheckedChange = { newValue ->
+                checkedNotificacao.value = newValue
+            },
+            modifier = Modifier
+                .size(20.dp)
+                .scale(0.8f)
+        )
+
+        Text(
+            text = "Quero receber notificações via e-mail.",
+            modifier = Modifier
+                .clickable { checkedNotificacao.value = !checkedNotificacao.value }
+                .padding(start = 8.dp),
+            style = letraPadrao,
+            fontSize = 11.sp,
         )
     }
-
 }
+
 
 @Composable
 fun ProgressBar(etapaAtual: Int, totalEtapa: Int) {
@@ -291,10 +474,10 @@ fun ProgressBar(etapaAtual: Int, totalEtapa: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             for (i in 1..totalEtapa) {
-                Column (
+                Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
 
                     CircleNumber(
                         number = i,
@@ -362,8 +545,6 @@ fun CircleNumber(
         )
     }
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
