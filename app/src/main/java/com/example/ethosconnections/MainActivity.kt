@@ -3,15 +3,13 @@ package com.example.ethosconnections
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
-import com.example.ethosconnections.view.Cadastro
-import com.example.ethosconnections.view.Home
-import com.example.ethosconnections.view.Login
+import com.example.ethosconnections.screen.Cadastro
+import com.example.ethosconnections.screen.Home
+import com.example.ethosconnections.screen.Login
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +38,10 @@ class MainActivity : ComponentActivity() {
                         Cadastro(navController)
                     }
 
-
                 }
             }
         }
 
     }
 }
+

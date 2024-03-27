@@ -1,4 +1,4 @@
-package com.example.ethosconnections.view
+package com.example.ethosconnections.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -101,7 +101,8 @@ fun Login(navController: NavController) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp),
-                onClick = { /*colcoar func*/ }
+                onClick = { //COLOCAR FUNCAOOOO
+                }
             ) {
                 Text(text = "Entrar",
                     style = letraButton)

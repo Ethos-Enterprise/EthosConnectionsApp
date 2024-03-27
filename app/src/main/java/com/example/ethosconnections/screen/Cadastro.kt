@@ -1,4 +1,4 @@
-package com.example.ethosconnections.view
+package com.example.ethosconnections.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
