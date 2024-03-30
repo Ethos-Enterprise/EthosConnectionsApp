@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.ethosconnections.repositories.EmpresaRepository
 
-class EmpresaVewModelFactory constructor(private val repository: EmpresaRepository) : ViewModelProvider.Factory{
+class EmpresaViewModelFactory constructor(private val repository: EmpresaRepository) : ViewModelProvider.Factory{
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(EmpresaViewModel::class.java)) {

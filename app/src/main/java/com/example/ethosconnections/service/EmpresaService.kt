@@ -1,5 +1,6 @@
 package com.example.ethosconnections.service
 
+import android.util.Log
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.api.Api
 import retrofit2.Call
@@ -14,10 +15,16 @@ interface EmpresaService {
         }
     }
 
-    @GET("login/{email}/{senha}")
+//    @GET("v1.0/empresas/login/{email}/{senha}")
+//    fun loginEmpresa(
+//    @Path("email") email: String,
+//        @Path("senha") senha: String
+//    ): Call<Empresa>
+
+
+    //TESTE MOCK API
+    @GET("/empresas/1")
     fun loginEmpresa(
-        @Path("email") email: String,
-        @Path("senha") senha: String
     ): Call<Empresa>
 
 }

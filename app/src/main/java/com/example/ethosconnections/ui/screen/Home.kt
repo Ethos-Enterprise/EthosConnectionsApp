@@ -1,4 +1,4 @@
-package com.example.ethosconnections.screen
+package com.example.ethosconnections.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

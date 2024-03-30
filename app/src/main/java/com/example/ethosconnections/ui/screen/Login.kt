@@ -1,4 +1,4 @@
-package com.example.ethosconnections.screen
+package com.example.ethosconnections.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,14 +37,17 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.ethosconnections.R
+import com.example.ethosconnections.repositories.EmpresaRepository
+import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.textoTop
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 
 @Composable
 
-fun Login(navController: NavController) {
+fun Login(navController: NavController, viewModel: EmpresaViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         val email = remember { mutableStateOf("") }
@@ -56,7 +59,6 @@ fun Login(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-
 
         Column(
             modifier = Modifier
@@ -101,7 +103,11 @@ fun Login(navController: NavController) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp),
-                onClick = { //COLOCAR FUNCAOOOO
+                onClick = {
+                    //viewModel.loginEmpresa(email.value, senha.value)
+
+                    //TESTE MOCKAPI
+                    viewModel.loginEmpresa()
                 }
             ) {
                 Text(text = "Entrar",
@@ -158,8 +164,6 @@ fun Login(navController: NavController) {
                         text = "Criar Conta",
                                 modifier = Modifier.wrapContentSize(),
                                 style = letraClicavel
-
-
                     )
                 }
             }
@@ -175,6 +179,11 @@ fun Login(navController: NavController) {
 fun LoginPreview() {
     AppTheme {
         val navController = rememberNavController()
-        Login(navController)
+
+        val empresaService = EmpresaService.create()
+        val empresaRepository = EmpresaRepository(empresaService)
+        val viewModel = EmpresaViewModel(empresaRepository)
+
+        Login(navController, viewModel)
     }
 }

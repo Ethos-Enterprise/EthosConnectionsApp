@@ -3,12 +3,14 @@ package com.example.ethosconnections.models
 import java.util.UUID
 
 data class Empresa(
-    var id: UUID,
-    var razaoSocial:String,
-    var cnpj:String,
-    var telefone:String,
-    var email:String,
-    var setor:String,
-    var qtdFuncionarios:Int,
-    var assinanteNewsletter:Boolean
+
+    //MUDANOD ID PRA STRING POR CONTA DO MOCKAPI
+    var id: String? = null,
+    var razaoSocial:String? = null,
+    var cnpj:String? = null,
+    var telefone:String? = null,
+    var email:String? = null,
+    var setor:String? = null,
+    var qtdFuncionarios:Int? = null,
+    var assinanteNewsletter:Boolean? = null
 )
