@@ -21,7 +21,6 @@ interface EmpresaService {
 //        @Path("senha") senha: String
 //    ): Call<Empresa>
 
-
     //TESTE MOCK API
     @GET("/empresas/1")
     fun loginEmpresa(

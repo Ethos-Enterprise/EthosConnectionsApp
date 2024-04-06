@@ -54,6 +54,7 @@ class EmpresaViewModel constructor(private val repository: EmpresaRepository) : 
 
                     Log.i("ViewModel", "Resposta bem-sucedida: $empresa")
 
+
                 } else {
                     val errorCode = response.code()
                     Log.e("ViewModel", "Erro na resposta da API. Código: $errorCode, Mensagem: $errorMessage")

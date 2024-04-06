@@ -62,10 +62,9 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("empresaId") { type = NavType.StringType })
                     ) { navBackStackEntry ->
                         val empresaId = navBackStackEntry.arguments?.getString("empresaId")
-                        val empresa: Empresa? = null // Aqui, você precisa obter os detalhes da empresa pelo ID
+                        val empresa: Empresa? = empresaViewModel.empresa.value
                         Plataforma(navController, empresa)
                     }
-
 
                 }
 
@@ -75,9 +74,6 @@ class MainActivity : ComponentActivity() {
                             launchSingleTop = true
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true
-                            }
-                            arguments = Bundle().apply {
-                                putParcelable("empresaData", empresa)
                             }
                         }
                         Log.i("MainActivity", "Login bem-sucedido: $empresa")
