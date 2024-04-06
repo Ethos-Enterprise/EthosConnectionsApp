@@ -5,7 +5,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
+import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
+import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
 fun AvaliacaoServico(navController: NavController) {
@@ -13,13 +16,11 @@ fun AvaliacaoServico(navController: NavController) {
 
     Column {
 
-        Text(text = "PAGINA AVALIACAO", style = letraPadrao)
+        Text(text = "Avaliação do Serviço", style = tituloPagina)
 
-        Button(
-            onClick = { navController.navigate("solucoesEsg") }
-        ) {
-            Text("Ir para cadastro")
-        }
+
+        FillButtonEthos({ navController.navigate("solucoesEsg") }, "ir para solucoes")
+
     }
 
 }

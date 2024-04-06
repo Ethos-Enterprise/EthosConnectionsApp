@@ -38,7 +38,8 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = "home") {
+                //start destination deve estar no home, mudei pra testar rapido dentro
+                NavHost(navController = navController, startDestination = "plataforma/{empresaId}") {
                     composable(
                         route = "home"
                     ) {

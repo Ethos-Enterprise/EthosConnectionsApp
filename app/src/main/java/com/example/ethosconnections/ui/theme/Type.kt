@@ -11,7 +11,15 @@ import com.example.compose.md_theme_dark_background
 import com.example.compose.md_theme_light_primary
 import com.example.ethosconnections.R
 
+//-------------LETRAS PADROES-------------------------------------------
 
+val tituloPagina = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+    fontSize = 15.sp,
+    color = Color.White
+)
+
+//----------------------------------------------------------------
 val textoTop = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
     fontWeight = FontWeight.SemiBold,
