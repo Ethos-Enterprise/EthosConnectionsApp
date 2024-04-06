@@ -13,14 +13,13 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 @Composable
 fun AvaliacaoServico(navController: NavController) {
 
-
-    Column {
+        Column {
 
         Text(text = "Avaliação do Serviço", style = tituloPagina)
 
 
         FillButtonEthos({ navController.navigate("solucoesEsg") }, "ir para solucoes")
+        }
 
-    }
 
 }

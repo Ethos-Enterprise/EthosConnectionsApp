@@ -12,7 +12,7 @@ import com.example.ethosconnections.ui.theme.letraButton
 fun FillButtonEthos(acao: () -> Unit, nomeAcao: String) {
     Button(
         onClick = { acao()},
-        shape = RoundedCornerShape(2.dp),
+        shape = RoundedCornerShape(5.dp),
     ) {
         Text(
             text = "${nomeAcao}",

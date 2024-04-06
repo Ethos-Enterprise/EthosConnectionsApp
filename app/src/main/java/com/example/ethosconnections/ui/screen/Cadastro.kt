@@ -125,7 +125,7 @@ fun Cadastro(navController: NavController) {
         ) {
             OutlinedButton(
                 onClick = { etapaAtual.value-- },
-                shape = RoundedCornerShape(2.dp),
+                shape = RoundedCornerShape(5.dp),
                 enabled = etapaAtual.value > 1,
                 border = BorderStroke(
                     1.dp,
@@ -137,14 +137,14 @@ fun Cadastro(navController: NavController) {
             ) {
                 Text(
                     text = "Anterior",
-                    style = letraPadrao,
+                    style = letraButton,
                     color = if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray,
                 )
             }
 
             Button(
                 onClick = { if (etapaAtual.value < totalEtapa) etapaAtual.value++ },
-                shape = RoundedCornerShape(2.dp),
+                shape = RoundedCornerShape(5.dp),
                 modifier = Modifier.weight(1f)
             ) {
                 Text(

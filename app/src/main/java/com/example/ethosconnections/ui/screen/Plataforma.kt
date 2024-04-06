@@ -48,20 +48,20 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
 
             Image(
                 modifier = Modifier
-                    .height(40.dp),
+                    .height(30.dp),
                 painter = painterResource(id = R.mipmap.menu_lateral),
                 contentDescription = "Ícone do menu")
 
             Image(
                 modifier = Modifier
-                    .width(170.dp),
+                    .width(150.dp),
                 painter = painterResource(id = R.drawable.logo_branco),
                 contentDescription = "Icone da cor branca"
             )
 
             Image(
                 modifier = Modifier
-                    .height(30.dp),
+                    .height(25.dp),
                 painter = painterResource(id = R.mipmap.notificacao_icone),
                 contentDescription = "Ícone do menu")
 
@@ -74,6 +74,7 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
             .fillMaxSize()
             .padding(0.dp),
             contentAlignment = Alignment.TopStart ) {
+
 
         NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
             composable("solucoesEsg") {
