@@ -16,7 +16,6 @@
         android:theme="@style/Theme.EthosConnections"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
