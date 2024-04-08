@@ -28,9 +28,9 @@ val tituloConteudoBranco = TextStyle(
 )
 
 val tituloConteudoAzul = TextStyle(
-    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+    fontFamily = FontFamily(Font(R.font.poppins_medium)),
     fontSize = 14.sp,
-    color = Color(0xFF014D5C),
+    color = Color(0xFF01A2C3),
 )
 
 //usar para  texto corrido/ texto que nao precise de muita enfase
@@ -67,6 +67,7 @@ val letraClicavel = TextStyle(
 
 val corLetra = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_extra_light)),
+    fontSize = 12.sp,
     fontWeight = FontWeight.ExtraLight,
     color = Color.White
 )
