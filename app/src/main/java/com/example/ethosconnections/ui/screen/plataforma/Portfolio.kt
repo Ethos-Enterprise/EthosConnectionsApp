@@ -26,7 +26,6 @@ import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 
-
 @Composable
 fun Portfolio(navController: NavController) {
     Column {
