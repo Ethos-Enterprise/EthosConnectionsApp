@@ -1,6 +1,17 @@
 package com.example.compose
 import androidx.compose.ui.graphics.Color
 
+
+//CORES DA ETHOS
+val cor_primaria = Color(0xFF01A2C3)
+val cor_secundaria = Color(0xFF014D5C)
+val preto_azulado = Color(0xFF1B1F23)
+val preto_acizentado = Color(0xFF0D0D0D)
+val preto_comum = Color(0xFF020202)
+val cinza_caixas_claras = Color(0xFF384048)
+val linha_divisoria = Color(0xFF2F2F2F)
+//**************************
+
 val md_theme_light_primary = Color(0xFF006874)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFF97F0FF)
@@ -44,7 +55,7 @@ val md_theme_dark_tertiary = Color(0xFF57D6F6)
 val md_theme_dark_onTertiary = Color(0xFF003641)
 val md_theme_dark_tertiaryContainer = Color(0xFF004E5D)
 val md_theme_dark_onTertiaryContainer = Color(0xFFAFECFF)
-val md_theme_dark_error = Color(0xFFFFB4AB)
+val md_theme_dark_error = Color(0xFF93000A)
 val md_theme_dark_errorContainer = Color(0xFF93000A)
 val md_theme_dark_onError = Color(0xFF690005)
 val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)

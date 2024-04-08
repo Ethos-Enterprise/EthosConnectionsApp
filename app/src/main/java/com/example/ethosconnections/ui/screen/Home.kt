@@ -87,6 +87,7 @@ fun Home(navController: NavController) {
                 Text(
                     text = "Já tem uma conta?",
                     style = corLetra,
+                    fontSize = 13.5.sp,
                     )
 
                 TextButton(

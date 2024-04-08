@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,21 +38,23 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
 
             Image(
                 modifier = Modifier
                     .height(30.dp),
                 painter = painterResource(id = R.mipmap.menu_lateral),
-                contentDescription = "Ícone do menu")
+                contentDescription = "Ícone do menu"
+            )
 
             Image(
                 modifier = Modifier
@@ -63,31 +67,33 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
                 modifier = Modifier
                     .height(25.dp),
                 painter = painterResource(id = R.mipmap.notificacao_icone),
-                contentDescription = "Ícone do menu")
+                contentDescription = "Ícone do menu"
+            )
 
         }
         Spacer(modifier = Modifier.height(20.dp))
 
         val componenteNavController = rememberNavController()
 
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(0.dp),
-            contentAlignment = Alignment.TopStart ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(0.dp),
+            contentAlignment = Alignment.TopStart
+        ) {
 
 
-        NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
-            composable("solucoesEsg") {
-                SolucoesESG(componenteNavController)
+            NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
+                composable("solucoesEsg") {
+                    SolucoesESG(componenteNavController)
+                }
+
+                composable("avaliacaoServico") {
+                    AvaliacaoServico(componenteNavController)
+                }
+
+
             }
-
-            composable("avaliacaoServico") {
-                AvaliacaoServico(componenteNavController)
-            }
-
-
-
-        }
         }
 
 //        Text(text = "FIZEMOS LOGIN", style = letraPadrao)
