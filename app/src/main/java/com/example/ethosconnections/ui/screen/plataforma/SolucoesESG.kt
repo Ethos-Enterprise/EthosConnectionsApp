@@ -107,9 +107,9 @@ fun SolucoesESG(navController: NavController) {
 
                 Servico(
                     fotoEmpresa = R.mipmap.governance,
-                    categoria = "oooooo",
+                    categoria = "categoria ESG",
                     nomeServico = "nomedoServioc",
-                    nomeEmpresa = "oooooo"
+                    nomeEmpresa = "nomeEmpresa"
                 )
 
         Spacer(modifier = Modifier.height(14.dp))
