@@ -29,6 +29,7 @@ import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
+import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
@@ -97,7 +98,9 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
                     Portfolio(componenteNavController)
                 }
 
-
+                composable("cadastroPortfolio") {
+                    CadastroPortfolio(componenteNavController)
+                }
             }
         }
 
