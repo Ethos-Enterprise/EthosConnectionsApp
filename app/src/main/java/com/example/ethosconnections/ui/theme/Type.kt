@@ -46,6 +46,12 @@ val letraButton = TextStyle(
     color = Color.Black
 )
 
+val tituloServico = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+    fontSize = 13.5.sp,
+    color = Color.White,
+)
+
 //----------------------------------------------------------------
 val textoTop = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),

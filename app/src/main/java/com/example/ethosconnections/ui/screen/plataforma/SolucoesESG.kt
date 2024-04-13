@@ -2,28 +2,25 @@ package com.example.ethosconnections.ui.screen.plataforma
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,20 +30,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.compose.cor_primaria
 import com.example.ethosconnections.R
+import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
-import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
-import com.example.ethosconnections.ui.screen.plataforma.components.Servico
+import com.example.ethosconnections.ui.screen.plataforma.components.ServicoEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import java.util.UUID
 
 @Composable
 fun SolucoesESG(navController: NavController) {
@@ -105,23 +102,39 @@ fun SolucoesESG(navController: NavController) {
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Servico(
-            fotoEmpresa = R.mipmap.governance,
-            categoria = "Governança",
-            nomeServico = "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            nomeEmpresa = "Deloitte",
-            onClick = {  }
-        )
+        val servicos = servicosFake()
 
-        Spacer(modifier = Modifier.height(14.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
 
-        OutlinedButtonEthos({ navController.navigate("avaliacaoServico") }, "ir para avaliacao")
+            items(servicos) { servico ->
+                ServicoEthos(
+                    fotoEmpresa = R.mipmap.governance,
+                    categoria = servico.categoria,
+                    nomeServico = servico.,
+                    nomeEmpresa = "NOME EMPRESA",
+                    onClick = { navController.navigate("avaliacaoServico") }
+                )
+            }
+
+        }
 
     }
 
 
 }
 
+fun servicosFake(): List<Servico> {
+    return listOf(
+        Servico(UUID.randomUUID(), "ALEGRIA", "Descrição do serviço Alegria", 22.0, "Governança", UUID.randomUUID()),
+        Servico(UUID.randomUUID(), "EFICIÊNCIA", "Descrição do serviço Eficiência", 45.0, "Operações", UUID.randomUUID()),
+        Servico(UUID.randomUUID(), "INOVAÇÃO", "Descrição do serviço Inovação", 30.0, "Tecnologia", UUID.randomUUID())
+    )
+}
 @Composable
 fun CategoriaCard(
     imagemCard: Int,
