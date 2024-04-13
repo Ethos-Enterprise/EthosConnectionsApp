@@ -94,7 +94,8 @@ fun SolucoesESG(navController: NavController) {
                 singleLine = true,
                 textStyle = letraPadrao,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .height(25.dp)
                     .border(
                         BorderStroke(1.dp, color = cor_primaria),
                         shape = RoundedCornerShape(5.dp)
@@ -104,13 +105,13 @@ fun SolucoesESG(navController: NavController) {
 
         Spacer(modifier = Modifier.height(14.dp))
 
-
-                Servico(
-                    fotoEmpresa = R.mipmap.governance,
-                    categoria = "categoria ESG",
-                    nomeServico = "nomedoServioc",
-                    nomeEmpresa = "nomeEmpresa"
-                )
+        Servico(
+            fotoEmpresa = R.mipmap.governance,
+            categoria = "Governança",
+            nomeServico = "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            nomeEmpresa = "Deloitte",
+            onClick = {  }
+        )
 
         Spacer(modifier = Modifier.height(14.dp))
 
