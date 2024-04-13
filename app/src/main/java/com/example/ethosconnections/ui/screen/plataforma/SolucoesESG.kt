@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
@@ -45,10 +48,19 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import java.util.UUID
 
+fun servicosFake(): List<Servico> {
+    return listOf(
+        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 22.0, "Governança", UUID.randomUUID()),
+        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 45.0, "Environmental", UUID.randomUUID()),
+        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 30.0, "Social", UUID.randomUUID())
+    )
+}
+
 @Composable
 fun SolucoesESG(navController: NavController) {
 
     var pesquisa = remember { mutableStateOf("") }
+    var servicos = servicosFake()
 
     Column {
 
@@ -99,42 +111,14 @@ fun SolucoesESG(navController: NavController) {
                     )
             )
         }
-
         Spacer(modifier = Modifier.height(14.dp))
 
-        val servicos = servicosFake()
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            items(servicos) { servico ->
-                ServicoEthos(
-                    fotoEmpresa = R.mipmap.governance,
-                    categoria = servico.categoria,
-                    nomeServico = servico.,
-                    nomeEmpresa = "NOME EMPRESA",
-                    onClick = { navController.navigate("avaliacaoServico") }
-                )
-            }
-
-        }
-
+        GridServicos(servicos,  navController)
     }
 
 
 }
 
-fun servicosFake(): List<Servico> {
-    return listOf(
-        Servico(UUID.randomUUID(), "ALEGRIA", "Descrição do serviço Alegria", 22.0, "Governança", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "EFICIÊNCIA", "Descrição do serviço Eficiência", 45.0, "Operações", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "INOVAÇÃO", "Descrição do serviço Inovação", 30.0, "Tecnologia", UUID.randomUUID())
-    )
-}
 @Composable
 fun CategoriaCard(
     imagemCard: Int,
@@ -173,6 +157,32 @@ fun CategoriaCard(
             }
         }
 
+    }
+}
+
+
+@Composable
+fun GridServicos(servicos: List<Servico>, navController: NavController) {
+    Column {
+        servicos.chunked(2).forEach { rowServices ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                rowServices.forEach { servico ->
+                    ServicoEthos(
+                        fotoEmpresa = R.mipmap.governance,
+                        categoria = servico.areaAtuacaoEsg,
+                        nomeServico = servico.nome,
+                        nomeEmpresa = "Deloitte",
+                        onClick = { navController.navigate("avaliacaoServico") }
+                    )
+                }
+                if (rowServices.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
     }
 }
 

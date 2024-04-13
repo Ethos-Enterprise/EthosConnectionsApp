@@ -45,8 +45,9 @@ fun ServicoEthos(
 ) {
     Card(
         modifier = Modifier
-            .width(170.dp)
-            .height(235.dp),
+            .padding(bottom = 14.dp)
+            .width(185.dp)
+            .height(225.dp),
         shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(containerColor = preto_azulado)
 
@@ -74,7 +75,7 @@ fun ServicoEthos(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .background(cor_secundaria, RoundedCornerShape(topStart = 8.dp))
-                            .padding( start =  5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                            .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
                     )
                     Spacer(modifier = Modifier.height(2.dp))
@@ -84,7 +85,7 @@ fun ServicoEthos(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .background(cor_secundaria, RoundedCornerShape(topStart = 8.dp))
-                            .padding( start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                            .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 
                     )
@@ -95,7 +96,7 @@ fun ServicoEthos(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .background(cor_primaria, RoundedCornerShape(topStart = 8.dp))
-                            .padding( start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                            .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 
                     )
@@ -115,7 +116,7 @@ fun ServicoEthos(
                     Text(
                         text = nomeEmpresa,
                         style = letraPadrao,
-                                modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp)
                     )
 
                     TextButton(
@@ -147,7 +148,7 @@ fun SolucoesESGPreview() {
                 categoria = "Governança",
                 nomeServico = "Treinamento de Responsabilidade Social Corporativa (RSC)",
                 nomeEmpresa = "Deloitte",
-                onClick = {    })
+                onClick = { })
         }
     }
 }

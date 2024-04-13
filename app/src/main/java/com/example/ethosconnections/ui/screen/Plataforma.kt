@@ -30,6 +30,7 @@ import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
+import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
@@ -40,7 +41,6 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -80,6 +80,7 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(0.dp),
             contentAlignment = Alignment.TopStart
         ) {
@@ -92,6 +93,10 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
 
                 composable("avaliacaoServico") {
                     AvaliacaoServico(componenteNavController)
+                }
+
+                composable("meuProgresso") {
+                    MeuProgresso(componenteNavController)
                 }
 
                 composable("portfolio") {
