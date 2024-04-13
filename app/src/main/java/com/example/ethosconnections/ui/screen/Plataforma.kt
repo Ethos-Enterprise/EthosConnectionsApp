@@ -97,7 +97,6 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
                     Portfolio(componenteNavController)
                 }
 
-
             }
         }
 
