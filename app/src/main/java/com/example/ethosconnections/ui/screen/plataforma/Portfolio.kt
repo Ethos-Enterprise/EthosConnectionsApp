@@ -1,16 +1,23 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -19,8 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.models.Foto
+import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
+import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.theme.corLetra
+import com.example.ethosconnections.ui.theme.letraClicavel
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
@@ -30,40 +41,88 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 fun Portfolio(navController: NavController) {
     Column {
         Text(text = "Meu portfólio", style = tituloPagina)
+        BoxDadosGerais()
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Todos os serviços", style = tituloPagina)
     }
 }
 
 @Composable
-fun BoxDadosEmpresa(
-    nomeEmpresa: String?,
-    missaoEmpresa: String?,
-    visaoEmpresa: String?
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
+fun BoxPortfolio(portfolio: Portfolio?, navController: NavController?) {
+    val fotoPerfil = remember { mutableStateOf(Foto("", 120, 120)) }
+    val fotoCapa = remember { mutableStateOf(Foto("", 100, 500)) }
 
-        BoxEthos {
-            Row {
-
-                Column {
-                    Text(
-                        text = "Deloitte",
-                        style = tituloConteudoBranco
+    Box {
+        Image(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .aspectRatio(fotoCapa.value.largura.toFloat() / fotoCapa.value.altura.toFloat()),
+            painter = painterResource(id = R.mipmap.portfolio_background),
+            contentDescription = "Foto de capa"
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = fotoCapa.value.altura.dp - 60.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(fotoPerfil.value.altura.dp),
+                    painter = painterResource(id = R.mipmap.portfolio_perfil),
+                    contentDescription = "Foto de perfil"
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 30.dp,
+                        start = 16.dp
                     )
-                    Text(
-                        text = "www.deloitte.com",
-                        style = tituloConteudoAzul
-                    )
-                    Text(
-                        text = "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
-                        style = corLetra
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    FillButtonEthos(
+                        { navController!!.navigate("cadastroPortfolio") },
+                        "Editar dados"
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(14.dp))
+        }
+    }
+}
+
+
+@Composable
+fun BoxDadosGerais() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        BoxEthos {
+            BoxPortfolio(portfolio = null, navController = null)
+            Column{
+                Text(
+                    text = "Deloitte",
+                    style = tituloConteudoBranco
+                )
+                Text(
+                    text = "www.deloitte.com",
+                    style = letraClicavel
+                )
+                Text(
+                    text = "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
+                    style = corLetra
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             Text(
                 text = "Sobre a empresa",
                 style = tituloConteudoAzul,
@@ -77,11 +136,12 @@ fun BoxDadosEmpresa(
             Text(
                 text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
                 style = letraPadrao,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             )
         }
 
-        BoxEthos{
+        BoxEthos {
             Text(
                 text = "Dados Gerais",
                 style = tituloConteudoAzul,
@@ -95,7 +155,7 @@ fun BoxDadosEmpresa(
 
             Row {
                 Column(
-                    modifier = Modifier.padding(horizontal = 8.dp)
+                    modifier = Modifier.padding(end = 16.dp)
                 ) {
                     Column {
                         Text(
@@ -143,11 +203,10 @@ fun BoxDadosEmpresa(
                             style = corLetra
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-            Column(
-                modifier = Modifier.padding(horizontal = 8.dp)
-            ) {
+            Column {
                 Text(
                     text = "Endereço",
                     style = letraPadrao
@@ -170,6 +229,7 @@ fun BoxDadosEmpresa(
                 thickness = 1.dp,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Image(
                 modifier = Modifier.width(50.dp),
                 painter = painterResource(id = R.mipmap.imagem_certificado),
@@ -179,11 +239,9 @@ fun BoxDadosEmpresa(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PortfolioPreview() {
     val navController = rememberNavController()
     Portfolio(navController)
-    BoxDadosEmpresa(nomeEmpresa = null, missaoEmpresa = null, visaoEmpresa = null)
 }
