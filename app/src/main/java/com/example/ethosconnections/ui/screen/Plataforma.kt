@@ -106,6 +106,8 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
                 composable("cadastroPortfolio") {
                     CadastroPortfolio(componenteNavController)
                 }
+
+
             }
         }
 

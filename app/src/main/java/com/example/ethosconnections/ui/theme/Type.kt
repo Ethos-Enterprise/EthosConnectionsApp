@@ -27,6 +27,13 @@ val tituloConteudoBranco = TextStyle(
     color = Color.White,
 )
 
+val tituloConteudoBrancoNegrito = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+    fontSize = 14.sp,
+    color = Color.White,
+    fontWeight = FontWeight.Bold // Adicionando negrito
+)
+
 val tituloConteudoAzul = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_medium)),
     fontSize = 14.sp,

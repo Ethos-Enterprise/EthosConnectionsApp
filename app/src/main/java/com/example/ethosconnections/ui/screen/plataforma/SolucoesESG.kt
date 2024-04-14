@@ -50,9 +50,30 @@ import java.util.UUID
 
 fun servicosFake(): List<Servico> {
     return listOf(
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 22.0, "Governança", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 45.0, "Environmental", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 30.0, "Social", UUID.randomUUID())
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            22.0,
+            "Governança",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            45.0,
+            "Environmental",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        )
     )
 }
 
@@ -113,7 +134,7 @@ fun SolucoesESG(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(14.dp))
 
-        GridServicos(servicos,  navController)
+        GridServicos(servicos, navController)
     }
 
 
