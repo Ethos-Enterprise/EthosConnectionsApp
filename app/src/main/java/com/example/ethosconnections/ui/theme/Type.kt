@@ -86,4 +86,13 @@ val corLetra = TextStyle(
 )
 
 
+val tituloMenu = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+    fontSize = 16.sp,
+    color = Color.White,
+    )
 
+val letraMenu = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_light)),
+    fontSize = 14.sp,
+)
