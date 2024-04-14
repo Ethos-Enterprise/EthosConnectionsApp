@@ -1,8 +1,7 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,16 +13,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
@@ -50,9 +53,46 @@ import java.util.UUID
 
 fun servicosFake(): List<Servico> {
     return listOf(
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 22.0, "Governança", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 45.0, "Environmental", UUID.randomUUID()),
-        Servico(UUID.randomUUID(), "Treinamento de Responsabilidade Social Corporativa (RSC)", "Descrição do serviço ", 30.0, "Social", UUID.randomUUID())
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            22.0,
+            "Governança",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            45.0,
+            "Environmental",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        )
     )
 }
 
@@ -92,30 +132,53 @@ fun SolucoesESG(navController: NavController) {
                     buttonText = "Governance"
                 )
             }
-
         }
 
         BoxEthos {
-
-            BasicTextField(
+            OutlinedTextField(
                 value = pesquisa.value,
                 onValueChange = { pesquisa.value = it },
-                singleLine = true,
-                textStyle = letraPadrao,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(25.dp)
-                    .border(
-                        BorderStroke(1.dp, color = cor_primaria),
-                        shape = RoundedCornerShape(5.dp)
+                    .background(Color.Transparent),
+                textStyle = TextStyle(color = Color.White),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.White,
+                    unfocusedIndicatorColor = Color(0xFF01A2C3)
+                ),
+
+                placeholder = {
+                    Text(
+                        "Buscar soluções",
+                        color = Color.White,
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(bottom = 0.dp)
                     )
+                },
+                trailingIcon = {
+                    IconButton(
+                        onClick = { },
+                        modifier = Modifier
+                            .background(cor_primaria)
+                            .padding(PaddingValues(0.dp))
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Buscar",
+                            tint = Color.White,
+
+                            )
+                    }
+                }
             )
+
         }
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-        GridServicos(servicos,  navController)
+        GridServicos(servicos, navController)
     }
-
 
 }
 
@@ -160,7 +223,6 @@ fun CategoriaCard(
     }
 }
 
-
 @Composable
 fun GridServicos(servicos: List<Servico>, navController: NavController) {
     Column {
@@ -190,7 +252,6 @@ fun GridServicos(servicos: List<Servico>, navController: NavController) {
 @Composable
 fun SolucoesESGPreview() {
     val navController = rememberNavController()
-
     AppTheme {
         Surface {
             Plataforma(navController = navController, empresaData = null)

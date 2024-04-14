@@ -2,6 +2,7 @@ package com.example.ethosconnections.ui.screen.plataforma.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,9 +46,10 @@ fun ServicoEthos(
 ) {
     Card(
         modifier = Modifier
-            .padding(bottom = 14.dp)
-            .width(185.dp)
-            .height(225.dp),
+            .padding(bottom = 10.dp)
+            .width(186.dp)
+            .height(220.dp)
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(containerColor = preto_azulado)
 
@@ -105,7 +107,7 @@ fun ServicoEthos(
             Box {
                 Column(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(top= 8.dp, bottom = 8.dp, start = 10.dp, end = 8.dp)
                 ) {
 
                     Text(
