@@ -129,6 +129,8 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
                     )
 
                 }
+
+
             }
         },
         drawerState = drawerState
