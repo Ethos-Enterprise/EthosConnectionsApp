@@ -104,10 +104,10 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp),
                 onClick = {
-                    //viewModel.loginEmpresa(email.value, senha.value)
+                    viewModel.loginEmpresa(email.value, senha.value)
 
                     //TESTE MOCKAPI
-                    viewModel.loginEmpresa()
+//                    viewModel.loginEmpresa()
                 }
             ) {
                 Text(text = "Entrar",

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,12 +39,11 @@ fun Home(navController: NavController) {
     Image(
         painter = painterResource(id = R.drawable.home),
         contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-
+        modifier = Modifier
+            .fillMaxSize(),
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-
 
         Column(
             modifier = Modifier
@@ -58,8 +59,9 @@ fun Home(navController: NavController) {
                     .width(220.dp)
                     .padding(bottom = 4.dp),
                 painter = painterResource(id = R.drawable.logo_branco),
-                contentDescription = "Icone da cor branca"
-            )
+                contentDescription = "Icone da cor branca",
+
+                )
             Spacer(modifier = Modifier.height(150.dp))
 
             Text(
@@ -75,8 +77,8 @@ fun Home(navController: NavController) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
-                onClick = { navController.navigate("cadastro") }) {
-                Text(text = "Cadastrar Empresa", style = letraButton)
+                onClick = { navController.navigate("login") }) {
+                Text(text = "Fazer Login", style = letraButton)
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -85,15 +87,15 @@ fun Home(navController: NavController) {
                 horizontalArrangement = Arrangement.Center
             ){
                 Text(
-                    text = "Já tem uma conta?",
+                    text = "Não tem uma conta?",
                     style = corLetra,
                     fontSize = 13.5.sp,
                     )
 
                 TextButton(
-                    onClick = { navController.navigate("login") }) {
+                    onClick = { navController.navigate("cadastro") }) {
                     Text(
-                        text = "Faça Login")
+                        text = "Cadastrar Empresa")
                 }
             }
 

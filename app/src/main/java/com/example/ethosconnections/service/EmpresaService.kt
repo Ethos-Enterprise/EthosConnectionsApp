@@ -15,15 +15,15 @@ interface EmpresaService {
         }
     }
 
-//    @GET("v1.0/empresas/login/{email}/{senha}")
-//    fun loginEmpresa(
-//    @Path("email") email: String,
-//        @Path("senha") senha: String
-//    ): Call<Empresa>
+    @GET("v1.0/empresas/{email}/{senha}")
+    fun loginEmpresa(
+    @Path("email") email: String,
+        @Path("senha") senha: String
+    ): Call<Empresa>
 
     //TESTE MOCK API
-    @GET("/empresas/1")
-    fun loginEmpresa(
-    ): Call<Empresa>
+//    @GET("/empresas/1")
+//    fun loginEmpresa(
+//    ): Call<Empresa>
 
 }

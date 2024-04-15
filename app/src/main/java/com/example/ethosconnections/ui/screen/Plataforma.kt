@@ -69,6 +69,7 @@ import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
+import com.example.ethosconnections.ui.screen.plataforma.Formulario
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
@@ -115,7 +116,7 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
             titulo = "Minhas Interações",
             selecionadoIcone = Icons.Filled.Person,
             naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "solucoesEsg"
+            rota = "contrato"
         ),
         NavigationItem(
             titulo = "Soluções ESG",
@@ -289,6 +290,9 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
 
                     composable("contrato") {
                         Contrato(componenteNavController)
+                    }
+                    composable("formulario") {
+                        Formulario(componenteNavController)
                     }
 
                 }

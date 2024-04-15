@@ -10,6 +10,7 @@ val preto_acizentado = Color(0xFF0D0D0D)
 val preto_comum = Color(0xFF020202)
 val cinza_caixas_claras = Color(0xFF384048)
 val linha_divisoria = Color(0xFF2F2F2F)
+val card_formulario = Color(0xFF181A1C)
 //**************************
 
 val md_theme_light_primary = Color(0xFF006874)

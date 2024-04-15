@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.compose.cor_primaria
 import com.example.compose.md_theme_dark_background
 import com.example.compose.md_theme_light_primary
 import com.example.ethosconnections.R
@@ -47,6 +48,12 @@ val letraPadrao = TextStyle(
     fontSize = 13.sp,
     )
 
+val letraPadraoExtraLigth = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_extra_light)),
+    color = Color.White,
+    fontSize = 13.sp,
+)
+
 // usar para letras de botao
 val letraButton = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_medium)),
@@ -57,6 +64,12 @@ val tituloServico = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_medium)),
     fontSize = 13.5.sp,
     color = Color.White,
+)
+
+val tituloFormularioCard = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+    fontSize = 13.5.sp,
+    color = cor_primaria,
 )
 
 //----------------------------------------------------------------

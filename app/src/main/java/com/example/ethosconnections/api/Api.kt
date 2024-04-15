@@ -9,10 +9,10 @@ object Api {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
             //colcoar o ip da maquina
-            //.baseUrl("http://192.168.56.1:8081/")
+            .baseUrl("http://localhost:8082/")
 
             //TESTE MOCKAPI
-            .baseUrl("https://6515fcef09e3260018c95361.mockapi.io/")
+//            .baseUrl("https://6515fcef09e3260018c95361.mockapi.io/")
 
             .addConverterFactory(GsonConverterFactory.create())
             .build()
