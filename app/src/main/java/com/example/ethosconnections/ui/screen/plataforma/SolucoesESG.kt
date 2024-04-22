@@ -47,6 +47,8 @@ import com.example.ethosconnections.ui.screen.plataforma.components.ServicoEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import java.util.UUID
 
 fun servicosFake(): List<Servico> {
@@ -95,7 +97,7 @@ fun servicosFake(): List<Servico> {
 }
 
 @Composable
-fun SolucoesESG(navController: NavController) {
+fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel) {
 
     var pesquisa = remember { mutableStateOf("") }
     var servicos = servicosFake()
@@ -252,7 +254,7 @@ fun SolucoesESGPreview() {
     val navController = rememberNavController()
     AppTheme {
         Surface {
-            Plataforma(navController = navController, empresaData = null)
+//            Plataforma(navController = navController)
         }
     }
 }

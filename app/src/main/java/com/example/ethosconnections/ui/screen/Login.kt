@@ -1,5 +1,7 @@
 package com.example.ethosconnections.ui.screen
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -43,133 +46,173 @@ import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.textoTop
+import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import kotlinx.coroutines.delay
 
 @Composable
-
 fun Login(navController: NavController, viewModel: EmpresaViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         val email = remember { mutableStateOf("") }
         val senha = remember { mutableStateOf("") }
 
-        Image(
-            painter = painterResource(id = R.drawable.background_login),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
+        val isLoading = remember { mutableStateOf(false) }
+        var errorMessage = remember { mutableStateOf("") }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(35.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.icone_logo_branco),
-                contentDescription = null,
-                modifier = Modifier.size(70.dp)
-            )
-
-            Spacer(modifier = Modifier.height(22.dp))
-
-            Text(
-                text = "Faça Login na Ethos",
-                style = textoTop
-            )
-            Spacer(modifier = Modifier.height(22.dp))
-
-            TextField(
-                value = email.value,
-                onValueChange = { email.value = it },
-                label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(
-                value = senha.value,
-                onValueChange = { senha.value = it },
-                label = { Text("Senha") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(5.dp),
-                onClick = {
-                    viewModel.loginEmpresa(email.value, senha.value)
-
-                    //TESTE MOCKAPI
-//                    viewModel.loginEmpresa()
+        if (isLoading.value) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(text = "Login feito com sucesso", style = tituloConteudoBranco)
                 }
-            ) {
-                Text(text = "Entrar",
-                    style = letraButton)
+
             }
-            Spacer(modifier = Modifier.height(32.dp))
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.background_login),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
+            )
 
-            Text(
-                text = "Esqueci minha senha",
-                style = letraPadrao, textAlign = TextAlign.Left,
-                modifier = Modifier.clickable {  }
-                )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(35.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Divider(
-                    modifier = Modifier
-                        .height(0.9.dp)
-                        .weight(1f)
-                        .background(Color.White),
-                    color = Color.White
+                Image(
+                    painter = painterResource(id = R.mipmap.icone_logo_branco),
+                    contentDescription = null,
+                    modifier = Modifier.size(70.dp)
                 )
-                Spacer(modifier = Modifier.width(10.dp))
 
-                Text(text = "OU", style = letraPadrao)
+                Spacer(modifier = Modifier.height(22.dp))
 
-                Spacer(modifier = Modifier.width(10.dp))
-
-                Divider(
-                    modifier = Modifier
-                        .height(0.9.dp)
-                        .weight(1f)
-                        .background(Color.White),
-                    color = Color.White
-                )
-            }
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
                 Text(
-                    text = "Ainda não é cadastrado?",
-                    style = letraPadrao
+                    text = "Faça Login na Ethos",
+                    style = textoTop
+                )
+                Spacer(modifier = Modifier.height(22.dp))
+
+                if (errorMessage.value.isNotEmpty()) {
+                    Column {
+                        Text(
+                            text = errorMessage.value,
+                            style = letraPadrao,
+                            color = Color.Red,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(14.dp))
+                    }
+                }
+                TextField(
+                    value = email.value,
+                    onValueChange = { email.value = it },
+                    label = { Text("Email") },
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
-                TextButton(
-                    onClick = { navController.navigate("cadastro")}) {
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextField(
+                    value = senha.value,
+                    onValueChange = { senha.value = it },
+                    label = { Text("Senha") },
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = PasswordVisualTransformation()
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(5.dp),
+                    onClick = {
+                        isLoading.value = true
+                        viewModel.loginEmpresa(email.value, senha.value) { success ->
+                            if (success) {
+                                val handler = Handler(Looper.getMainLooper())
+                                handler.postDelayed({
+                                    navController.navigate("plataforma")
+                                }, 3000)
+                            } else {
+                                errorMessage.value = "Usuário ou senha incorretos"
+                            }
+                        }
+                    }
+                ) {
                     Text(
-                        text = "Criar Conta",
-                                modifier = Modifier.wrapContentSize(),
-                                style = letraClicavel
+                        text = "Entrar",
+                        style = letraButton
                     )
                 }
+                Spacer(modifier = Modifier.height(32.dp))
+
+
+                Text(
+                    text = "Esqueci minha senha",
+                    style = letraPadrao, textAlign = TextAlign.Left,
+                    modifier = Modifier.clickable { }
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Divider(
+                        modifier = Modifier
+                            .height(0.9.dp)
+                            .weight(1f)
+                            .background(Color.White),
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    Text(text = "OU", style = letraPadrao)
+
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    Divider(
+                        modifier = Modifier
+                            .height(0.9.dp)
+                            .weight(1f)
+                            .background(Color.White),
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Ainda não é cadastrado?",
+                        style = letraPadrao
+                    )
+
+                    TextButton(
+                        onClick = { navController.navigate("cadastro") }) {
+                        Text(
+                            text = "Criar Conta",
+                            modifier = Modifier.wrapContentSize(),
+                            style = letraClicavel
+                        )
+                    }
+                }
             }
-
-
-
         }
     }
 }
@@ -179,11 +222,10 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
 fun LoginPreview() {
     AppTheme {
         val navController = rememberNavController()
-
         val empresaService = EmpresaService.create()
         val empresaRepository = EmpresaRepository(empresaService)
-        val viewModel = EmpresaViewModel(empresaRepository)
+        //val viewModel = EmpresaViewModel( empresaRepository)
 
-        Login(navController, viewModel)
+//        Login(navController, viewModel)
     }
 }

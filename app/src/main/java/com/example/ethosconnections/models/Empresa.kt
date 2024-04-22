@@ -5,7 +5,7 @@ import java.util.UUID
 data class Empresa(
 
     //MUDANOD ID PRA STRING POR CONTA DO MOCKAPI
-    var id: String? = null,
+    var id: UUID? = null,
     var razaoSocial:String? = null,
     var cnpj:String? = null,
     var telefone:String? = null,

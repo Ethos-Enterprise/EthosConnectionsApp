@@ -36,6 +36,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
@@ -48,9 +49,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -63,9 +70,12 @@ import com.example.compose.linha_divisoria
 import com.example.compose.preto_acizentado
 import com.example.compose.preto_azulado
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
+import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.service.EmpresaService
+import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
@@ -80,6 +90,9 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloMenu
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import kotlinx.coroutines.launch
 
 data class NavigationItem(
@@ -91,7 +104,11 @@ data class NavigationItem(
 )
 
 @Composable
-fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Modifier = Modifier) {
+fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, servicoViewModel: ServicoViewModel) {
+
+    val context = LocalContext.current
+    val empresaDataStore = EmpresaDataStore(context)
+    val empresa = empresaDataStore.getEmpresaFlow().collectAsState(initial = null).value
 
     val items = listOf(
         NavigationItem(
@@ -166,7 +183,7 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
 
                 Spacer(modifier = Modifier.height(14.dp))
                 Text(
-                    text = "Olá Deloitte",
+                    text = "Olá ${empresa?.razaoSocial}",
                     style = tituloMenu,
                     modifier = Modifier.padding(start = 25.dp, top = 10.dp)
                 )
@@ -269,7 +286,7 @@ fun Plataforma(navController: NavController, empresaData: Empresa?, modifier: Mo
 
                 NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
                     composable("solucoesEsg") {
-                        SolucoesESG(componenteNavController)
+                        SolucoesESG(componenteNavController, servicoViewModel)
                     }
 
                     composable("avaliacaoServico") {
@@ -310,21 +327,7 @@ fun PlataformaPreview() {
 
         val empresaService = EmpresaService.create()
         val empresaRepository = EmpresaRepository(empresaService)
-        val viewModel = EmpresaViewModel(empresaRepository)
 
-        Plataforma(navController, empresaData = null)
+//        Plataforma(navController)
     }
 }
-
-
-//        Text(text = "FIZEMOS LOGIN", style = letraPadrao)
-//        Spacer(modifier = Modifier.weight(1f))
-//        empresaData?.let { empresa ->
-//            Text(text = "Razão Social: ${empresa.razaoSocial ?: ""}", style = letraPadrao)
-//            Text(text = "CNPJ: ${empresa.cnpj ?: ""}", style = letraPadrao)
-//            Text(text = "Telefone: ${empresa.telefone ?: ""}", style = letraPadrao)
-//            Text(text = "Email: ${empresa.email ?: ""}", style = letraPadrao)
-//            Text(text = "Setor: ${empresa.setor ?: ""}", style = letraPadrao)
-//            Text(text = "Quantidade de Funcionários: ${empresa.qtdFuncionarios ?: ""}", style = letraPadrao)
-//            Text(text = "Assinante Newsletter: ${empresa.assinanteNewsletter ?: ""}", style = letraPadrao)
-//        }

@@ -84,12 +84,21 @@ dependencies {
 
     //lifecicle e livedata
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    // implementation("androidx.compose:runtime-runtime-livedata:1.2.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.5")
+
+    implementation ("androidx.fragment:fragment-ktx:1.3.0")
+
 
     //retrofit - bibliotecas para requisição rest
     implementation("com.google.code.gson:gson:2.10")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("androidx.datastore:datastore-core:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
 
     //glide para carregamento dmais suave de imagens, listas
     //implementation("com.github.bumptech.glide:glide:5.0.0")

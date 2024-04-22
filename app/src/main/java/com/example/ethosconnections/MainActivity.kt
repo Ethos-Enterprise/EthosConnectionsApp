@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,24 +15,25 @@ import androidx.navigation.navArgument
 import com.example.compose.AppTheme
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
+import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.service.EmpresaService
+import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.ui.screen.Cadastro
 import com.example.ethosconnections.ui.screen.Home
 import com.example.ethosconnections.ui.screen.Login
 import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 
 class MainActivity : ComponentActivity() {
-    private lateinit var empresaViewModel: EmpresaViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val empresaService = EmpresaService.create()
-        val empresaRepository = EmpresaRepository(empresaService)
-        val empresaViewModelFactory = EmpresaViewModelFactory(empresaRepository)
-        empresaViewModel =  ViewModelProvider(this, empresaViewModelFactory).get(EmpresaViewModel::class.java)
+        //ir colcoando todas as viewModel
+        val empresaViewModel = ViewModelProvider(this, EmpresaViewModelFactory(this, EmpresaRepository(EmpresaService.create()))).get(EmpresaViewModel::class.java)
+        val servicoViewModel = ViewModelProvider(this, ServicoViewModelFactory(ServicoRepository(ServicoService.create()))).get(ServicoViewModel::class.java)
 
         setContent {
             AppTheme {
@@ -39,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 //start destination deve estar no home, mudei pra testar rapido dentro
-                NavHost(navController = navController, startDestination = "plataforma/{empresaId}") {
+                NavHost(navController = navController, startDestination = "home") {
                     composable(
                         route = "home"
                     ) {
@@ -59,27 +61,13 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(
-                        route = "plataforma/{empresaId}",
-                        arguments = listOf(navArgument("empresaId") { type = NavType.StringType })
+                        route = "plataforma",
                     ) { navBackStackEntry ->
-                        val empresaId = navBackStackEntry.arguments?.getString("empresaId")
-                        val empresa: Empresa? = empresaViewModel.empresa.value
-                        Plataforma(navController, empresa)
+                        Plataforma(navController, empresaViewModel, servicoViewModel)
                     }
 
                 }
 
-                empresaViewModel.empresa.observe(this, Observer { empresa ->
-                    empresa?.let {
-                        navController.navigate("plataforma/${empresa.id}") {
-                            launchSingleTop = true
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                        }
-                        Log.i("MainActivity", "Login bem-sucedido: $empresa")
-                    }
-                })
 
             }
         }
