@@ -1,19 +1,27 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +39,7 @@ import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.theme.corLetra
+import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
@@ -39,16 +48,25 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
 fun Portfolio(navController: NavController) {
-    Column {
-        Text(text = "Meu portfólio", style = tituloPagina)
-        BoxDadosGerais()
+    Column{
+        Text(text = "Meu portfólio", style = tituloPagina,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, start = 16.dp))
+        BoxDadosGerais(navController)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Todos os serviços", style = tituloPagina)
+        Column {
+            Text(text = "Todos os serviços", style = tituloPagina,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 16.dp))
+            BoxTodosServicos(navController)
+        }
     }
 }
 
 @Composable
-fun BoxPortfolio(portfolio: Portfolio?, navController: NavController?) {
+fun BoxPortfolio(navController: NavController) {
     val fotoPerfil = remember { mutableStateOf(Foto("", 120, 120)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 100, 500)) }
 
@@ -89,10 +107,17 @@ fun BoxPortfolio(portfolio: Portfolio?, navController: NavController?) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    FillButtonEthos(
-                        { navController!!.navigate("cadastroPortfolio") },
-                        "Editar dados"
-                    )
+                    Button(
+                        onClick = { navController.navigate("cadastroPortfolio") },
+                        modifier = Modifier
+                            .background(Color(0xFF1B1F23)),
+                        shape = RoundedCornerShape(5.dp)
+                    ) {
+                        Text(
+                            text = "Editar dados",
+                            style = letraButton
+                        )
+                    }
                 }
             }
         }
@@ -101,13 +126,14 @@ fun BoxPortfolio(portfolio: Portfolio?, navController: NavController?) {
 
 
 @Composable
-fun BoxDadosGerais() {
+fun BoxDadosGerais(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
     ) {
         BoxEthos {
-            BoxPortfolio(portfolio = null, navController = null)
+            BoxPortfolio(navController)
             Column{
                 Text(
                     text = "Deloitte",
@@ -235,7 +261,20 @@ fun BoxDadosGerais() {
                 painter = painterResource(id = R.mipmap.imagem_certificado),
                 contentDescription = "Icone da cor branca"
             )
+
         }
+    }
+    BoxTodosServicos(navController)
+}
+
+@Composable
+fun BoxTodosServicos(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+    ) {
+
     }
 }
 
