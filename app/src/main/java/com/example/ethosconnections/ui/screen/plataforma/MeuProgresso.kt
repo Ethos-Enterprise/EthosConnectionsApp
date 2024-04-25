@@ -1,54 +1,63 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.compose.AppTheme
 import com.example.compose.card_formulario
 import com.example.compose.cor_primaria
-import com.example.compose.cor_secundaria
-import com.example.compose.preto_azulado
+import com.example.compose.linha_divisoria
 import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
-import com.example.ethosconnections.ui.screen.plataforma.components.ServicoEthos
+import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.letraPadraoExtraLigth
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloFormularioCard
 import com.example.ethosconnections.ui.theme.tituloPagina
-import com.example.ethosconnections.ui.theme.tituloServico
+import java.time.format.TextStyle
 
 @Composable
 fun MeuProgresso(navController: NavController) {
@@ -60,10 +69,24 @@ fun MeuProgresso(navController: NavController) {
         BoxEthos {
             Text(text = "Meu Nível de ESG", style = tituloConteudoAzul)
             Divider(modifier = Modifier.padding(bottom = 10.dp))
-
             Text(text = "Total de Aderência ESG - em %", style = tituloConteudoBranco)
+
+            ProgressBar(progress = 0.5f)
+
+
             Text(text = "Aderência ESG por Área de Impacto - em %", style = tituloConteudoBranco)
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CircularProgress(nomeGrafico = "Ambiental")
+                CircularProgress(nomeGrafico = "Social")
+                CircularProgress(nomeGrafico = "Governamental")
+
+            }
         }
 
         BoxEthos {
@@ -106,22 +129,23 @@ fun MeuProgresso(navController: NavController) {
                 categoria = "Governança",
                 nomeServico = "Ambiental",
                 nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
-                onClick = { navController.navigate("formulario")})
+                onClick = { navController.navigate("formulario") })
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_social,
                 categoria = "Governança",
                 nomeServico = "Ambiental",
                 nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
-                onClick = { navController.navigate("formulario")})
+                onClick = { navController.navigate("formulario") })
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_governamental,
                 categoria = "Governança",
                 nomeServico = "Ambiental",
                 nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
-                onClick = { navController.navigate("formulario")})
+                onClick = { navController.navigate("formulario") })
         }
     }
 }
+
 
 @Composable
 fun CardFormulario(
@@ -231,16 +255,135 @@ fun CardFormulario(
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun MeuProgressoPreview() {
-    AppTheme {
-        Surface {
-            CardFormulario(fotoEmpresa = R.mipmap.card_formulario_social,
-                categoria = "Governança",
-                nomeServico = "Ambiental",
-                nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
-                onClick = { })
+
+fun Teste() {
+    Column {
+
+        Text(text = "Meu Progresso", style = tituloPagina)
+
+        BoxEthos {
+            Text(text = "Meu Nível de ESG", style = tituloConteudoAzul)
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+            Text(text = "Total de Aderência ESG - em %", style = tituloConteudoBranco)
+
+
+
+            Text(text = "Aderência ESG por Área de Impacto - em %", style = tituloConteudoBranco)
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CircularProgress(nomeGrafico = "Ambiental")
+                CircularProgress(nomeGrafico = "Social")
+                CircularProgress(nomeGrafico = "Governamental")
+
+            }
         }
     }
 }
+
+@Composable
+fun CircularProgress(
+    progress: Float = 0.5f,
+    strokeWidth: Dp = 5.dp,
+    size: Dp = 80.dp,
+    color: Color = cor_primaria,
+    nomeGrafico: String
+) {
+    val progressPercent = (progress * 100).toInt()
+    val progressText = "$progressPercent%"
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(size)
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize()
+            ) {
+                val centerX = size.toPx() / 50
+                val centerY = size.toPx() / 50
+                val radius = size.toPx() / 2 - strokeWidth.toPx() / 2
+
+                drawArc(
+                    color = linha_divisoria,
+                    startAngle = -90f,
+                    sweepAngle = 360f,
+                    useCenter = false,
+                    topLeft = Offset(centerX - radius, centerY - radius),
+                    size = androidx.compose.ui.geometry.Size(size.toPx(), size.toPx()),
+                    style = Stroke(strokeWidth.toPx())
+                )
+
+                val sweepAngle = progress * 360f
+
+                drawArc(
+                    color = color,
+                    startAngle = -90f,
+                    sweepAngle = sweepAngle,
+                    useCenter = false,
+                    topLeft = Offset(centerX - radius, centerY - radius),
+                    size = androidx.compose.ui.geometry.Size(size.toPx(), size.toPx()),
+                    style = Stroke(strokeWidth.toPx())
+                )
+
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(text = nomeGrafico, style = tituloConteudoAzul, textAlign = TextAlign.Center, modifier = Modifier.padding(start = 9.dp))
+    }
+}
+
+@Composable
+fun ProgressBar(progress: Float) {
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp, bottom = 10.dp)
+            .height(7.dp)
+    ) {
+        val barHeight = size.height
+        val barWidth = size.width * progress
+        val cornerRadius = CornerRadius(x = barHeight / 2, y = barHeight / 2)
+
+        drawRoundRect(
+            color = linha_divisoria,
+            size = size,
+            cornerRadius = cornerRadius
+        )
+
+        drawRoundRect(
+            color = cor_primaria,
+            size = size.copy(width = barWidth), // A largura é ajustada ao progresso
+            cornerRadius = cornerRadius
+        )
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCircularProgress() {
+    Teste()
+}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun MeuProgressoPreview() {
+//    AppTheme {
+//        Surface {
+//            CardFormulario(fotoEmpresa = R.mipmap.card_formulario_social,
+//                categoria = "Governança",
+//                nomeServico = "Ambiental",
+//                nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
+//                onClick = { })
+//        }
+//    }
+//}

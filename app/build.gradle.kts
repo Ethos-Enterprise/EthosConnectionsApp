@@ -86,7 +86,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.5")
 
-    implementation ("androidx.fragment:fragment-ktx:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.0")
 
 
     //retrofit - bibliotecas para requisição rest
@@ -99,6 +99,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+   // implementation("com.github.tehras.charts:charts-compose:0.2.4-alpha")
 
     //glide para carregamento dmais suave de imagens, listas
     //implementation("com.github.bumptech.glide:glide:5.0.0")

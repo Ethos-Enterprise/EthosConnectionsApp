@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.map
 import java.util.*
 
 class EmpresaDataStore(private val context: Context) {
+    private val appContext = context.applicationContext
 
     private val Context.usuarioAtual: DataStore<Preferences> by preferencesDataStore("usuarioEmpresa")
 
@@ -50,6 +51,13 @@ class EmpresaDataStore(private val context: Context) {
                 qtdFuncionarios = preferences[EMPRESA_QTD_FUNCIONARIOS],
                 assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER]
             )
+        }
+    }
+
+
+    fun getRazaoSocialEmpresaFlow(): Flow<String?> {
+        return context.usuarioAtual.data.map { preferences ->
+            preferences[EMPRESA_RAZAO_SOCIAL]
         }
     }
 }

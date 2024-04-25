@@ -103,12 +103,13 @@ data class NavigationItem(
     val rota: String
 )
 
+
 @Composable
 fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, servicoViewModel: ServicoViewModel) {
 
+
     val context = LocalContext.current
     val empresaDataStore = EmpresaDataStore(context)
-    val empresa = empresaDataStore.getEmpresaFlow().collectAsState(initial = null).value
 
     val items = listOf(
         NavigationItem(
@@ -183,7 +184,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
 
                 Spacer(modifier = Modifier.height(14.dp))
                 Text(
-                    text = "Olá ${empresa?.razaoSocial}",
+                    text = "Olá ${empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: "sem razao social"}",
                     style = tituloMenu,
                     modifier = Modifier.padding(start = 25.dp, top = 10.dp)
                 )
@@ -284,7 +285,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
+                NavHost(navController = componenteNavController, startDestination = "meuProgresso") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }

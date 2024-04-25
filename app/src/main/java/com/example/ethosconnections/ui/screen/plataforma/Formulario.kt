@@ -68,7 +68,7 @@ fun FormularioPreview() {
 
     AppTheme {
         Surface {
-            Plataforma(navController = navController)
+            //Plataforma(navController = navController)
         }
     }
 }
