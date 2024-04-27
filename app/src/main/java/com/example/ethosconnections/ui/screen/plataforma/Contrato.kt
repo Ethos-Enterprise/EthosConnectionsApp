@@ -28,14 +28,10 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
 
-@Composable
-fun Contrato(navController: NavController) {
-    boxContrato("teste", 20.2)
 
-}
 
 @Composable
-fun boxContrato(
+fun Contrato(navController: NavController,
     nomePlano: String?,
     preco: Double?,
 ) {
@@ -75,7 +71,7 @@ fun boxContrato(
                             contentAlignment = Alignment.Center
                         ) {
                             // Conteúdo dentro do retângulo
-                            Text(text = "Teste", style = tituloConteudoBranco)
+                            Text(text = "${nomePlano ?: ""}", style = tituloConteudoBranco)
                         }
                     }
                     Row {
@@ -92,7 +88,7 @@ fun boxContrato(
                             contentAlignment = Alignment.Center
                         ) {
                             // Conteúdo dentro do retângulo
-                            Text(text = "Teste", style = tituloConteudoBranco)
+                            Text(text = "${preco ?: ""}", style = tituloConteudoBranco)
                         }
                     }
                 }
@@ -163,8 +159,8 @@ fun boxContrato(
 
         }
         Rodape(
-            acaoBotaoEsquerda = {},
-            nomeBotaoEsquerda = "Salvar",
+            acaoBotaoEsquerda = { navController.navigate("pagamento") },
+            nomeBotaoEsquerda = "Adquirir plano",
             acaoBotaoDireita = {},
             nomeBotaoDireita = "Cancelar"
         )
@@ -179,5 +175,5 @@ fun boxContrato(
 @Composable
 fun contratoESGPreview() {
     val navController = rememberNavController()
-    Contrato(navController)
+    Contrato(navController, "Analytics", 29.90)
 }
