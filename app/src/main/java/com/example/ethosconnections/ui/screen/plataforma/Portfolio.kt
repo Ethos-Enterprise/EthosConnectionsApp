@@ -14,14 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,11 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Foto
-import com.example.ethosconnections.models.Portfolio
-import com.example.ethosconnections.models.Servico
-import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
-import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.theme.corLetra
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
@@ -47,7 +39,6 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
-import java.util.UUID
 
 @Composable
 fun Portfolio(navController: NavController) {
@@ -140,7 +131,6 @@ fun BoxDadosGerais(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
     ) {
         BoxEthos {
             BoxPortfolio(navController)
@@ -273,7 +263,6 @@ fun BoxDadosGerais(navController: NavController) {
             )
         }
     }
-    BoxTodosServicos(navController)
 }
 
 @Composable
@@ -282,65 +271,11 @@ fun BoxTodosServicos(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
         ) {
             var servicos = servicosFake()
             GridServicos(servicos, navController)
         }
     }
-}
-
-fun servicosFake2(): List<Servico> {
-    return listOf(
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            22.0,
-            "Governança",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            45.0,
-            "Environmental",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        )
-    )
 }
 
 @Preview(showBackground = true)
