@@ -36,6 +36,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Foto
 import com.example.ethosconnections.models.Portfolio
+import com.example.ethosconnections.models.Servico
+import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.theme.corLetra
@@ -45,25 +47,33 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import java.util.UUID
 
 @Composable
 fun Portfolio(navController: NavController) {
-    Column{
-        Text(text = "Meu portfólio", style = tituloPagina,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp, start = 16.dp))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        Text(
+            text = "Meu portfólio",
+            style = tituloPagina,
+        )
         BoxDadosGerais(navController)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Column {
-            Text(text = "Todos os serviços", style = tituloPagina,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 16.dp))
+            Text(
+                text = "Todos os serviços",
+                style = tituloPagina,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             BoxTodosServicos(navController)
         }
     }
 }
+
 
 @Composable
 fun BoxPortfolio(navController: NavController) {
@@ -261,7 +271,6 @@ fun BoxDadosGerais(navController: NavController) {
                 painter = painterResource(id = R.mipmap.imagem_certificado),
                 contentDescription = "Icone da cor branca"
             )
-
         }
     }
     BoxTodosServicos(navController)
@@ -269,13 +278,69 @@ fun BoxDadosGerais(navController: NavController) {
 
 @Composable
 fun BoxTodosServicos(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-    ) {
-
+    Box{
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            var servicos = servicosFake()
+            GridServicos(servicos, navController)
+        }
     }
+}
+
+fun servicosFake2(): List<Servico> {
+    return listOf(
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            22.0,
+            "Governança",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            45.0,
+            "Environmental",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        ),
+        Servico(
+            UUID.randomUUID(),
+            "Treinamento de Responsabilidade Social Corporativa (RSC)",
+            "Descrição do serviço ",
+            30.0,
+            "Social",
+            UUID.randomUUID()
+        )
+    )
 }
 
 @Preview(showBackground = true)
