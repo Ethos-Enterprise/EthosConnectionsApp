@@ -21,8 +21,10 @@ import com.example.ethosconnections.ui.theme.letraButton
 
 @Composable
 fun Rodape(
+    acaoBotaoEsquerda: () -> Unit,
     nomeBotaoEsquerda: String,
-    nomeBotaoDireita: String
+    acaoBotaoDireita: () -> Unit,
+    nomeBotaoDireita: String,
 ) {
     Spacer(modifier = Modifier.height(14.dp))
 
@@ -40,7 +42,7 @@ fun Rodape(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { /* TODO */ },
+                onClick = acaoBotaoEsquerda,
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 10.dp),
@@ -53,7 +55,7 @@ fun Rodape(
             }
 
             OutlinedButton(
-                onClick = { /* TODO */ },
+                onClick = acaoBotaoDireita,
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 10.dp),

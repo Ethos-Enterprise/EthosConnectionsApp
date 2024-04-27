@@ -163,7 +163,9 @@ fun boxContrato(
 
         }
         Rodape(
+            acaoBotaoEsquerda = {},
             nomeBotaoEsquerda = "Salvar",
+            acaoBotaoDireita = {},
             nomeBotaoDireita = "Cancelar"
         )
 
