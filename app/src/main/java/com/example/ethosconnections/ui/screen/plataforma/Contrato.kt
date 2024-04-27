@@ -32,8 +32,8 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
 fun Contrato(navController: NavController,
-    nomePlano: String?,
-    preco: Double?,
+             nomePlano: String?,
+             preco: Double?,
 ) {
 
     Column {

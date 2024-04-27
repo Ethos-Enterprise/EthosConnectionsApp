@@ -80,8 +80,8 @@ import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
 import com.example.ethosconnections.ui.screen.plataforma.Formulario
-import com.example.ethosconnections.ui.screen.plataforma.Meta
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
+import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
 import com.example.ethosconnections.ui.theme.letraButton
@@ -308,15 +308,13 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
 
                     composable("contrato") {
-                        Contrato(componenteNavController, "Analytics", 29.90)
+                        Contrato(componenteNavController, "Analytics",29.90)
                     }
-
                     composable("formulario") {
                         Formulario(componenteNavController)
                     }
-
-                    composable("meta") {
-                        Meta(componenteNavController)
+                    composable("pagamento") {
+                        Pagamento(componenteNavController)
                     }
                 }
             }
