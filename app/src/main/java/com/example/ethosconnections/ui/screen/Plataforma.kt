@@ -308,7 +308,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
 
                     composable("contrato") {
-                        Contrato(componenteNavController)
+                        Contrato(componenteNavController, "Analytics", 29.90)
                     }
 
                     composable("formulario") {
