@@ -71,7 +71,7 @@ fun Contrato(navController: NavController,
                             contentAlignment = Alignment.Center
                         ) {
                             // Conteúdo dentro do retângulo
-                            Text(text = "Teste", style = tituloConteudoBranco)
+                            Text(text = "${nomePlano ?: ""}", style = tituloConteudoBranco)
                         }
                     }
                     Row {
@@ -88,7 +88,7 @@ fun Contrato(navController: NavController,
                             contentAlignment = Alignment.Center
                         ) {
                             // Conteúdo dentro do retângulo
-                            Text(text = "Teste", style = tituloConteudoBranco)
+                            Text(text = "${preco ?: ""}", style = tituloConteudoBranco)
                         }
                     }
                 }
