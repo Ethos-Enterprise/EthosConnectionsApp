@@ -80,6 +80,7 @@ import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
 import com.example.ethosconnections.ui.screen.plataforma.Formulario
+import com.example.ethosconnections.ui.screen.plataforma.MeuPerfil
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
@@ -286,7 +287,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "contrato") {
+                NavHost(navController = componenteNavController, startDestination = "meuPerfil") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
@@ -315,6 +316,9 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
                     composable("pagamento") {
                         Pagamento(componenteNavController)
+                    }
+                    composable("meuPerfil") {
+                        MeuPerfil(componenteNavController)
                     }
                 }
             }
