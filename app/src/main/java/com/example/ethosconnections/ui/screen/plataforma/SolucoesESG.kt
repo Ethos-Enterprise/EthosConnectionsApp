@@ -41,14 +41,12 @@ import com.example.compose.AppTheme
 import com.example.compose.cor_primaria
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Servico
-import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.ServicoEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
-import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import java.util.UUID
 
 fun servicosFake(): List<Servico> {
