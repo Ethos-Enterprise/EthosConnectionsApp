@@ -72,6 +72,7 @@ import com.example.compose.preto_azulado
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
+import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.service.EmpresaService
@@ -80,6 +81,7 @@ import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
 import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
 import com.example.ethosconnections.ui.screen.plataforma.Formulario
+import com.example.ethosconnections.ui.screen.plataforma.Meta
 import com.example.ethosconnections.ui.screen.plataforma.MeuPerfil
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
@@ -319,6 +321,9 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
                     composable("meuPerfil") {
                         MeuPerfil(componenteNavController)
+                    }
+                    composable("meta") {
+                        Meta(componenteNavController)
                     }
                 }
             }

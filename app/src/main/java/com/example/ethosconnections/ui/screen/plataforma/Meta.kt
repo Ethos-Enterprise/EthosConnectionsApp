@@ -99,14 +99,18 @@ fun CadastroMeta(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
+                    .padding(top = 8.dp, bottom = 20.dp)
             )
 
             Column {
                 Row {
                     RadioButton(
-                        selected = false,
-                        onClick = { /*TODO*/ }
+                        selected = pilarAmbiental.value,
+                        onClick = {
+                            pilarAmbiental.value = true
+                            pilarSocial.value = false
+                            pilarGovernamental.value = false
+                        }
                     )
                     Text(
                         text = "Pilar Ambiental",
@@ -118,8 +122,12 @@ fun CadastroMeta(navController: NavController) {
 
                 Row {
                     RadioButton(
-                        selected = false,
-                        onClick = { /*TODO*/ }
+                        selected = pilarSocial.value,
+                        onClick = {
+                            pilarAmbiental.value = false
+                            pilarSocial.value = true
+                            pilarGovernamental.value = false
+                        }
                     )
                     Text(
                         text = "Pilar Social",
@@ -131,8 +139,12 @@ fun CadastroMeta(navController: NavController) {
 
                 Row {
                     RadioButton(
-                        selected = false,
-                        onClick = { /*TODO*/ }
+                        selected = pilarGovernamental.value,
+                        onClick = {
+                            pilarAmbiental.value = false
+                            pilarSocial.value = false
+                            pilarGovernamental.value = true
+                        }
                     )
                     Text(
                         text = "Pilar Governamental",
@@ -148,7 +160,7 @@ fun CadastroMeta(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
+                    .padding(top = 20.dp)
             )
             TextField(
                 value = descricao.value,
@@ -165,7 +177,7 @@ fun CadastroMeta(navController: NavController) {
                     style = tituloConteudoAzul,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp)
+                        .padding(bottom = 10.dp, top = 30.dp)
                 )
                 TextField(
                     value = dataFim.value,
@@ -202,7 +214,6 @@ fun MetaButtons(navController: NavController) {
                 onClick = { /*TODO*/ },
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 10.dp)
                     .background(color),
                 shape = RoundedCornerShape(5.dp)
             ) {
