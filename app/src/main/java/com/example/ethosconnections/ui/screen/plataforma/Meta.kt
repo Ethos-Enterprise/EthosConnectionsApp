@@ -155,39 +155,23 @@ fun CadastroMeta(navController: NavController) {
                 }
             }
 
-            Text(
-                text = "Descreva a sua meta ou deixe uma observação",
-                style = tituloConteudoAzul,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            )
-            TextField(
-                value = descricao.value,
-                onValueChange = { descricao.value = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .background(color = Color(0xFF1B1B1B))
-            )
-
             Column {
                 Text(
-                    text = "Data Limite",
+                    text = "Descreva a sua meta ou deixe uma observação",
                     style = tituloConteudoAzul,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 10.dp, top = 30.dp)
+                        .padding(top = 20.dp)
                 )
                 TextField(
-                    value = dataFim.value,
-                    onValueChange = { dataFim.value = it },
-                    label = { Text("dd/mm/aaaa") },
+                    value = descricao.value,
+                    onValueChange = { descricao.value = it },
                     modifier = Modifier
-                        .height(30.dp)
-                        .width(180.dp)
+                        .fillMaxWidth()
+                        .height(150.dp)
                         .background(color = Color(0xFF1B1B1B))
                 )
+                ValidarData()
             }
         }
         MetaButtons(navController)
@@ -224,7 +208,7 @@ fun MetaButtons(navController: NavController) {
             }
 
             OutlinedButton(
-                onClick = { navController.navigate("portfolio") },
+                onClick = { navController.navigate("meuProgresso") },
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 10.dp),
@@ -239,6 +223,48 @@ fun MetaButtons(navController: NavController) {
             }
         }
     }
+}
+
+@Composable
+fun ValidarData() {
+    val dataFim = remember { mutableStateOf("") }
+    Column {
+        Text(
+            text = "Data Limite",
+            style = tituloConteudoAzul,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp)
+        )
+        TextField(
+            value = dataFim.value,
+            onValueChange = { dataFim.value = it },
+            label = { Text("dd/mm/aaaa") },
+            modifier = Modifier
+                .background(color = Color(0xFF1B1B1B))
+        )
+        if (!validarData(dataFim.value) && dataFim.value.isNotBlank()) {
+            Text(
+                text = "Insira uma data válida",
+                color = Color.Red,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
+}
+
+fun validarData(data: String): Boolean {
+    val partes = data.split("/")
+    if (partes.size != 3) return false
+    val dia = partes[0].toIntOrNull() ?: return false
+    val mes = partes[1].toIntOrNull() ?: return false
+    val ano = partes[2].toIntOrNull() ?: return false
+
+    if (dia !in 1..31) return false
+    if (mes !in 1..12) return false
+    if (ano <= 2023) return false
+
+    return true
 }
 
 @Preview(showBackground = true)
