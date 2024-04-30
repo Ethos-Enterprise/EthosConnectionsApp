@@ -1,7 +1,5 @@
 package com.example.ethosconnections.ui.screen
 
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -48,7 +46,6 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.textoTop
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 fun Login(navController: NavController, viewModel: EmpresaViewModel) {
@@ -139,13 +136,13 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(5.dp),
                     onClick = {
-                        isLoading.value = true
+//                        isLoading.value = true
                         viewModel.loginEmpresa(email.value, senha.value) { success ->
                             if (success) {
-                                val handler = Handler(Looper.getMainLooper())
-                                handler.postDelayed({
-                                    navController.navigate("plataforma")
-                                }, 3000)
+//                                val handler = Handler(Looper.getMainLooper())
+//                                handler.postDelayed({
+                                navController.navigate("plataforma")
+//                                }
                             } else {
                                 errorMessage.value = "Usuário ou senha incorretos"
                             }
@@ -158,7 +155,6 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     )
                 }
                 Spacer(modifier = Modifier.height(32.dp))
-
 
                 Text(
                     text = "Esqueci minha senha",

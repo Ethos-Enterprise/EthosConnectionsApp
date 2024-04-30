@@ -118,7 +118,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             titulo = "Meu Perfil",
             selecionadoIcone = Icons.Filled.Person,
             naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "solucoesEsg"
+            rota = "meuPerfil"
         ),
         NavigationItem(
             titulo = "Meu Portfolio",

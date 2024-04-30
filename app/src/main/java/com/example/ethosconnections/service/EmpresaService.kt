@@ -5,6 +5,7 @@ import com.example.ethosconnections.api.Api
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface EmpresaService {
     companion object {
@@ -12,7 +13,7 @@ interface EmpresaService {
             return Api.getInstance().create(EmpresaService::class.java)
         }
     }
-    @GET("v1.0/empresas/{email}/{senha}")
+    @GET("v1.0/empresas/login/{email}/{senha}")
      suspend fun loginEmpresa(@Path("email") email: String, @Path("senha") senha: String): Response<Empresa>
 
 }

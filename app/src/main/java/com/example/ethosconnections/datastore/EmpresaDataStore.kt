@@ -53,8 +53,6 @@ class EmpresaDataStore(private val context: Context) {
             )
         }
     }
-
-
     fun getRazaoSocialEmpresaFlow(): Flow<String?> {
         return context.usuarioAtual.data.map { preferences ->
             preferences[EMPRESA_RAZAO_SOCIAL]
