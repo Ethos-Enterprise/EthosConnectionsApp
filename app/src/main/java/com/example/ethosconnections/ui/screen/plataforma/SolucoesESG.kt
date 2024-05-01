@@ -66,35 +66,52 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos()
     }
+
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
     var filtroAplicado = remember { mutableStateOf("Exibindo todas as soluções") }
     var pesquisa = remember { mutableStateOf("") }
     var servicosFiltrados = remember { mutableStateOf<SnapshotStateList<Servico>?>(null) }
+    var cardSelecionado = remember { mutableStateOf(-1) }
 
+
+    val filtrarServicos: (List<Servico>, (Servico) -> Boolean, String, String) -> Unit = { servicosList, filtro, mensagemVazia, mensagemResultado ->
+        val listaFiltrados = servicosList.filter(filtro)
+        if (listaFiltrados.isEmpty()) {
+            filtroAplicado.value = mensagemVazia
+        } else {
+            filtroAplicado.value = mensagemResultado
+        }
+        servicosFiltrados.value = SnapshotStateList<Servico>().apply { addAll(listaFiltrados) }
+    }
 
     val filtrarServicosPorAreaEsg: (String) -> Unit = { areaEsg ->
         servicos.value?.let { servicosList ->
-            if (areaEsg.isNotEmpty()) {
-                val listaFiltrados = servicosList.filter { it.areaAtuacaoEsg == areaEsg }
-                Log.e("FILTROU SERVICOS FILTRADOS", "${listaFiltrados}")
-
-                if (listaFiltrados.isEmpty()) {
-                    filtroAplicado.value = "Nenhum resultado encontrado"
-                } else {
-                    filtroAplicado.value = "Exibindo resultados"
-                }
-                servicosFiltrados.value = SnapshotStateList<Servico>().apply { addAll(listaFiltrados) }
-            } else {
-                filtroAplicado.value = "Exibindo todas as soluções"
-                servicosFiltrados.value = null
-                Log.e("NAO FILTROU ", "${servicos.value}")
-
-            }
+            filtrarServicos(
+                servicosList,
+                { it.areaAtuacaoEsg == areaEsg },
+                "Nenhum resultado encontrado",
+                "Exibindo resultados"
+            )
         }
     }
 
-    var cardSelecionado = remember { mutableStateOf(-1) }
+    val filtrarServicosPorPesquisa: () -> Unit = {
+        val textoPesquisa = pesquisa.value.trim()
+        if (textoPesquisa.isNotEmpty()) {
+            servicos.value?.let { servicosList ->
+                filtrarServicos(
+                    servicosList,
+                    { it.nomeServico.contains(textoPesquisa, ignoreCase = true) },
+                    "Nenhum resultado encontrado",
+                    "Exibindo resultados"
+                )
+            }
+        } else {
+            servicosFiltrados.value = null
+            filtroAplicado.value = "Exibindo todas as soluções"
+        }
+    }
 
     val limparFiltros: () -> Unit = {
         servicosFiltrados.value = null
@@ -176,7 +193,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 },
                 trailingIcon = {
                     IconButton(
-                        onClick = { },
+                        onClick = {filtrarServicosPorPesquisa()  },
                         modifier = Modifier
                             .background(cor_primaria)
                             .padding(PaddingValues(0.dp))
