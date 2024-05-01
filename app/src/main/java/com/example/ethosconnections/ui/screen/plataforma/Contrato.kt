@@ -66,10 +66,11 @@ fun Contrato(navController: NavController,
                                 .size(600.dp, 20.dp) // Ajuste o tamanho conforme necessário
                                 .border(
                                     width = 1.dp,
-                                    color = Color.White
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(4.dp)
                                 ), // Adiciona uma borda branca
                             contentAlignment = Alignment.Center
-                        ) {
+                        )  {
                             // Conteúdo dentro do retângulo
                             Text(text = "${nomePlano ?: ""}", style = tituloConteudoBranco)
                         }
@@ -83,10 +84,11 @@ fun Contrato(navController: NavController,
                                 .size(600.dp, 20.dp) // Ajuste o tamanho conforme necessário
                                 .border(
                                     width = 1.dp,
-                                    color = Color.White
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(4.dp)
                                 ), // Adiciona uma borda branca
                             contentAlignment = Alignment.Center
-                        ) {
+                        )  {
                             // Conteúdo dentro do retângulo
                             Text(text = "${preco ?: ""}", style = tituloConteudoBranco)
                         }

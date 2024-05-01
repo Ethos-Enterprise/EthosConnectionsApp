@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -85,12 +86,12 @@ fun Pagamento(navController: NavController) {
             var exibirBox1 by remember { mutableStateOf(true) }
 
             Row {
-                Text(text = "QR Code", style = tituloConteudoBranco.copy(
+                Text(text = "QR Code  ", style = tituloConteudoBranco.copy(
                     background = if (exibirBox1) Color.Gray else Color.Transparent
                 ), modifier = Modifier
                     .clickable { exibirBox1 = true }
                     .padding(end = 8.dp))
-                Text(text = "Pix copia e cola", style = tituloConteudoBranco.copy(
+                Text(text = "Pix copia e cola  ", style = tituloConteudoBranco.copy(
                     background = if (!exibirBox1) Color.Gray else Color.Transparent
                 ), modifier = Modifier.clickable { exibirBox1 = false })
             }
@@ -228,7 +229,7 @@ fun Pagamento(navController: NavController) {
                                 style = tituloConteudoPreto,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
-                                    .background(color = Color(0xFFC1C1C1))
+                                    .background(color = Color(0xFFC1C1C1), shape = RoundedCornerShape(4.dp))
                                     .fillMaxWidth()
                             )
 
