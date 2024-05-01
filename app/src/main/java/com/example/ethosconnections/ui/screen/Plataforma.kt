@@ -111,9 +111,7 @@ data class NavigationItem(
 @Composable
 fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, servicoViewModel: ServicoViewModel) {
 
-
-    val context = LocalContext.current
-    val empresaDataStore = EmpresaDataStore(context)
+    val empresaDataStore = empresaViewModel.empresaDataStore
 
     val items = listOf(
         NavigationItem(
