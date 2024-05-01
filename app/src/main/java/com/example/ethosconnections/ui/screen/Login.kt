@@ -1,5 +1,7 @@
 package com.example.ethosconnections.ui.screen
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -141,8 +143,11 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     onClick = {
                         viewModel.loginEmpresa(email.value, senha.value) { success ->
                             if (success) {
+                                val handler = Handler(Looper.getMainLooper())
                                 isLoading.value = true
+                                handler.postDelayed({
                                 navController.navigate("plataforma")
+                                },2000)
                             } else {
                                 errorMessage.value = "Usuário ou senha incorretos"
                             }

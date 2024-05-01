@@ -19,8 +19,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Foto
+import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.corLetra
 import com.example.ethosconnections.ui.theme.letraButton
@@ -39,13 +43,20 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 
 @Composable
-fun Portfolio(navController: NavController) {
+fun Portfolio(navController: NavController, servicoViewModel: ServicoViewModel) {
+
+    LaunchedEffect(key1 = true) {
+        servicoViewModel.getServicos()
+    }
+    val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
     ) {
         Text(
             text = "Meu portfólio",
@@ -59,7 +70,7 @@ fun Portfolio(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            BoxTodosServicos(navController)
+            BoxTodosServicos(navController, servicos.value)
         }
     }
 }
@@ -265,13 +276,12 @@ fun BoxDadosGerais(navController: NavController) {
 }
 
 @Composable
-fun BoxTodosServicos(navController: NavController) {
+fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<Servico>) {
     Box{
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            var servicos = servicosFake()
             GridServicos(servicos, navController)
         }
     }
@@ -281,5 +291,5 @@ fun BoxTodosServicos(navController: NavController) {
 @Composable
 fun PortfolioPreview() {
     val navController = rememberNavController()
-    Portfolio(navController)
+    //Portfolio(navController)
 }

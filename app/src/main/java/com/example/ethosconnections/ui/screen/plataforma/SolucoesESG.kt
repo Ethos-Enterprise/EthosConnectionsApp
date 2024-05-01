@@ -24,8 +24,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,56 +52,15 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
-fun servicosFake(): List<Servico> {
-    return listOf(
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            22.0,
-            "Governança",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            45.0,
-            "Environmental",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        ),
-        Servico(
-            UUID.randomUUID(),
-            "Treinamento de Responsabilidade Social Corporativa (RSC)",
-            "Descrição do serviço ",
-            30.0,
-            "Social",
-            UUID.randomUUID()
-        )
-    )
-}
-
 @Composable
 fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel) {
 
+    LaunchedEffect(key1 = true) {
+        servicoViewModel.getServicos()
+    }
+    val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
+
     var pesquisa = remember { mutableStateOf("") }
-    var servicos = servicosFake()
 
     Column {
 
@@ -175,7 +137,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
         }
         Spacer(modifier = Modifier.height(10.dp))
 
-        GridServicos(servicos, navController)
+        GridServicos(servicos.value, navController)
     }
 
 }
@@ -222,7 +184,7 @@ fun CategoriaCard(
 }
 
 @Composable
-fun GridServicos(servicos: List<Servico>, navController: NavController) {
+fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavController) {
     Column {
         servicos.chunked(2).forEach { rowServices ->
             Row(
@@ -233,7 +195,7 @@ fun GridServicos(servicos: List<Servico>, navController: NavController) {
                     ServicoEthos(
                         fotoEmpresa = R.mipmap.governance,
                         categoria = servico.areaAtuacaoEsg,
-                        nomeServico = servico.nome,
+                        nomeServico = servico.nomeServico,
                         nomeEmpresa = "Deloitte",
                         onClick = { navController.navigate("avaliacaoServico") }
                     )

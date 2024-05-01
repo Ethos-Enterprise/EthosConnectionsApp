@@ -76,7 +76,7 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background(cor_secundaria, RoundedCornerShape(topStart = 8.dp))
+                            .background(if (categoria == "ENVIRONMENTAL") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
                     )
@@ -86,7 +86,7 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background(cor_secundaria, RoundedCornerShape(topStart = 8.dp))
+                            .background( if (categoria == "SOCIAL") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 
@@ -97,7 +97,7 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background(cor_primaria, RoundedCornerShape(topStart = 8.dp))
+                            .background( if (categoria == "GOVERNANCE") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 

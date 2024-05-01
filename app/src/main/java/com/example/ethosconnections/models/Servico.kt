@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Servico(
     val id: UUID,
-    val nome: String ,
+    val nomeServico: String ,
     val descricao: String ,
     val valor: Double,
     val areaAtuacaoEsg: String,

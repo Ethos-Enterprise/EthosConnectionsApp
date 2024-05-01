@@ -22,9 +22,10 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
             try {
                 val response = repository.getServicos()
                 if (response.isSuccessful) {
+                    Log.e("ViewModel", "deu bom: ${response.body()}")
+
                     servicos.value!!.clear()
                     servicos.value!!.addAll(response.body() ?: emptyList())
-
                     errorMessage.postValue("")
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())

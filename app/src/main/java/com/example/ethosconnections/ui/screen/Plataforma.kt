@@ -287,7 +287,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "meuPerfil") {
+                NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
@@ -301,7 +301,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
 
                     composable("portfolio") {
-                        Portfolio(componenteNavController)
+                        Portfolio(componenteNavController,servicoViewModel)
                     }
 
                     composable("cadastroPortfolio") {
