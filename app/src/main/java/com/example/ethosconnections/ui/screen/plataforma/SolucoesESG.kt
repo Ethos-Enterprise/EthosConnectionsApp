@@ -1,7 +1,9 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,10 +15,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -26,11 +32,13 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -60,18 +68,47 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
+    var filtroAplicado = remember { mutableStateOf("Exibindo todas as soluções") }
     var pesquisa = remember { mutableStateOf("") }
+    var servicosFiltrados = remember { mutableStateOf<SnapshotStateList<Servico>?>(null) }
+
+
+    val filtrarServicosPorAreaEsg: (String) -> Unit = { areaEsg ->
+        servicos.value?.let { servicosList ->
+            if (areaEsg.isNotEmpty()) {
+                val listaFiltrados = servicosList.filter { it.areaAtuacaoEsg == areaEsg }
+                Log.e("FILTROU SERVICOS FILTRADOS", "${listaFiltrados}")
+
+                if (listaFiltrados.isEmpty()) {
+                    filtroAplicado.value = "Nenhum resultado encontrado"
+                } else {
+                    filtroAplicado.value = "Exibindo resultados"
+                }
+                servicosFiltrados.value = SnapshotStateList<Servico>().apply { addAll(listaFiltrados) }
+            } else {
+                filtroAplicado.value = "Exibindo todas as soluções"
+                servicosFiltrados.value = null
+                Log.e("NAO FILTROU ", "${servicos.value}")
+
+            }
+        }
+    }
+
+    var cardSelecionado = remember { mutableStateOf(-1) }
+
+    val limparFiltros: () -> Unit = {
+        servicosFiltrados.value = null
+        cardSelecionado.value = -1
+        filtroAplicado.value = "Exibindo todas as soluções"
+    }
 
     Column {
 
         Text(text = "Soluções ESG", style = tituloPagina)
 
         BoxEthos {
-
             Text(text = "Categorias ESG ", style = tituloConteudoBranco)
-
             Spacer(modifier = Modifier.height(14.dp))
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -79,21 +116,41 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 CategoriaCard(
                     imagemCard = R.mipmap.environmental,
                     contentDescription = "Categoria Ambiental",
-                    buttonText = "Environmental"
+                    buttonText = "Environmental",
+                    onClick = { filtrarServicosPorAreaEsg("ENVIRONMENTAL") },
+                    cardSelecionado = cardSelecionado.value == 0,
+                    setSelectedCard = { selected ->
+                        if (selected) {
+                            cardSelecionado.value = 0
+                        }
+                    }
                 )
                 CategoriaCard(
                     imagemCard = R.mipmap.social,
                     contentDescription = "Categoria Social",
-                    buttonText = "Social"
+                    buttonText = "Social",
+                    onClick = { filtrarServicosPorAreaEsg("SOCIAL") },
+                    cardSelecionado = cardSelecionado.value == 1,
+                    setSelectedCard = { selected ->
+                        if (selected) {
+                            cardSelecionado.value = 1
+                        }
+                    }
                 )
                 CategoriaCard(
                     imagemCard = R.mipmap.governance,
                     contentDescription = "Categoria Governance",
-                    buttonText = "Governance"
+                    buttonText = "Governance",
+                    onClick = { filtrarServicosPorAreaEsg("GOVERNANCE") },
+                    cardSelecionado = cardSelecionado.value == 2,
+                    setSelectedCard = { selected ->
+                        if (selected) {
+                            cardSelecionado.value = 2
+                        }
+                    }
                 )
             }
         }
-
         BoxEthos {
             OutlinedTextField(
                 value = pesquisa.value,
@@ -137,7 +194,30 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
         }
         Spacer(modifier = Modifier.height(10.dp))
 
-        GridServicos(servicos.value, navController)
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Text(text = filtroAplicado.value, style = letraPadrao)
+            Box( modifier = Modifier
+                .clickable { limparFiltros() }
+            ){
+                Row {
+
+                Text(text = "Limpar Filtro", style = letraPadrao)
+                    Spacer(modifier = Modifier.width(13.dp))
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Limpar Filtros",
+                    tint = Color.White,
+                )
+            }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+
+        GridServicos(servicosFiltrados.value ?: servicos.value, navController)
     }
 
 }
@@ -146,13 +226,29 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
 fun CategoriaCard(
     imagemCard: Int,
     contentDescription: String,
-    buttonText: String
+    buttonText: String,
+    onClick: () -> Unit,
+    cardSelecionado: Boolean,
+    setSelectedCard: (Boolean) -> Unit
 ) {
+
+    val shadowColor = Color(0xFFDDDDDD)
+
     Card(
         modifier = Modifier
             .height(110.dp)
             .width(110.dp)
-            .clickable { /* FUNCAOOOO*/ },
+            .clickable {
+                Log.d("CategoriaCard", "onClick chamado")
+                setSelectedCard(!cardSelecionado)
+                onClick()
+            }
+//            .shadow(elevation = if (cardSelecionado) 4.dp else 0.dp, shape = RoundedCornerShape(5.dp))
+            .border(
+                width = 2.dp,
+                color = if (cardSelecionado) Color.White else Color.Transparent,
+                shape = RoundedCornerShape(5.dp)
+            ),
         shape = RoundedCornerShape(5.dp),
     ) {
         Box(
