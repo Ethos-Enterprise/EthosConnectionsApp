@@ -28,14 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.repositories.MetaRepository
+import com.example.ethosconnections.service.MetaService
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 
 @Composable
-fun Meta(navController: NavController) {
+fun Meta(navController: NavController, viewModel: MetaViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,12 +48,12 @@ fun Meta(navController: NavController) {
             text = "Meta",
             style = tituloPagina,
         )
-        CadastroMeta(navController)
+        CadastroMeta(navController, viewModel)
     }
 }
 
 @Composable
-fun CadastroMeta(navController: NavController) {
+fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
 
     var pilarEsg = remember {
         mutableStateOf("")
@@ -174,19 +177,19 @@ fun CadastroMeta(navController: NavController) {
                 ValidarData()
             }
         }
-        MetaButtons(navController)
+        MetaButtons(navController, viewModel)
     }
 }
 
 @Composable
-fun MetaButtons(navController: NavController) {
-    val color = Color(0xFF1B1F23)
+fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
+    val errorMessage = remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 0.dp, top = 50.dp, end = 0.dp, bottom = 0.dp)
-            .background(color)
+            .background(Color(0xFF01A2C3))
 
     ) {
         Row(
@@ -195,10 +198,18 @@ fun MetaButtons(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { TODO()
+//                    viewModel.postMeta(meta) { success ->
+//                        if (success) {
+//                            navController.navigate("meuProgresso")
+//                        } else {
+//                            errorMessage.value = "Erro ao cadastrar a meta"
+//                        }
+//                    }
+                },
                 modifier = Modifier
                     .weight(1f)
-                    .background(color),
+                    .background(Color(0xFF01A2C3)),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
@@ -267,9 +278,10 @@ fun validarData(data: String): Boolean {
     return true
 }
 
-@Preview(showBackground = true)
 @Composable
 fun MetaPreview() {
     val navController = rememberNavController()
-    Meta(navController)
+    val repository = remember { MetaRepository(MetaService.create()) }
+    val viewModel = remember { MetaViewModel(repository) }
+    Meta(navController, viewModel)
 }
