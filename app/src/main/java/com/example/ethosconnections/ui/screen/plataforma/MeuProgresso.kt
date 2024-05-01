@@ -87,7 +87,7 @@ fun MeuProgresso(navController: NavController) {
                 Text(text = "Minha Meta", style = tituloConteudoAzul)
 
                 FillButtonEthos(
-                    acao = { /*TODO*/ },
+                    acao = {  navController.navigate("meta") },
                     nomeAcao = "Criar Meta"
                 )
             }

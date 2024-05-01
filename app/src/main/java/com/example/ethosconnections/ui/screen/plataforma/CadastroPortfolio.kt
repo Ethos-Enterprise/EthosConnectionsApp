@@ -24,43 +24,36 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
+import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
+import com.example.ethosconnections.models.Portfolio
+import com.example.ethosconnections.repositories.PortfolioRepository
+import com.example.ethosconnections.service.PortfolioService
+import java.util.UUID
 
 @Composable
 fun CadastroPortfolio(navController: NavController) {
 
-    val nomeEmpresa = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var nomeEmpresa = remember { mutableStateOf(TextFieldValue()) }
 
-    val cnpj = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var cnpj = remember { mutableStateOf(TextFieldValue()) }
 
-    val email = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var email = remember { mutableStateOf(TextFieldValue()) }
 
-    val telefone = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var telefone = remember { mutableStateOf(TextFieldValue()) }
 
-    var cep = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var cep = remember { mutableStateOf(TextFieldValue()) }
 
-    val areaAtuacao = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var areaAtuacao = remember { mutableStateOf(TextFieldValue()) }
 
-    var quantidadeFuncionarios = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue()) }
+
 
     BoxEthos {
          Column {
@@ -167,13 +160,31 @@ fun CadastroPortfolio(navController: NavController) {
 
 @Composable
 fun buttons(navController: NavController) {
-    val color = Color(0xFF1B1F23)
-    
+
+    var errorMessage = remember { mutableStateOf("") }
+
+    var id = remember { mutableStateOf("") }
+
+    // Dados da Empresa para edição do Portfolio
+    var nomeEmpresa = remember { mutableStateOf(TextFieldValue()) }
+
+    var cnpj = remember { mutableStateOf(TextFieldValue()) }
+
+    var email = remember { mutableStateOf(TextFieldValue()) }
+
+    var telefone = remember { mutableStateOf(TextFieldValue()) }
+
+    var cep = remember { mutableStateOf(TextFieldValue()) }
+
+    var areaAtuacao = remember { mutableStateOf(TextFieldValue()) }
+
+    var quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue()) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 0.dp, top = 50.dp, end = 0.dp, bottom = 0.dp)
-            .background(color)
+            .background(Color(0xFF1B1F23))
 
     ) {
         Row(
@@ -182,11 +193,17 @@ fun buttons(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate("portfolio")
+//                    viewModel.putPortfolio(
+//                        id = UUID.fromString(id.value),
+//                        Portfolio()
+//                    )
+                },
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 10.dp)
-                    .background(color),
+                    .background(Color(0xFF1B1F23)),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(

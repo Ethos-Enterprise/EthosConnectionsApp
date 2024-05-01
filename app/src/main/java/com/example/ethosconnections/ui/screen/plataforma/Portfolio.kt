@@ -52,7 +52,10 @@ fun Portfolio(navController: NavController) {
             style = tituloPagina,
         )
         BoxDadosGerais(navController)
-        Column {
+        Column (
+            modifier = Modifier
+                .padding(top = 30.dp)
+        ){
             Text(
                 text = "Todos os serviços",
                 style = tituloPagina,
