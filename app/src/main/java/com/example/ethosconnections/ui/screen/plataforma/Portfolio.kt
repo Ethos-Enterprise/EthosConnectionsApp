@@ -90,7 +90,7 @@ fun BoxPortfolio(navController: NavController) {
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
                 .aspectRatio(fotoCapa.value.largura.toFloat() / fotoCapa.value.altura.toFloat()),
-            painter = painterResource(id = R.mipmap.portfolio_background_branco),
+            painter = painterResource(id = R.mipmap.portfolio_background),
             contentDescription = "Foto de capa"
         )
         Row(
@@ -105,7 +105,7 @@ fun BoxPortfolio(navController: NavController) {
                 Image(
                     modifier = Modifier
                         .size(fotoPerfil.value.altura.dp),
-                    painter = painterResource(id = R.mipmap.portfolio_perfil_branco),
+                    painter = painterResource(id = R.mipmap.portfolio_perfil),
                     contentDescription = "Foto de perfil"
                 )
             }

@@ -191,8 +191,6 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 0.dp, top = 50.dp, end = 0.dp, bottom = 0.dp)
-            .background(Color(0xFF01A2C3))
-
     ) {
         Row(
             modifier = Modifier
@@ -210,8 +208,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
 //                    }
                 },
                 modifier = Modifier
-                    .weight(1f)
-                    .background(Color(0xFF01A2C3)),
+                    .weight(1f),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
@@ -230,8 +227,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
             ) {
                 Text(
                     text = "Cancelar",
-                    style = letraButton,
-                    color = Color(0xFF01A2C3)
+                    style = tituloConteudoAzul
                 )
             }
         }
@@ -281,6 +277,7 @@ fun validarData(data: String): Boolean {
 }
 
 @Composable
+@Preview(showBackground = true)
 fun MetaPreview() {
     val navController = rememberNavController()
     val repository = remember { MetaRepository(MetaService.create()) }
