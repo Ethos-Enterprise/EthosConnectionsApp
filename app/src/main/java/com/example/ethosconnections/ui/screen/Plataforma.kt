@@ -72,7 +72,6 @@ import com.example.compose.preto_azulado
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
-import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.service.EmpresaService
@@ -95,6 +94,7 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloMenu
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
+import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import kotlinx.coroutines.launch

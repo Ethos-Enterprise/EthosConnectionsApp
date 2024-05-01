@@ -38,7 +38,9 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 
 @Composable
-fun Meta(navController: NavController, viewModel: MetaViewModel) {
+fun Meta(navController: NavController) {
+    val repository = remember { MetaRepository(MetaService.create()) }
+    val viewModel = remember { MetaViewModel(repository) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -282,6 +284,5 @@ fun validarData(data: String): Boolean {
 fun MetaPreview() {
     val navController = rememberNavController()
     val repository = remember { MetaRepository(MetaService.create()) }
-    val viewModel = remember { MetaViewModel(repository) }
-    Meta(navController, viewModel)
+    Meta(navController)
 }
