@@ -5,37 +5,63 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.repositories.PortfolioRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.UUID
 
-class PortfolioViewModel constructor(private val repository: PortfolioRepository): ViewModel(){
-    val portfolios = MutableLiveData<Portfolio>()
+class PortfolioViewModel(private val repository: PortfolioRepository) : ViewModel() {
+    val portfolio = MutableLiveData<Portfolio>()
+    val errorMessage = MutableLiveData<String>()
 
-    val errorMessage = MutableLiveData("")
+    fun getPortfolio(id: UUID) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Log.e("ViewModel", "Error: ${throwable.message}")
+            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+        }
 
-    fun getPortfolio(id:UUID) {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
                 val response = repository.getPortfolioById(id)
                 if (response.isSuccessful) {
-                    //portfolios.value!!.clear()
-                    //portfolios.value!!.addAll(response.body() ?: emptyList())
-
+                    portfolio.postValue(response.body())
                     errorMessage.postValue("")
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("ViewModel", "Erro na HTTP: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao carregar Portfolio por ID")
+                Log.e("ViewModel", "HTTP Error: ${e.message}")
+                errorMessage.postValue(e.message ?: "Error loading Portfolio by ID")
             } catch (e: Exception) {
                 Log.e("ViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception ao buscar Portfolio por ID")
+                errorMessage.postValue(e.message ?: "Exception while fetching Portfolio by ID")
             }
         }
     }
 
+    fun putPortfolio(id: UUID, portfolio: Portfolio) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Log.e("ViewModel", "Error: ${throwable.message}")
+            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+        }
+
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            try {
+                val response = repository.putPortfolioById(id, portfolio)
+                if (response.isSuccessful) {
+                    errorMessage.postValue("")
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string())
+                }
+            } catch (e: HttpException) {
+                Log.e("ViewModel", "HTTP Error: ${e.message}")
+                errorMessage.postValue(e.message ?: "Error updating Portfolio by ID")
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Exception: ${e.message}")
+                errorMessage.postValue(e.message ?: "Exception while updating Portfolio by ID")
+            }
+        }
+    }
 }
