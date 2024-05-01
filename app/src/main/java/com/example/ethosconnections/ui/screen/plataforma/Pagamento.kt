@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,7 +40,6 @@ import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.letraButton
-
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloConteudoPreto
@@ -53,6 +51,8 @@ fun Pagamento(navController: NavController) {
     Column {
 
         Text(text = "Realizar Pagamento Pix", style = tituloPagina)
+        // Estado para armazenar o número do Pix
+        var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
 
         BoxEthos {
             Column {
@@ -114,18 +114,18 @@ fun Pagamento(navController: NavController) {
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
 
-                        Spacer(modifier = Modifier.height(30.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
 
                         Image(
                             modifier = Modifier
-                                .size(200.dp)
+                                .size(150.dp)
                                 .align(Alignment.CenterHorizontally),
                             painter = painterResource(id = R.mipmap.qrcode),
                             contentDescription = "QR CODE"
                         )
 
 
-                        Spacer(modifier = Modifier.height(30.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
 
                         Column {
 
@@ -183,10 +183,10 @@ fun Pagamento(navController: NavController) {
                                     text = "XXXXX", style = tituloConteudoBranco
                                 )
                             }
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
 
                         }
-                        Spacer(modifier = Modifier.height(40.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
 
                     }
 
@@ -221,8 +221,6 @@ fun Pagamento(navController: NavController) {
 
                             )
 
-                            // Estado para armazenar o número do Pix
-                            var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
 
                             // Campo cinza com o número gerado
                             Text(
@@ -334,25 +332,18 @@ fun Pagamento(navController: NavController) {
 
         }
         Spacer(modifier = Modifier.height(40.dp))
-
-    }
-
-
-
-    Column(
-        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(0.dp)
-    ) {
-        // Conteúdo da sua página aqui
-
-        Spacer(modifier = Modifier.weight(1f))
-
         Rodape(
             acaoBotaoEsquerda = {},
             nomeBotaoEsquerda = "Concluir",
             acaoBotaoDireita = {},
             nomeBotaoDireita = "Cancelar"
         )
+
     }
+
+
+
+
 
 }
 
