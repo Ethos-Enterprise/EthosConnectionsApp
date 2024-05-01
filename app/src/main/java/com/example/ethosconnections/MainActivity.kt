@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 //start destination deve estar no home, mudei pra testar rapido dentro
-                NavHost(navController = navController, startDestination = "plataforma") {
+                NavHost(navController = navController, startDestination = "home") {
                     composable(
                         route = "home"
                     ) {
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
                     composable(
                         route = "plataforma",
-                    ) { navBackStackEntry ->
+                    ) {
                         Plataforma(navController, empresaViewModel, servicoViewModel)
                     }
 

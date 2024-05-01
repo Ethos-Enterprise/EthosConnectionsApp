@@ -23,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.ethosconnections.R
+import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.ui.theme.letraButton
@@ -46,16 +49,16 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.textoTop
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun Login(navController: NavController, viewModel: EmpresaViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
-
         val email = remember { mutableStateOf("") }
         val senha = remember { mutableStateOf("") }
-
         val isLoading = remember { mutableStateOf(false) }
-        var errorMessage = remember { mutableStateOf("") }
+        val errorMessage = remember { mutableStateOf("") }
 
         if (isLoading.value) {
             Box(
@@ -136,13 +139,10 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(5.dp),
                     onClick = {
-//                        isLoading.value = true
                         viewModel.loginEmpresa(email.value, senha.value) { success ->
                             if (success) {
-//                                val handler = Handler(Looper.getMainLooper())
-//                                handler.postDelayed({
+                                isLoading.value = true
                                 navController.navigate("plataforma")
-//                                }
                             } else {
                                 errorMessage.value = "Usuário ou senha incorretos"
                             }

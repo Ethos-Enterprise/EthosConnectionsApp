@@ -11,41 +11,44 @@ import com.example.ethosconnections.repositories.EmpresaRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-class EmpresaViewModel (private val context: Context, private val repository: EmpresaRepository) : ViewModel(){
+class EmpresaViewModel(private val context: Context, private val repository: EmpresaRepository) : ViewModel() {
 
-    private val empresaDataStore: EmpresaDataStore = EmpresaDataStore(context)
+     val empresaDataStore: EmpresaDataStore = EmpresaDataStore(context)
 
     val empresa = MutableLiveData<Empresa>()
-    val empresas = MutableLiveData(SnapshotStateList<Empresa>())
-    val errorMessage = MutableLiveData("")
+    val errorMessage = MutableLiveData<String>()
 
     fun loginEmpresa(email: String, senha: String, callback: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = repository.loginEmpresa(email, senha)
-                if (response.isSuccessful) {
-
-                    empresa.postValue(response.body())
-                    errorMessage.postValue("")
-
-                    response.body()?.let { empresaDataStore.saveEmpresa(it) }
-                    callback(true)
-                } else {
-                    errorMessage.postValue(response.errorBody()?.string())
-                    callback(false)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        empresa.value = response.body()
+                        errorMessage.value = ""
+                        response.body()?.let { empresaDataStore.saveEmpresa(it) }
+                        callback(true)
+                    } else {
+                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                        callback(false)
+                    }
                 }
             } catch (e: HttpException) {
                 Log.e("ViewModel", "Erro na HTTP: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao logar")
-                callback(false)
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: "Erro ao logar"
+                    callback(false)
+                }
             } catch (e: Exception) {
                 Log.e("ViewModel", "Excecao: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao salvar o filme")
-                callback(false)
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: "Erro ao logar"
+                    callback(false)
+                }
             }
         }
     }
 }
-
