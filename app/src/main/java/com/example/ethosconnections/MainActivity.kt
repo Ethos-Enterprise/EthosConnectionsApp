@@ -15,8 +15,12 @@ import androidx.navigation.navArgument
 import com.example.compose.AppTheme
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
+import com.example.ethosconnections.repositories.MetaRepository
+import com.example.ethosconnections.repositories.PortfolioRepository
 import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.service.EmpresaService
+import com.example.ethosconnections.service.MetaService
+import com.example.ethosconnections.service.PortfolioService
 import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.ui.screen.Cadastro
 import com.example.ethosconnections.ui.screen.Home
@@ -24,6 +28,10 @@ import com.example.ethosconnections.ui.screen.Login
 import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import com.example.ethosconnections.viewmodel.meta.MetaViewModel
+import com.example.ethosconnections.viewmodel.meta.MetaViewModelFactory
+import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
+import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModelFactory
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 
@@ -31,9 +39,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //ir colcoando todas as viewModel
+        //ir colocando todas as viewModel
         val empresaViewModel = ViewModelProvider(this, EmpresaViewModelFactory(this, EmpresaRepository(EmpresaService.create()))).get(EmpresaViewModel::class.java)
         val servicoViewModel = ViewModelProvider(this, ServicoViewModelFactory(ServicoRepository(ServicoService.create()))).get(ServicoViewModel::class.java)
+        val portfolioViewModel = ViewModelProvider(this, PortfolioViewModelFactory(PortfolioRepository(PortfolioService.create()))).get(PortfolioViewModel::class.java)
+        val metaViewModel = ViewModelProvider(this, MetaViewModelFactory(MetaRepository(MetaService.create()))).get(MetaViewModel::class.java)
 
         setContent {
             AppTheme {

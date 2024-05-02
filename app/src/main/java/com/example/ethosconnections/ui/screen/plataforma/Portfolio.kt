@@ -35,6 +35,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Foto
 import com.example.ethosconnections.models.Servico
+import com.example.ethosconnections.repositories.PortfolioRepository
+import com.example.ethosconnections.repositories.ServicoRepository
+import com.example.ethosconnections.service.PortfolioService
+import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.corLetra
 import com.example.ethosconnections.ui.theme.letraButton
@@ -43,10 +47,16 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 
 @Composable
-fun Portfolio(navController: NavController, servicoViewModel: ServicoViewModel) {
+fun Portfolio(navController: NavController) {
+    val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
+    val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
+
+    val servicoRepository = remember { ServicoRepository(ServicoService.create()) }
+    val servicoViewModel = remember { ServicoViewModel(servicoRepository) }
 
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos()
@@ -81,16 +91,16 @@ fun Portfolio(navController: NavController, servicoViewModel: ServicoViewModel) 
 
 @Composable
 fun BoxPortfolio(navController: NavController) {
-    val fotoPerfil = remember { mutableStateOf(Foto("", 120, 120)) }
+    val fotoPerfil = remember { mutableStateOf(Foto("", 90, 100)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 100, 500)) }
 
     Box {
         Image(
             modifier = Modifier
-                .align(Alignment.TopCenter)
+                .align( Alignment.TopCenter)
                 .fillMaxWidth()
                 .aspectRatio(fotoCapa.value.largura.toFloat() / fotoCapa.value.altura.toFloat()),
-            painter = painterResource(id = R.mipmap.portfolio_background),
+            painter = painterResource(id = R.mipmap.portfolio_background_branco),
             contentDescription = "Foto de capa"
         )
         Row(
@@ -104,8 +114,12 @@ fun BoxPortfolio(navController: NavController) {
             ) {
                 Image(
                     modifier = Modifier
-                        .size(fotoPerfil.value.altura.dp),
-                    painter = painterResource(id = R.mipmap.portfolio_perfil),
+                        .size(fotoPerfil.value.altura.dp)
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(5.dp)
+                        ),
+                    painter = painterResource(id = R.mipmap.portfolio_perfil_branco),
                     contentDescription = "Foto de perfil"
                 )
             }
@@ -147,7 +161,9 @@ fun BoxDadosGerais(navController: NavController) {
     ) {
         BoxEthos {
             BoxPortfolio(navController)
-            Column{
+            Column(
+                modifier = Modifier.padding(top = 20.dp)
+            ){
                 Text(
                     text = "Deloitte",
                     style = tituloConteudoBranco
@@ -294,5 +310,5 @@ fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<S
 @Composable
 fun PortfolioPreview() {
     val navController = rememberNavController()
-    //Portfolio(navController)
+    Portfolio(navController)
 }

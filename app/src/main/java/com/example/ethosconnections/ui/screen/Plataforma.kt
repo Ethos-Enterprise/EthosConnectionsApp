@@ -302,7 +302,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
 
                     composable("portfolio") {
-                        Portfolio(componenteNavController,servicoViewModel)
+                        Portfolio(componenteNavController)
                     }
 
                     composable("cadastroPortfolio") {
