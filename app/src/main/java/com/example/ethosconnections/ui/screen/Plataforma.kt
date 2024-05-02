@@ -131,7 +131,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             titulo = "Meu Plano",
             selecionadoIcone = Icons.Filled.Info,
             naoSelecionadoIcone = Icons.Outlined.Info,
-            rota = "solucoesEsg"
+            rota = "meuPlano"
         ),
         NavigationItem(
             titulo = "Minhas Interações",
