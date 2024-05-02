@@ -22,8 +22,9 @@ class EmpresaDataStore(private val context: Context) {
         private val EMPRESA_EMAIL = stringPreferencesKey("empresa_email")
         private val EMPRESA_SETOR = stringPreferencesKey("empresa_setor")
         private val EMPRESA_QTD_FUNCIONARIOS = intPreferencesKey("empresa_qtd_funcionarios")
-        private val EMPRESA_ASSINANTE_NEWSLETTER =
-            booleanPreferencesKey("empresa_assinante_newsletter")
+        private val EMPRESA_ASSINANTE_NEWSLETTER = booleanPreferencesKey("empresa_assinante_newsletter")
+        private val EMPRESA_PLANO = stringPreferencesKey("empresa_plano")
+
     }
 
     suspend fun saveEmpresa(empresa: Empresa) {
@@ -36,6 +37,7 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_SETOR] = empresa.setor ?: ""
             preferences[EMPRESA_QTD_FUNCIONARIOS] = empresa.qtdFuncionarios ?: 0
             preferences[EMPRESA_ASSINANTE_NEWSLETTER] = empresa.assinanteNewsletter ?: false
+            preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: ""
         }
     }
 
@@ -49,13 +51,20 @@ class EmpresaDataStore(private val context: Context) {
                 email = preferences[EMPRESA_EMAIL],
                 setor = preferences[EMPRESA_SETOR],
                 qtdFuncionarios = preferences[EMPRESA_QTD_FUNCIONARIOS],
-                assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER]
+                assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER],
+                plano = preferences[EMPRESA_PLANO]
             )
         }
     }
     fun getRazaoSocialEmpresaFlow(): Flow<String?> {
         return context.usuarioAtual.data.map { preferences ->
             preferences[EMPRESA_RAZAO_SOCIAL]
+        }
+    }
+
+    fun getPlanoFlow(): Flow<String?> {
+        return context.usuarioAtual.data.map { preferences ->
+            preferences[EMPRESA_PLANO]
         }
     }
 }

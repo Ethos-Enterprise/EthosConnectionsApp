@@ -12,5 +12,6 @@ data class Empresa(
     var email:String? = null,
     var setor:String? = null,
     var qtdFuncionarios:Int? = null,
-    var assinanteNewsletter:Boolean? = null
+    var assinanteNewsletter:Boolean? = null,
+    var plano:String? = null
 )

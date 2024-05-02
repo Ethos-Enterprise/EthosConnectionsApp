@@ -67,7 +67,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
         servicoViewModel.getServicos()
     }
 
-    val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
+    var servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
     var filtroAplicado = remember { mutableStateOf("Exibindo todas as soluções") }
     var pesquisa = remember { mutableStateOf("") }
@@ -193,7 +193,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 },
                 trailingIcon = {
                     IconButton(
-                        onClick = {filtrarServicosPorPesquisa()  },
+                        onClick = { filtrarServicosPorPesquisa() } ,
                         modifier = Modifier
                             .background(cor_primaria)
                             .padding(PaddingValues(0.dp))
@@ -298,6 +298,7 @@ fun CategoriaCard(
 
 @Composable
 fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavController) {
+
     Column {
         servicos.chunked(2).forEach { rowServices ->
             Row(
@@ -309,7 +310,7 @@ fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavControl
                         fotoEmpresa = R.mipmap.governance,
                         categoria = servico.areaAtuacaoEsg,
                         nomeServico = servico.nomeServico,
-                        nomeEmpresa = "Deloitte",
+                        nomeEmpresa = servico.nomeEmpresa?: "nao",
                         onClick = { navController.navigate("avaliacaoServico") }
                     )
                 }
