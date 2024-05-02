@@ -1,5 +1,6 @@
 package com.example.ethosconnections.ui.screen
 
+import MeuPerfil
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -81,7 +82,7 @@ import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.Contrato
 import com.example.ethosconnections.ui.screen.plataforma.Formulario
 import com.example.ethosconnections.ui.screen.plataforma.Meta
-import com.example.ethosconnections.ui.screen.plataforma.MeuPerfil
+import com.example.ethosconnections.ui.screen.plataforma.MeuPlano
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
@@ -322,6 +323,9 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
                     composable("meta") {
                         Meta(componenteNavController)
+                    }
+                    composable("meuPlano") {
+                        MeuPlano(componenteNavController)
                     }
                 }
             }
