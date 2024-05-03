@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.repositories.MetaRepository
 import com.example.ethosconnections.service.MetaService
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
@@ -36,6 +37,7 @@ import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
+import java.util.UUID
 
 @Composable
 fun Meta(navController: NavController) {
@@ -186,7 +188,14 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
 @Composable
 fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
     val errorMessage = remember { mutableStateOf("") }
-
+    // Dados para testar cadastro de meta
+    val meta = Meta(
+        uuid = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361454"),
+        pilarEsg = "Ambiental",
+        descricao = "teste",
+        dataInicio = "2023-08-11",
+        dataFim = "2023-08-11"
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -198,7 +207,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { TODO()
+                onClick = {
 //                    viewModel.postMeta(meta) { success ->
 //                        if (success) {
 //                            navController.navigate("meuProgresso")

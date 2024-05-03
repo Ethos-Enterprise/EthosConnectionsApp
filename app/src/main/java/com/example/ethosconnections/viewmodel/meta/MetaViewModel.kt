@@ -67,7 +67,7 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
         }
     }
 
-    fun postMeta(meta: Meta) {
+    fun postMeta(meta: Meta, onSuccess: () -> Unit) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("MetaViewModel", "Error: ${throwable.message}")
             errorMessage.postValue(throwable.message ?: "Unknown error occurred")
@@ -75,9 +75,13 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
+                // Salvando o método no banco de dados
+                repository.postMeta(meta)
+
                 val response = repository.postMeta(meta)
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
+                    onSuccess()
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
