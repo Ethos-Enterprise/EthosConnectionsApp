@@ -1,5 +1,7 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -188,6 +189,8 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
 @Composable
 fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
     val errorMessage = remember { mutableStateOf("") }
+    val isLoading = remember { mutableStateOf(false) }
+
     // Dados para testar cadastro de meta
     val meta = Meta(
         uuid = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361454"),
@@ -196,6 +199,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
         dataInicio = "2023-08-11",
         dataFim = "2023-08-11"
     )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -208,13 +212,17 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
         ) {
             Button(
                 onClick = {
-//                    viewModel.postMeta(meta) { success ->
-//                        if (success) {
-//                            navController.navigate("meuProgresso")
-//                        } else {
-//                            errorMessage.value = "Erro ao cadastrar a meta"
-//                        }
-//                    }
+                    viewModel.postMeta(meta) { success ->
+                        if (success) {
+                            val handler = Handler(Looper.getMainLooper())
+                            isLoading.value = true
+                            handler.postDelayed({
+                                navController.navigate("meuProgresso")
+                            },2000)
+                        } else {
+                            errorMessage.value = "Erro ao cadastrar a meta"
+                        }
+                    }
                 },
                 modifier = Modifier
                     .weight(1f),

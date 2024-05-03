@@ -67,7 +67,7 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
         }
     }
 
-    fun postMeta(meta: Meta, onSuccess: () -> Unit) {
+    fun postMeta(meta: Meta, callback: (Boolean) -> Unit) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("MetaViewModel", "Error: ${throwable.message}")
             errorMessage.postValue(throwable.message ?: "Unknown error occurred")
@@ -81,7 +81,6 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 val response = repository.postMeta(meta)
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
-                    onSuccess()
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
