@@ -52,71 +52,63 @@ fun AvaliacaoServico(navController: NavController) {
     Column {
         Text(text = "Avaliação do Serviço", style = tituloPagina)
 
+        // Box 1 - Perfil
+        BoxEthos {
+            Column {
+                Row() {
+
+                    Image(
+                        modifier = Modifier
+                            .size(110.dp),
+                        painter = painterResource(id = R.mipmap.avaliacaofoto),
+                        contentDescription = "Foto Serviço"
+                    )
+
+                    Spacer(modifier = Modifier.width(15.dp))
+
+                    Column(Modifier.padding(5.dp)) {
 
 
+                        Text(
+                            text = "Deloitte", style = tituloPagina,
+                            fontSize = 17.sp
+                        )
+
+
+                        Text(
+                            text = "Certificada desde 2018", style = tituloConteudoCinza,
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        OutlinedButton(
+                            onClick = { },
+                            shape = RoundedCornerShape(5.dp),
+                            border = BorderStroke(2.dp, Color(0xFF01A2C3)),
+                            modifier = Modifier.size(width = 140.dp, height = 35.dp)
+                        ) {
+                            Text(
+                                text = "Ver Portfólio",
+                                style = letraButton,
+                                color = Color(0xFF01A2C3)
+                            )
+                        }
+
+                    }
+
+
+                }
+            }
+
+
+        }
+
+
+        //Box 2 - Serviço
         BoxEthos {
 
             Column {
 
-
-                // Box 1 - Perfil
-                Column {
-                    Row() {
-
-                        Image(
-                            modifier = Modifier
-                                .size(110.dp),
-                            painter = painterResource(id = R.mipmap.avaliacaofoto),
-                            contentDescription = "Foto Serviço"
-                        )
-
-                        Spacer(modifier = Modifier.width(15.dp))
-
-                        Column(Modifier.padding(5.dp)) {
-
-
-                            Text(
-                                text = "Deloitte", style = tituloPagina,
-                                fontSize = 17.sp
-                            )
-
-
-                            Text(
-                                text = "Certificada desde 2018", style = tituloConteudoCinza,
-                            )
-
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            OutlinedButton(
-                                onClick = { },
-                                shape = RoundedCornerShape(5.dp),
-                                border = BorderStroke(2.dp, Color(0xFF01A2C3)),
-                                modifier = Modifier.size(width = 140.dp, height = 35.dp)
-                            ) {
-                                Text(
-                                    text = "Ver Portfólio",
-                                    style = letraButton,
-                                    color = Color(0xFF01A2C3)
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                        }
-
-
-                    }
-                }
-
-
-                Divider(
-                    color = Color.Gray,
-                    thickness = 1.dp,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-
-
-                //Box 2 - Serviço
                 Column {
                     Text(
                         text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
@@ -181,9 +173,9 @@ fun AvaliacaoServico(navController: NavController) {
 
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
 
 
+//Box 3 - Avaliação
         BoxEthos {
             Column {
                 Row {
