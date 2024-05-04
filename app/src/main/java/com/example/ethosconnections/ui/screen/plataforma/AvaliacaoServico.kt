@@ -55,45 +55,48 @@ fun AvaliacaoServico(navController: NavController) {
         // Box 1 - Perfil
         BoxEthos {
             Column {
-                Row() {
-
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        modifier = Modifier
-                            .size(110.dp),
+                        modifier = Modifier.size(50.dp),
                         painter = painterResource(id = R.mipmap.avaliacaofoto),
                         contentDescription = "Foto Serviço"
                     )
 
-                    Spacer(modifier = Modifier.width(15.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
 
-                    Column(Modifier.padding(5.dp)) {
-
-
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically) // Alinha o texto verticalmente com a imagem
+                            .padding(start = 8.dp) // Adiciona espaço à esquerda do texto
+                    ) {
                         Text(
-                            text = "Deloitte", style = tituloPagina,
-                            fontSize = 17.sp
+                            text = "Deloitte",
+                            style = tituloPagina,
+                            fontSize = 19.sp,
                         )
 
-
                         Text(
-                            text = "Certificada desde 2018", style = tituloConteudoCinza,
-                        )
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        OutlinedButton(
-                            onClick = { },
-                            shape = RoundedCornerShape(5.dp),
-                            border = BorderStroke(2.dp, Color(0xFF01A2C3)),
-                            modifier = Modifier.size(width = 140.dp, height = 35.dp)
-                        ) {
-                            Text(
-                                text = "Ver Portfólio",
-                                style = letraButton,
-                                color = Color(0xFF01A2C3)
+                            text = "Certificada desde 2018",
+                            style = tituloConteudoCinza,
+                            fontSize = 10.sp,
                             )
-                        }
+                    }
 
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    OutlinedButton(
+                        onClick = { },
+                        shape = RoundedCornerShape(5.dp),
+                        border = BorderStroke(2.dp, Color(0xFF01A2C3)),
+                        modifier = Modifier.size(width = 140.dp, height = 35.dp)
+                    ) {
+                        Text(
+                            text = "Ver Portfólio",
+                            style = letraButton,
+                            color = Color(0xFF01A2C3)
+                        )
                     }
 
 
@@ -172,7 +175,6 @@ fun AvaliacaoServico(navController: NavController) {
             }
 
         }
-
 
 
 //Box 3 - Avaliação
