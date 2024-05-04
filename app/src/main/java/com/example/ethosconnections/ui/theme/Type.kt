@@ -9,6 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.compose.cor_primaria
 import com.example.compose.md_theme_dark_background
+import com.example.compose.md_theme_light_onSurfaceVariant
+import com.example.compose.md_theme_light_outline
 import com.example.compose.md_theme_light_primary
 import com.example.ethosconnections.R
 
@@ -32,6 +34,19 @@ val tituloConteudoPreto = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_regular)),
     fontSize = 14.sp,
     color = Color.Black,
+    fontWeight = FontWeight.Bold
+)
+
+val tituloConteudoCinza = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+    fontSize = 14.sp,
+    color = Color.LightGray,
+)
+
+val tituloConteudoCinzaNegrito = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+    fontSize = 14.sp,
+    color = Color.LightGray,
     fontWeight = FontWeight.Bold
 )
 

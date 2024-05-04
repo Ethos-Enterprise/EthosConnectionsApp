@@ -1,20 +1,32 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,9 +40,11 @@ import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
-import com.example.ethosconnections.ui.theme.letraPadrao
+import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
+import com.example.ethosconnections.ui.theme.tituloConteudoCinza
+import com.example.ethosconnections.ui.theme.tituloConteudoCinzaNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
@@ -42,32 +56,125 @@ fun AvaliacaoServico(navController: NavController) {
 
         BoxEthos {
 
-            Row {
+            Column {
+
+
+                // Box 1 - Perfil
                 Column {
-                    Text(
-                        text = "Deloitte", style = tituloPagina,
-                        fontSize = 17.sp
-                    )
+                    Row() {
+
+                        Image(
+                            modifier = Modifier
+                                .size(110.dp),
+                            painter = painterResource(id = R.mipmap.avaliacaofoto),
+                            contentDescription = "Foto Serviço"
+                        )
+
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        Column(Modifier.padding(5.dp)) {
+
+
+                            Text(
+                                text = "Deloitte", style = tituloPagina,
+                                fontSize = 17.sp
+                            )
+
+
+                            Text(
+                                text = "Certificada desde 2018", style = tituloConteudoCinza,
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            OutlinedButton(
+                                onClick = { },
+                                shape = RoundedCornerShape(5.dp),
+                                border = BorderStroke(2.dp, Color(0xFF01A2C3)),
+                                modifier = Modifier.size(width = 140.dp, height = 35.dp)
+                            ) {
+                                Text(
+                                    text = "Ver Portfólio",
+                                    style = letraButton,
+                                    color = Color(0xFF01A2C3)
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                        }
+
+
+                    }
                 }
 
-                Spacer(modifier = Modifier.width(20.dp))
 
                 Divider(
                     color = Color.Gray,
-                    thickness = 0.1.dp, // Definindo o thickness para 0.5dp para criar um traço fino
-                    modifier = Modifier
-                        .height(300.dp)
-                        .width(1.dp)
-
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
+                Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.width(20.dp))
 
+                //Box 2 - Serviço
                 Column {
                     Text(
-                        text = "(teste)", style = tituloPagina,
+                        text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
+                        style = tituloPagina,
                         fontSize = 17.sp
                     )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = "TO treinamento de Responsabilidade Social Corporativa (RSC) é uma parte importante da estratégia de uma empresa para integrar práticas sociais e ambientais responsáveis em suas operações e cultura organizacional. Aqui estão alguns pontos-chave a serem considerados ao desenvolver um programa de treinamento de RSC\n",
+                        style = tituloConteudoCinza,
+                    )
+
+                    Text(
+                        text = "Valor Médio: R\$ 2000\n",
+                        style = tituloPagina,
+                    )
+
+                    Row() {
+                        Button(
+                            onClick = {},
+                            shape = RoundedCornerShape(5.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                Color(0xFF01A2C3)
+                            ), modifier = Modifier.size(width = 180.dp, height = 35.dp)
+
+
+                        ) {
+                            Text(
+                                text = "Solicitar Contato",
+                                style = letraButton
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        Row() {
+                            var isFilled by remember { mutableStateOf(false) }
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = if (isFilled) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                    contentDescription = "Favoritar",
+                                    tint = if (isFilled) Color(0xFF01A2C3) else Color(0xFF01A2C3),
+                                    modifier = Modifier.clickable { isFilled = !isFilled }
+                                )
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Text(
+                                    text = "Favoritar",
+                                    style = tituloConteudoBranco,
+                                    fontSize = 17.sp
+                                )
+                            }
+                        }
+
+                    }
 
                 }
             }
@@ -85,7 +192,7 @@ fun AvaliacaoServico(navController: NavController) {
                         fontSize = 17.sp
                     )
                     Text(
-                        text = "(3)", style = tituloPagina,
+                        text = "(3)", style = tituloConteudoCinzaNegrito,
                         fontSize = 17.sp
                     )
                 }
@@ -166,7 +273,7 @@ fun AvaliacaoServico(navController: NavController) {
                 }
 
                 Text(
-                    text = "Feito em 06-09-2023", style = tituloConteudoBranco
+                    text = "Feito em 06-09-2023", style = tituloConteudoCinza
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
@@ -252,7 +359,7 @@ fun AvaliacaoServico(navController: NavController) {
                 }
 
                 Text(
-                    text = "Feito em 06-09-2023", style = tituloConteudoBranco
+                    text = "Feito em 06-09-2023", style = tituloConteudoCinza
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(

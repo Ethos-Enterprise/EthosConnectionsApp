@@ -288,7 +288,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
+                NavHost(navController = componenteNavController, startDestination = "avaliacaoservico") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
