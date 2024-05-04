@@ -161,11 +161,7 @@ fun AvaliacaoServico(navController: NavController) {
                                         )
 
 
-                                        Divider(
-                                            color = Color.Gray,
-                                            thickness = 1.dp,
-                                            modifier = Modifier.padding(vertical = 8.dp)
-                                        )
+                                        Divider(modifier = Modifier.padding(bottom = 10.dp))
 
 
 
@@ -311,11 +307,8 @@ fun AvaliacaoServico(navController: NavController) {
 
             //Conteúdo 1
             Column {
-                Divider(
-                    color = Color.Gray,
-                    thickness = 1.dp,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
+                Divider(modifier = Modifier.padding(bottom = 10.dp))
+
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -397,11 +390,8 @@ fun AvaliacaoServico(navController: NavController) {
 
             //Conteúdo 1
             Column {
-                Divider(
-                    color = Color.Gray,
-                    thickness = 1.dp,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
+                Divider(modifier = Modifier.padding(bottom = 10.dp))
+
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -473,7 +463,7 @@ fun AvaliacaoServico(navController: NavController) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico  ",
-                    style = tituloConteudoBranco
+                    style = letraDescricao
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 

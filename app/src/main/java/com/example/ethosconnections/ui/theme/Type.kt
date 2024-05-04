@@ -122,7 +122,7 @@ val corLetra = TextStyle(
 
 val letraDescricao = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_extra_light)),
-    fontSize = 14.sp,
+    fontSize = 13.sp,
     fontWeight = FontWeight.ExtraLight,
     color = Color.White
 )

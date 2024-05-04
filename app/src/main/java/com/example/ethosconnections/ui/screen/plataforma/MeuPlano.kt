@@ -107,7 +107,7 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
             .clickable(onClick = onClick)
     ) {
         Text(text = plano.nome, style = tituloConteudoAzul)
-        Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+        Divider(modifier = Modifier.padding(bottom = 10.dp))
         Text(
             text = plano.descricao,
             style = tituloConteudoBranco

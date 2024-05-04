@@ -281,7 +281,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         Portfolio(componenteNavController)
                     }
                     composable("cadastroPortfolio") {
-                        CadastroPortfolio(componenteNavController)
+                        CadastroPortfolio(componenteNavController, empresaDataStore)
                     }
 
                     composable("contrato/{nomePlano}/{preco}") { backStackEntry ->
@@ -301,7 +301,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         )
                     }
                     composable("meuPerfil") {
-                        MeuPerfil(componenteNavController)
+                        MeuPerfil(componenteNavController, empresaDataStore)
                     }
                     composable("meta") {
                         Meta(componenteNavController)
@@ -310,7 +310,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         MeuPlano(componenteNavController, empresaDataStore)
                     }
                     composable("meuPortfolio") {
-                        MeuPortfolio(componenteNavController)
+                        MeuPortfolio(componenteNavController, empresaDataStore)
                     }
                 }
             }

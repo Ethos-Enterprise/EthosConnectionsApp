@@ -178,11 +178,8 @@ fun BoxDadosGerais(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
             Text(
                 text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
                 style = corLetra,
@@ -196,11 +193,8 @@ fun BoxDadosGerais(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
 
             Row {
                 Column(
@@ -273,11 +267,8 @@ fun BoxDadosGerais(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
             Spacer(modifier = Modifier.height(8.dp))
             Image(
                 modifier = Modifier.width(50.dp),

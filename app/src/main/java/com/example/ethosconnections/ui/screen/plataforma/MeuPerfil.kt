@@ -21,40 +21,44 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import com.example.ethosconnections.datastore.EmpresaDataStore
 
 // Modelo de dados do usuário
 data class Usuario(
-    val nomeEmpresa: String,
-    val cnpj: String,
-    val areaAtuacao: String,
-    val tamanhoEmpresa: String,
+//    val nomeEmpresa: String,
+//    val cnpj: String,
+//    val areaAtuacao: String,
+//    val tamanhoEmpresa: String,
     val endereco: String,
     val numero: String,
     val bairro: String,
     val cep: String,
-    val telefone: String,
-    val email: String
+//    val telefone: String,
+//    val email: String
 )
 
 // Função que simula a obtenção dos dados do usuário
 fun obterUsuario(): Usuario {
     return Usuario(
-        "Deloitte",
-        "12.345.678/9101-12",
-        "Consultoria",
-        "0 Funcionários",
+//        "Deloitte",
+//        "12.345.678/9101-12",
+//        "Consultoria",
+//        "0 Funcionários",
         "Av. Brig. Faria Lima ",
         "2066",
         " Pinheiros - SP",
         "01451-001",
-        "11 3027-2900",
-        "contato@matrixenergia.com"
+//        "11 3027-2900",
+//        "contato@matrixenergia.com"
     )
 }
 @Composable
-fun MeuPerfil(navController: NavController) {
+fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
     val usuario = obterUsuario()
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     Column {
         Text(text = "Minha conta", style = tituloPagina)
@@ -62,7 +66,8 @@ fun MeuPerfil(navController: NavController) {
         BoxEthos{
             Column {
                 Text(text = "Meu Perfil", style = tituloConteudoAzul)
-                Divider(modifier = Modifier.padding(bottom = 6.dp))
+                Divider(modifier = Modifier.padding(bottom = 10.dp))
+
                 Text(text = "Minhas informações", style = tituloConteudoBranco)
 
                 // Seção de informações do usuário
@@ -73,26 +78,23 @@ fun MeuPerfil(navController: NavController) {
                         .border(1.dp, Color.White, shape = RoundedCornerShape(5.dp))
                         .padding(8.dp) // Adiciona padding interno
                 ) {
-                    usuario.let { user ->
-                        Column {
-                            CampoValor(
-                                nomeCampo = "Nome da empresa:",
-                                valorCampo = user.nomeEmpresa
-                            )
-                            CampoValor(
-                                nomeCampo = "CNPJ:",
-                                valorCampo = user.cnpj
-                            )
-                            CampoValor(
-                                nomeCampo = "Área de atuação:",
-                                valorCampo = user.areaAtuacao
-                            )
-                            CampoValor(
-                                nomeCampo = "Tamanho da Empresa:",
-                                valorCampo = user.tamanhoEmpresa,
-                            )
-                        }
-                    }
+                    CampoValor(
+                        nomeCampo = "Nome da empresa:",
+                        valorCampo = empresa?.razaoSocial ?: "N/A"
+                    )
+                    CampoValor(
+                        nomeCampo = "CNPJ:",
+                        valorCampo = empresa?.cnpj ?: "N/A"
+                    )
+                    CampoValor(
+                        nomeCampo = "Área de atuação:",
+                        valorCampo = empresa?.setor ?: "N/A"
+                    )
+                    CampoValor(
+                        nomeCampo = "Tamanho da Empresa:",
+                        valorCampo = "${empresa?.qtdFuncionarios ?: "N/A"}"
+                    )
+
                 }
                 Text(text = "Endereço e contatos", style = tituloConteudoBranco)
 
@@ -104,35 +106,34 @@ fun MeuPerfil(navController: NavController) {
                         .border(1.dp, Color.White, shape = RoundedCornerShape(5.dp))
                         .padding(8.dp) // Adiciona padding interno
                 ) {
-                    usuario.let { user ->
                         Column {
                             CampoValor(
                                 nomeCampo = "Logradouro:",
-                                valorCampo = user.endereco
+                                valorCampo = usuario.endereco
                             )
                             CampoValor(
                                 nomeCampo = "Número:",
-                                valorCampo = user.numero
+                                valorCampo = usuario.numero
                             )
                             CampoValor(
                                 nomeCampo = "Bairro:",
-                                valorCampo = user.bairro
+                                valorCampo = usuario.bairro
                             )
                             CampoValor(
                                 nomeCampo = "CEP:",
-                                valorCampo = user.cep
+                                valorCampo = usuario.cep
                             )
                             CampoValor(
                                 nomeCampo = "Telefone Corporativo:",
-                                valorCampo = user.telefone
+                                valorCampo = empresa?.telefone ?: "N/A"
 
                             )
                             CampoValor(
                                 nomeCampo = "Email Corporativo:",
-                                valorCampo = user.email,
+                                valorCampo = empresa?.email?: "N/A",
                             )
                         }
-                    }
+
                 }
             }
         }
@@ -166,5 +167,5 @@ fun CampoValor(
 @Composable
 fun MeuPerfilPreview() {
     val navController = rememberNavController()
-    MeuPerfil(navController)
+    //MeuPerfil(navController)
 }

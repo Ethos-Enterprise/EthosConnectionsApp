@@ -16,6 +16,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
@@ -38,40 +42,46 @@ import com.example.ethosconnections.service.PortfolioService
 import java.util.UUID
 
 @Composable
-fun CadastroPortfolio(navController: NavController) {
+fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
-    var nomeEmpresa = remember { mutableStateOf(TextFieldValue()) }
+    var nomeEmpresa = remember { mutableStateOf(TextFieldValue("")) }
+    var cnpj = remember { mutableStateOf(TextFieldValue("")) }
+    val email = remember { mutableStateOf(TextFieldValue("")) }
+    val telefone = remember { mutableStateOf(TextFieldValue("")) }
+    val cep = remember { mutableStateOf(TextFieldValue("")) }
+    val areaAtuacao = remember { mutableStateOf(TextFieldValue("")) }
+    val quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue("")) }
 
-    var cnpj = remember { mutableStateOf(TextFieldValue()) }
-
-    var email = remember { mutableStateOf(TextFieldValue()) }
-
-    var telefone = remember { mutableStateOf(TextFieldValue()) }
-
-    var cep = remember { mutableStateOf(TextFieldValue()) }
-
-    var areaAtuacao = remember { mutableStateOf(TextFieldValue()) }
-
-    var quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue()) }
-
+    LaunchedEffect(empresa) {
+        empresa?.let { empresa ->
+            nomeEmpresa.value = TextFieldValue(empresa.razaoSocial ?: "")
+            cnpj.value = TextFieldValue(empresa.cnpj ?: "")
+            email.value = TextFieldValue(empresa.email ?: "")
+            telefone.value = TextFieldValue(empresa.telefone ?: "")
+            // cep não é diretamente do dataStore, supondo que você vai carregar de outro lugar ou deixar em branco
+            areaAtuacao.value = TextFieldValue(empresa.setor ?: "")
+            quantidadeFuncionarios.value = TextFieldValue(empresa.qtdFuncionarios?.toString() ?: "")
+        }
+    }
 
     BoxEthos {
-         Column {
+        Column {
             Text(
                 text = "Dados Gerais",
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
 
             Text(
                 text = "Nome da Empresa",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = nomeEmpresa.value,
@@ -82,7 +92,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "CNPJ",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = cnpj.value,
@@ -95,7 +107,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "Email",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = email.value,
@@ -107,7 +121,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "Telefone",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = telefone.value,
@@ -120,7 +136,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "CEP",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = cep.value,
@@ -133,7 +151,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "Área de Atuação",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = areaAtuacao.value,
@@ -145,7 +165,9 @@ fun CadastroPortfolio(navController: NavController) {
             Text(
                 text = "Quantidade de Funcionários",
                 style = tituloConteudoBranco,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             TextField(
                 value = quantidadeFuncionarios.value,
@@ -234,5 +256,5 @@ fun buttons(navController: NavController) {
 @Composable
 fun CadastroPortfolioPreview() {
     val navController = rememberNavController()
-    CadastroPortfolio(navController)
+    //CadastroPortfolio(navController)
 }

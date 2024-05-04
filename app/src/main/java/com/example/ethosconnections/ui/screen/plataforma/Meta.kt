@@ -96,11 +96,8 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
 
             Text(
                 text = "Em qual dos 3 pilares do ESG sua empresa busca melhorar?",

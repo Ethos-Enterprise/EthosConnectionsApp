@@ -21,6 +21,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +33,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Foto
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.repositories.PortfolioRepository
@@ -44,6 +48,7 @@ import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.corLetra
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
+import com.example.ethosconnections.ui.theme.letraDescricao
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
@@ -52,12 +57,13 @@ import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 
 @Composable
-fun MeuPortfolio(navController: NavController) {
+fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
     val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
 
     val servicoRepository = remember { ServicoRepository(ServicoService.create()) }
     val servicoViewModel = remember { ServicoViewModel(servicoRepository) }
+
 
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos()
@@ -74,7 +80,7 @@ fun MeuPortfolio(navController: NavController) {
             text = "Meu Portfólio",
             style = tituloPagina,
         )
-        BoxMeusDadosGerais(navController)
+        BoxMeusDadosGerais(navController, empresaDataStore)
         Column(
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -92,9 +98,11 @@ fun MeuPortfolio(navController: NavController) {
 
 
 @Composable
-fun BoxMeuPortfolio(navController: NavController) {
-    val fotoPerfil = remember { mutableStateOf(Foto("", 80, 100)) }
+fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
+    val fotoPerfil = remember { mutableStateOf(Foto("", 80, 95)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 110, 500)) }
+
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     Box {
         Image(
@@ -136,16 +144,17 @@ fun BoxMeuPortfolio(navController: NavController) {
                     Column {
 
                     Text(
-                        text = "Deloitte",
+                        text = empresa?.razaoSocial ?: "N/A",
                         style = tituloConteudoBranco
                     )
                     Text(
-                        text = "www.deloitte.com",
-                        style = letraClicavel
+                        text = "www.empresaA.com",
+                        style = letraClicavel,
+                        fontSize = 12.sp
                     )
                     }
 
-                    Spacer(modifier = Modifier.width(7.dp))
+                    Spacer(modifier = Modifier.width(13.dp))
 
                     Button(
                         onClick = { navController.navigate("cadastroPortfolio") },
@@ -153,13 +162,14 @@ fun BoxMeuPortfolio(navController: NavController) {
                             .wrapContentWidth()
                             .background(Color(0xFF1B1F23))
                             .padding(0.dp)
-                        .size(width = 137.dp, height = 40.dp),
+                        .size(width = 124.dp, height = 40.dp),
                         shape = RoundedCornerShape(5.dp)
 
                     ) {
                         Text(
                             text = "Editar dados",
-                            style = letraButton
+                            style = letraButton,
+                            fontSize = 12.sp
                         )
                     }
                 }
@@ -171,7 +181,9 @@ fun BoxMeuPortfolio(navController: NavController) {
 
 
 @Composable
-fun BoxMeusDadosGerais(navController: NavController) {
+fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDataStore) {
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -184,7 +196,7 @@ fun BoxMeusDadosGerais(navController: NavController) {
 
         ) {
             Column {
-                BoxMeuPortfolio(navController)
+                BoxMeuPortfolio(navController, empresaDataStore)
                 Column(
                     modifier = Modifier.padding(start = 15.dp, top = 7.dp)
                 ) {
@@ -202,14 +214,11 @@ fun BoxMeusDadosGerais(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+
             Text(
                 text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
-                style = corLetra,
+                style = letraDescricao,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -221,11 +230,7 @@ fun BoxMeusDadosGerais(navController: NavController) {
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
 
             Row {
                 Column(
@@ -237,7 +242,7 @@ fun BoxMeusDadosGerais(navController: NavController) {
                             style = letraPadrao
                         )
                         Text(
-                            text = "Tecnologia da Informação",
+                            text =  empresa?.setor ?: "N/A",
                             style = corLetra
                         )
                     }
@@ -248,7 +253,7 @@ fun BoxMeusDadosGerais(navController: NavController) {
                             style = letraPadrao
                         )
                         Text(
-                            text = "(11) 2345-6789",
+                            text = empresa?.telefone ?: "N/A",
                             style = corLetra
                         )
                     }
@@ -262,7 +267,7 @@ fun BoxMeusDadosGerais(navController: NavController) {
                             style = letraPadrao
                         )
                         Text(
-                            text = "email@email.com",
+                            text = empresa?.email ?: "N/A",
                             style = corLetra
                         )
                     }
@@ -301,11 +306,8 @@ fun BoxMeusDadosGerais(navController: NavController) {
             style = tituloConteudoAzul,
             modifier = Modifier.fillMaxWidth()
         )
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+        Divider(modifier = Modifier.padding(bottom = 10.dp))
+
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             modifier = Modifier.width(50.dp),
@@ -332,5 +334,5 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
 @Composable
 fun MeuPortfolioPreview() {
     val navController = rememberNavController()
-    MeuPortfolio(navController)
+    //MeuPortfolio(navController)
 }
