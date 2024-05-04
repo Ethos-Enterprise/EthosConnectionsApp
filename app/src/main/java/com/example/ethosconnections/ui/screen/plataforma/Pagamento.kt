@@ -3,10 +3,10 @@ package com.example.ethosconnections.ui.screen.plataforma
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.letraButton
@@ -45,9 +47,10 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloConteudoPreto
 import com.example.ethosconnections.ui.theme.tituloPagina
+import kotlinx.coroutines.delay
 
 @Composable
-fun Pagamento(navController: NavController) {
+fun Pagamento(navController: NavController, plano: String, empresaDataStore: EmpresaDataStore) {
 
     Column {
 
@@ -55,14 +58,30 @@ fun Pagamento(navController: NavController) {
         // Estado para armazenar o número do Pix
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
 
+        LaunchedEffect(key1 = true) {
+            Log.e("PAGAMENTOO", "entrei pra mudarr: ${plano}")
+
+            Log.d("NavControllerLog", "NavController: $navController, Backstack: ${navController.graph}")
+
+            delay(5000)
+            val planoFormatado = plano.replace("Plano ", "")
+            empresaDataStore.mudarPlano(planoFormatado)
+
+            if (planoFormatado == "Analytics") {
+                navController.navigate("meuProgresso")
+            }else{
+                navController.navigate("meuPortfolio")
+            }
+        }
+
         BoxEthos {
             Column {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center, // Centraliza horizontalmente
-                    verticalAlignment = Alignment.CenterVertically // Centraliza verticalmente
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Image(
@@ -229,7 +248,10 @@ fun Pagamento(navController: NavController) {
                                 style = tituloConteudoPreto,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
-                                    .background(color = Color(0xFFC1C1C1), shape = RoundedCornerShape(4.dp))
+                                    .background(
+                                        color = Color(0xFFC1C1C1),
+                                        shape = RoundedCornerShape(4.dp)
+                                    )
                                     .fillMaxWidth()
                             )
 
@@ -342,10 +364,6 @@ fun Pagamento(navController: NavController) {
 
     }
 
-
-
-
-
 }
 
 
@@ -364,5 +382,5 @@ fun copyToClipboard(context: Context, text: String) {
 @Composable
 fun PagamentoPreview() {
     val navController = rememberNavController()
-    Pagamento(navController)
+    //Pagamento(navController)
 }

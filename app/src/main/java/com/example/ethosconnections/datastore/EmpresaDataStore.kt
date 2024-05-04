@@ -37,7 +37,7 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_SETOR] = empresa.setor ?: ""
             preferences[EMPRESA_QTD_FUNCIONARIOS] = empresa.qtdFuncionarios ?: 0
             preferences[EMPRESA_ASSINANTE_NEWSLETTER] = empresa.assinanteNewsletter ?: false
-            preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: ""
+            preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: "Free"
         }
     }
 
@@ -65,6 +65,12 @@ class EmpresaDataStore(private val context: Context) {
     fun getPlanoFlow(): Flow<String?> {
         return context.usuarioAtual.data.map { preferences ->
             preferences[EMPRESA_PLANO]
+        }
+    }
+
+    suspend fun mudarPlano(novoPlano: String) {
+        context.usuarioAtual.edit { preferences ->
+            preferences[EMPRESA_PLANO] = novoPlano
         }
     }
 }

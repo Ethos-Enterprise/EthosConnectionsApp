@@ -161,7 +161,7 @@ fun Contrato(navController: NavController,
 
         }
         Rodape(
-            acaoBotaoEsquerda = { navController.navigate("pagamento") },
+            acaoBotaoEsquerda = { navController.navigate("pagamento/$nomePlano") },
             nomeBotaoEsquerda = "Adquirir plano",
             acaoBotaoDireita = {},
             nomeBotaoDireita = "Cancelar"

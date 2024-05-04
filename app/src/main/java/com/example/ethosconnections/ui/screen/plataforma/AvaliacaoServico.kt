@@ -45,6 +45,7 @@ import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
 import com.example.ethosconnections.ui.theme.letraButton
+import com.example.ethosconnections.ui.theme.letraDescricao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoCinza
@@ -61,33 +62,28 @@ fun AvaliacaoServico(navController: NavController) {
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        modifier = Modifier.size(50.dp),
+                        modifier = Modifier.size(65.dp),
                         painter = painterResource(id = R.mipmap.avaliacaofoto),
                         contentDescription = "Foto Serviço"
                     )
-
-                    Spacer(modifier = Modifier.width(10.dp))
-
                     Column(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .padding(start = 8.dp)
+                            .padding(start = 15.dp)
                     ) {
                         Text(
                             text = "Deloitte",
                             style = tituloPagina,
-                            fontSize = 19.sp,
                         )
 
                         Text(
                             text = "Certificada desde 2018",
                             style = tituloConteudoCinza,
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                         )
                     }
 
 
-                    Spacer(modifier = Modifier.height(10.dp))
                     Spacer(modifier = Modifier.weight(1f))
 
                     OutlinedButton(
@@ -120,20 +116,20 @@ fun AvaliacaoServico(navController: NavController) {
                     Text(
                         text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
                         style = tituloPagina,
-                        fontSize = 17.sp
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
-                        text = "TO treinamento de Responsabilidade Social Corporativa (RSC) é uma parte importante da estratégia de uma empresa para integrar práticas sociais e ambientais responsáveis em suas operações e cultura organizacional. Aqui estão alguns pontos-chave a serem considerados ao desenvolver um programa de treinamento de RSC\n",
-                        style = tituloConteudoCinza,
+                        text = "O treinamento de Responsabilidade Social Corporativa (RSC) é uma parte importante da estratégia de uma empresa para integrar práticas sociais e ambientais responsáveis em suas operações e cultura organizacional. Aqui estão alguns pontos-chave a serem considerados ao desenvolver um programa de treinamento de RSC",
+                        style = letraDescricao,
                     )
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
-                        text = "Valor Médio: R\$ 2000\n",
+                        text = "Valor Médio: R\$ 2000",
                         style = tituloPagina,
                     )
-
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     // Modal
                     var showDialog by remember { mutableStateOf(false) }
@@ -391,7 +387,7 @@ fun AvaliacaoServico(navController: NavController) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico  ",
-                    style = tituloConteudoBranco
+                    style = letraDescricao
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 

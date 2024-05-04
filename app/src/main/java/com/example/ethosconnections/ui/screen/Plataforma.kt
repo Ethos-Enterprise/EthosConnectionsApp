@@ -83,6 +83,7 @@ import com.example.ethosconnections.ui.screen.plataforma.Contrato
 import com.example.ethosconnections.ui.screen.plataforma.Formulario
 import com.example.ethosconnections.ui.screen.plataforma.Meta
 import com.example.ethosconnections.ui.screen.plataforma.MeuPlano
+import com.example.ethosconnections.ui.screen.plataforma.MeuPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
@@ -102,8 +103,6 @@ import kotlinx.coroutines.launch
 
 data class NavigationItem(
     val titulo: String,
-    val selecionadoIcone: ImageVector,
-    val naoSelecionadoIcone: ImageVector,
     val quantidade: Int? = null,
     val rota: String
 )
@@ -114,52 +113,32 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
 
     val empresaDataStore = empresaViewModel.empresaDataStore
 
-    val items = listOf(
-        NavigationItem(
-            titulo = "Meu Perfil",
-            selecionadoIcone = Icons.Filled.Person,
-            naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "meuPerfil"
-        ),
-        NavigationItem(
-            titulo = "Meu Portfolio",
-            selecionadoIcone = Icons.Filled.Info,
-            naoSelecionadoIcone = Icons.Outlined.Info,
-            rota = "portfolio"
-        ),
-        NavigationItem(
-            titulo = "Meu Plano",
-            selecionadoIcone = Icons.Filled.Info,
-            naoSelecionadoIcone = Icons.Outlined.Info,
-            rota = "meuPlano"
-        ),
-        NavigationItem(
-            titulo = "Minhas Interações",
-            selecionadoIcone = Icons.Filled.Person,
-            naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "contrato"
-        ),
-        NavigationItem(
-            titulo = "Soluções ESG",
-            selecionadoIcone = Icons.Filled.Person,
-            naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "solucoesEsg"
-        ),
-        NavigationItem(
-            titulo = "Meu Progresso",
-            selecionadoIcone = Icons.Filled.Person,
-            naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "meuProgresso"
-        ),
-        NavigationItem(
-            titulo = "Sair",
-            selecionadoIcone = Icons.Filled.Person,
-            naoSelecionadoIcone = Icons.Outlined.Person,
-            rota = "solucoesEsg"
+    val items = when (empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "Free") {
+        "Free" -> listOf(
+            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+            NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
+            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+            NavigationItem(titulo = "Sair", rota = "sair")
         )
-    )
+        "Analytics" -> listOf(
+            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+            NavigationItem(titulo = "Meu Progresso", rota = "meuProgresso"),
+            NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
+            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+            NavigationItem(titulo = "Sair", rota = "sair")
+        )
+        else -> listOf(
+            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+            NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
+            NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
+            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+            NavigationItem(titulo = "Sair", rota = "sair")
+        )
+    }
     val componenteNavController = rememberNavController()
-
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -187,7 +166,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
 
                 Spacer(modifier = Modifier.height(14.dp))
                 Text(
-                    text = "Olá ${empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: "sem razao social"}",
+                    text = "Olá ${empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: "sem razao social"} | ${empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "plamo free"}",
                     style = tituloMenu,
                     modifier = Modifier.padding(start = 25.dp, top = 10.dp)
                 )
@@ -288,35 +267,38 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "solucoesEsg") {
+                NavHost(navController = componenteNavController, startDestination = "meuPortfolio") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
-
                     composable("avaliacaoServico") {
                         AvaliacaoServico(componenteNavController)
                     }
-
                     composable("meuProgresso") {
                         MeuProgresso(componenteNavController)
                     }
-
                     composable("portfolio") {
                         Portfolio(componenteNavController)
                     }
-
                     composable("cadastroPortfolio") {
                         CadastroPortfolio(componenteNavController)
                     }
 
-                    composable("contrato") {
-                        Contrato(componenteNavController, "Analytics",29.90)
+                    composable("contrato/{nomePlano}/{preco}") { backStackEntry ->
+                        val nomePlano = backStackEntry.arguments?.getString("nomePlano") ?: ""
+                        val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
+                        Contrato(componenteNavController, nomePlano, preco)
                     }
                     composable("formulario") {
                         Formulario(componenteNavController)
                     }
-                    composable("pagamento") {
-                        Pagamento(componenteNavController)
+
+                    composable("pagamento/{plano}") { backStackEntry ->
+                        Pagamento(
+                            componenteNavController,
+                            plano = backStackEntry.arguments?.getString("plano") ?: "",
+                            empresaDataStore = empresaDataStore
+                        )
                     }
                     composable("meuPerfil") {
                         MeuPerfil(componenteNavController)
@@ -325,7 +307,10 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         Meta(componenteNavController)
                     }
                     composable("meuPlano") {
-                        MeuPlano(componenteNavController)
+                        MeuPlano(componenteNavController, empresaDataStore)
+                    }
+                    composable("meuPortfolio") {
+                        MeuPortfolio(componenteNavController)
                     }
                 }
             }

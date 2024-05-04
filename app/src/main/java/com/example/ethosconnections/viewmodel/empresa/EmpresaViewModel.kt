@@ -69,9 +69,9 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                         val prestadoras = response.body() ?: emptyList()
                         val isPrestadora = prestadoras.any { it.fkEmpresa == empresa.id }
                         if (isPrestadora) {
-                            empresa.plano = "provider"
+                            empresa.plano = "Provider"
                         } else {
-                            empresa.plano = "free"
+                            empresa.plano = "Free"
                         }
                         empresaDataStore.saveEmpresa(empresa)
                         this@EmpresaViewModel.empresa.value = empresa

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Api {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://3.92.175.113/")
+            .baseUrl("http://192.168.15.9:8081")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

@@ -1,8 +1,8 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -51,7 +52,7 @@ import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 
 @Composable
-fun Portfolio(navController: NavController) {
+fun MeuPortfolio(navController: NavController) {
     val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
     val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
 
@@ -63,16 +64,17 @@ fun Portfolio(navController: NavController) {
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
+    Log.d("NavControllerLog", "NavController: $navController, Backstack: ${navController.graph}")
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Text(
-            text = "Portfólio",
+            text = "Meu Portfólio",
             style = tituloPagina,
         )
-        BoxDadosGerais(navController)
+        BoxMeusDadosGerais(navController)
         Column(
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -83,15 +85,15 @@ fun Portfolio(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            BoxTodosServicos(navController, servicos.value)
+            BoxTodosMeusServicos(navController, servicos.value)
         }
     }
 }
 
 
 @Composable
-fun BoxPortfolio(navController: NavController) {
-    val fotoPerfil = remember { mutableStateOf(Foto("", 90, 100)) }
+fun BoxMeuPortfolio(navController: NavController) {
+    val fotoPerfil = remember { mutableStateOf(Foto("", 80, 100)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 110, 500)) }
 
     Box {
@@ -100,7 +102,7 @@ fun BoxPortfolio(navController: NavController) {
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
                 .aspectRatio(fotoCapa.value.largura.toFloat() / fotoCapa.value.altura.toFloat()),
-            painter = painterResource(id = R.mipmap.portfolio_background),
+            painter = painterResource(id = R.mipmap.portfolio_background_branco),
             contentDescription = "Foto de capa"
         )
         Row(
@@ -117,36 +119,59 @@ fun BoxPortfolio(navController: NavController) {
                         .size(fotoPerfil.value.altura.dp)
                         .background(
                             color = Color.Transparent,
-                            shape = RoundedCornerShape(7.dp)
+                            shape = RoundedCornerShape(9.dp)
                         ),
-                    painter = painterResource(id = R.mipmap.portfolio_perfil),
+                    painter = painterResource(id = R.mipmap.portfolio_perfil_branco),
                     contentDescription = "Foto de perfil"
                 )
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 35.dp,
-                        start = 10.dp
+
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            top = 35.dp,
+                            start = 10.dp
+                        )
+                ) {
+                    Column {
+
+                    Text(
+                        text = "Deloitte",
+                        style = tituloConteudoBranco
                     )
-            ) {
-                Text(
-                    text = "Deloitte",
-                    style = tituloConteudoBranco
-                )
-                Text(
-                    text = "www.deloitte.com",
-                    style = letraClicavel
-                )
-            }
+                    Text(
+                        text = "www.deloitte.com",
+                        style = letraClicavel
+                    )
+                    }
+
+                    Spacer(modifier = Modifier.width(7.dp))
+
+                    Button(
+                        onClick = { navController.navigate("cadastroPortfolio") },
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .background(Color(0xFF1B1F23))
+                            .padding(0.dp)
+                        .size(width = 137.dp, height = 40.dp),
+                        shape = RoundedCornerShape(5.dp)
+
+                    ) {
+                        Text(
+                            text = "Editar dados",
+                            style = letraButton
+                        )
+                    }
+                }
+
+
         }
     }
 }
 
 
 @Composable
-fun BoxDadosGerais(navController: NavController) {
+fun BoxMeusDadosGerais(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,13 +181,12 @@ fun BoxDadosGerais(navController: NavController) {
                 .fillMaxWidth()
                 .background(color = Color(0xFF1B1F23), shape = RoundedCornerShape(5.dp))
                 .padding(start = 0.dp, top = 0.dp, bottom = 15.dp)
-        ) {
-            Column (
-            ){
 
-                BoxPortfolio(navController)
+        ) {
+            Column {
+                BoxMeuPortfolio(navController)
                 Column(
-                    modifier = Modifier.padding(start = 15.dp, top = 5.dp)
+                    modifier = Modifier.padding(start = 15.dp, top = 7.dp)
                 ) {
                     Text(
                         text = "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
@@ -170,8 +194,8 @@ fun BoxDadosGerais(navController: NavController) {
                     )
                 }
             }
-
         }
+
         BoxEthos {
             Text(
                 text = "Sobre a empresa",
@@ -190,6 +214,7 @@ fun BoxDadosGerais(navController: NavController) {
                     .fillMaxWidth()
             )
         }
+
         BoxEthos {
             Text(
                 text = "Dados Gerais",
@@ -267,29 +292,32 @@ fun BoxDadosGerais(navController: NavController) {
             }
         }
 
-        BoxEthos {
-            Text(
-                text = "Certificados",
-                style = tituloConteudoAzul,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Image(
-                modifier = Modifier.width(50.dp),
-                painter = painterResource(id = R.mipmap.imagem_certificado),
-                contentDescription = "Icone da cor branca"
-            )
-        }
+
+    }
+
+    BoxEthos {
+        Text(
+            text = "Certificados",
+            style = tituloConteudoAzul,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Divider(
+            color = Color.Gray,
+            thickness = 1.dp,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Image(
+            modifier = Modifier.width(50.dp),
+            painter = painterResource(id = R.mipmap.imagem_certificado),
+            contentDescription = "Icone da cor branca"
+        )
     }
 }
 
+
 @Composable
-fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<Servico>) {
+fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateList<Servico>) {
     Box {
         Column(
             modifier = Modifier
@@ -302,7 +330,7 @@ fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<S
 
 @Preview(showBackground = true)
 @Composable
-fun PortfolioPreview() {
+fun MeuPortfolioPreview() {
     val navController = rememberNavController()
-    Portfolio(navController)
+    MeuPortfolio(navController)
 }

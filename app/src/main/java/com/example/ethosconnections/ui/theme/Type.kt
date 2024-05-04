@@ -110,7 +110,7 @@ val letraProgresso = TextStyle(
 
 val letraClicavel = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_medium)),
-    color = md_theme_light_primary
+    color = cor_primaria
 )
 
 val corLetra = TextStyle(
@@ -120,6 +120,12 @@ val corLetra = TextStyle(
     color = Color.White
 )
 
+val letraDescricao = TextStyle(
+    fontFamily = FontFamily(Font(R.font.poppins_extra_light)),
+    fontSize = 14.sp,
+    fontWeight = FontWeight.ExtraLight,
+    color = Color.White
+)
 
 val tituloMenu = TextStyle(
     fontFamily = FontFamily(Font(R.font.poppins_medium)),
