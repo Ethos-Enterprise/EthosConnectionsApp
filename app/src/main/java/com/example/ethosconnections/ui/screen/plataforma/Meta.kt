@@ -193,11 +193,12 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
 
     // Dados para testar cadastro de meta
     val meta = Meta(
-        uuid = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361454"),
+        id = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361454"),
         pilarEsg = "Ambiental",
         descricao = "teste",
-        dataInicio = "2023-08-11",
-        dataFim = "2023-08-11"
+        dataInicio = null,
+        dataFim = null,
+        fkEmpresa = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361499"),
     )
 
     Box(
@@ -224,8 +225,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
                         }
                     }
                 },
-                modifier = Modifier
-                    .weight(1f),
+                modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(

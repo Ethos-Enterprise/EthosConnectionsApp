@@ -42,6 +42,32 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
         }
     }
 
+    fun getMetasByFkEmpresa(fkEmpresa: UUID) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Log.e("MetaViewModel", "Error: ${throwable.message}")
+            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+        }
+
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            try {
+                val response = repository.getMetasByFkEmpresa(fkEmpresa)
+                if (response.isSuccessful) {
+                    allMetas.postValue(response.body())
+                    errorMessage.postValue("")
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string())
+                }
+            } catch (e: HttpException) {
+                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
+                errorMessage.postValue(e.message ?: "Error fetching all Metas")
+            } catch (e: Exception) {
+                Log.e("MetaViewModel", "Exception: ${e.message}")
+                errorMessage.postValue(e.message ?: "Exception while fetching all Metas")
+            }
+        }
+    }
+
+
     fun getMetaById(id: UUID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("MetaViewModel", "Error: ${throwable.message}")
@@ -76,20 +102,22 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
                 // Salvando o método no banco de dados
-                repository.postMeta(meta)
-
                 val response = repository.postMeta(meta)
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
+                    callback(true)
                 } else {
-                    errorMessage.postValue(response.errorBody()?.string())
+                    errorMessage.postValue(response.errorBody()?.string() ?: "Unknown error")
+                    callback(false)
                 }
             } catch (e: HttpException) {
                 Log.e("MetaViewModel", "HTTP Error: ${e.message}")
                 errorMessage.postValue(e.message ?: "Error posting Meta")
+                callback(false)
             } catch (e: Exception) {
                 Log.e("MetaViewModel", "Exception: ${e.message}")
                 errorMessage.postValue(e.message ?: "Exception while posting Meta")
+                callback(false)
             }
         }
     }

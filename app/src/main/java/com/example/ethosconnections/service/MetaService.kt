@@ -20,6 +20,9 @@ interface MetaService {
     @GET("v1.0/metas")
     suspend fun getAllMetas(): Response<List<Meta>>
 
+    @GET("v1.0/metas/busca-metas/{fkEmpresa}")
+    suspend fun getMetasByFkEmpresa(@Path("fkEmpresa") fkEmpresa: UUID): Response<List<Meta>>
+
     @PUT("v1.0/metas/{id}")
     suspend fun getMetaById(@Path("id") id: UUID): Response<Meta>
 

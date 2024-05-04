@@ -10,6 +10,10 @@ class MetaRepository constructor(private val service: MetaService){
         return service.getAllMetas()
     }
 
+    suspend fun getMetasByFkEmpresa(fkEmpresa: UUID): Response<List<Meta>> {
+        return service.getMetasByFkEmpresa(fkEmpresa)
+    }
+
     suspend fun getMetaById(id: UUID) = service.getMetaById(id)
 
     suspend fun postMeta(meta: Meta) = service.postMeta(meta)
