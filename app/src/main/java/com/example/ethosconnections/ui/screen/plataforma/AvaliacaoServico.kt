@@ -2,12 +2,14 @@ package com.example.ethosconnections.ui.screen.plataforma
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
@@ -66,8 +70,8 @@ fun AvaliacaoServico(navController: NavController) {
 
                     Column(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically) // Alinha o texto verticalmente com a imagem
-                            .padding(start = 8.dp) // Adiciona espaço à esquerda do texto
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 8.dp)
                     ) {
                         Text(
                             text = "Deloitte",
@@ -79,7 +83,7 @@ fun AvaliacaoServico(navController: NavController) {
                             text = "Certificada desde 2018",
                             style = tituloConteudoCinza,
                             fontSize = 10.sp,
-                            )
+                        )
                     }
 
 
@@ -87,7 +91,7 @@ fun AvaliacaoServico(navController: NavController) {
                     Spacer(modifier = Modifier.weight(1f))
 
                     OutlinedButton(
-                        onClick = { },
+                        onClick = { navController.navigate("portfolio") },
                         shape = RoundedCornerShape(5.dp),
                         border = BorderStroke(2.dp, Color(0xFF01A2C3)),
                         modifier = Modifier.size(width = 140.dp, height = 35.dp)
@@ -130,9 +134,124 @@ fun AvaliacaoServico(navController: NavController) {
                         style = tituloPagina,
                     )
 
+
+                    // Modal
+                    var showDialog by remember { mutableStateOf(false) }
+                    if (showDialog) {
+                        Dialog(
+                            onDismissRequest = { showDialog = false }
+                        ) {
+                            Surface(
+
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(color = Color(0xFF1B1F23))
+                                        .padding(20.dp)
+                                ) {
+
+
+                                    Column() {
+                                        Image(
+                                            modifier = Modifier.size(300.dp),
+                                            painter = painterResource(id = R.mipmap.fotoperfilempresa),
+                                            contentDescription = "Foto Modal"
+                                        )
+
+                                        Text(
+                                            text = "Contatar Empresa", style = tituloConteudoAzul,
+                                            fontSize = 17.sp
+                                        )
+
+
+                                        Divider(
+                                            color = Color.Gray,
+                                            thickness = 1.dp,
+                                            modifier = Modifier.padding(vertical = 8.dp)
+                                        )
+
+
+
+                                        Text(
+                                            text = "Informaremos a empresa que você solicitou que ela entre em contato com você.",
+                                            style = tituloConteudoBranco,
+                                        )
+                                        Spacer(modifier = Modifier.height(10.dp))
+
+                                        Column() {
+
+                                            Row {
+                                                Text(
+                                                    text = "Empresa:",
+                                                    style = tituloConteudoAzul,
+                                                )
+                                                Spacer(modifier = Modifier.width(5.dp))
+                                                Text(
+                                                    text = "Deloitte",
+                                                    style = tituloConteudoBranco,
+                                                )
+                                            }
+
+                                            Row {
+                                                Text(
+                                                    text = "Serviço:",
+                                                    style = tituloConteudoAzul,
+                                                )
+                                                Spacer(modifier = Modifier.width(5.dp))
+                                                Text(
+                                                    text = "Treinamento de Responsabilidade Social Corporativa ",
+                                                    style = tituloConteudoBranco,
+                                                )
+                                            }
+
+                                            Row {
+                                                Text(
+                                                    text = "Preço Médio:",
+                                                    style = tituloConteudoAzul,
+                                                )
+                                                Spacer(modifier = Modifier.width(5.dp))
+                                                Text(
+                                                    text = "R\$ 2.000",
+                                                    style = tituloConteudoBranco,
+                                                )
+                                            }
+
+
+                                        }
+
+                                        Spacer(modifier = Modifier.height(20.dp))
+
+                                        Row(
+                                            horizontalArrangement = Arrangement.Center,
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+
+
+                                            OutlinedButtonEthos(
+                                                acao = { showDialog = false },
+                                                nomeAcao = "Cancelar"
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
+                                            FillButtonEthos(
+                                                acao = { showDialog = false },
+                                                nomeAcao = "Confirmar"
+                                            )
+
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Fim Modal
+
+
                     Row() {
                         Button(
-                            onClick = {},
+                            onClick = { showDialog = true },
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(
                                 Color(0xFF01A2C3)
