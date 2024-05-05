@@ -51,9 +51,18 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoCinza
 import com.example.ethosconnections.ui.theme.tituloConteudoCinzaNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
+import java.util.UUID
 
 @Composable
-fun AvaliacaoServico(navController: NavController) {
+fun AvaliacaoServico(
+    navController: NavController,
+    nomeServico: String,
+    nomeEmpresa: String,
+    categoria: String,
+    valorMedio: Double,
+    descricao: String,
+    fkPrestadora:String
+) {
     Column {
         Text(text = "Avaliação do Serviço", style = tituloPagina)
 
@@ -72,7 +81,7 @@ fun AvaliacaoServico(navController: NavController) {
                             .padding(start = 15.dp)
                     ) {
                         Text(
-                            text = "Deloitte",
+                            text = nomeEmpresa,
                             style = tituloPagina,
                         )
 
@@ -114,19 +123,19 @@ fun AvaliacaoServico(navController: NavController) {
 
                 Column {
                     Text(
-                        text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
+                        text = nomeServico,
                         style = tituloPagina,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
-                        text = "O treinamento de Responsabilidade Social Corporativa (RSC) é uma parte importante da estratégia de uma empresa para integrar práticas sociais e ambientais responsáveis em suas operações e cultura organizacional. Aqui estão alguns pontos-chave a serem considerados ao desenvolver um programa de treinamento de RSC",
+                        text = descricao,
                         style = letraDescricao,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
-                        text = "Valor Médio: R\$ 2000",
+                        text = "Valor Médio: R\$ ${valorMedio}",
                         style = tituloPagina,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
@@ -180,7 +189,7 @@ fun AvaliacaoServico(navController: NavController) {
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
                                                 Text(
-                                                    text = "Deloitte",
+                                                    text = nomeEmpresa,
                                                     style = tituloConteudoBranco,
                                                 )
                                             }
@@ -192,7 +201,7 @@ fun AvaliacaoServico(navController: NavController) {
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
                                                 Text(
-                                                    text = "Treinamento de Responsabilidade Social Corporativa ",
+                                                    text = nomeServico,
                                                     style = tituloConteudoBranco,
                                                 )
                                             }
@@ -204,7 +213,7 @@ fun AvaliacaoServico(navController: NavController) {
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
                                                 Text(
-                                                    text = "R\$ 2.000",
+                                                    text = "R\$${valorMedio}",
                                                     style = tituloConteudoBranco,
                                                 )
                                             }
@@ -484,6 +493,6 @@ fun AvaliacaoServico(navController: NavController) {
 @Composable
 fun avaliacaoServicoPreview() {
     val navController = rememberNavController()
-    AvaliacaoServico(navController)
+   // AvaliacaoServico(navController)
 }
 

@@ -275,8 +275,14 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
-                    composable("avaliacaoServico") {
-                        AvaliacaoServico(componenteNavController)
+                    composable("avaliacaoServico/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}") { backStackEntry ->
+                        val nomeServico = backStackEntry.arguments?.getString("nomeServico") ?: ""
+                        val nomeEmpresa = backStackEntry.arguments?.getString("nomeEmpresa") ?: ""
+                        val categoria = backStackEntry.arguments?.getString("categoria") ?: ""
+                        val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
+                        val descricao = backStackEntry.arguments?.getString("descricao") ?: ""
+                        val fkPrestadoraServico = backStackEntry.arguments?.getString("fkPrestadoraServico") ?: ""
+                        AvaliacaoServico(navController, nomeServico, nomeEmpresa, categoria, preco, descricao, fkPrestadoraServico)
                     }
                     composable("meuProgresso") {
                         MeuProgresso(componenteNavController, progressoViewModel)

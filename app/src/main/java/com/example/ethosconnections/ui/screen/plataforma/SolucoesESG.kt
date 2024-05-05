@@ -310,8 +310,15 @@ fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavControl
                         fotoEmpresa = R.mipmap.governance,
                         categoria = servico.areaAtuacaoEsg,
                         nomeServico = servico.nomeServico,
-                        nomeEmpresa = servico.nomeEmpresa?: "nao",
-                        onClick = { navController.navigate("avaliacaoServico") }
+                        nomeEmpresa = servico.nomeEmpresa ?: "Não especificado",
+                        descricao = servico.descricao,
+                        valor = servico.valor,
+                        id = servico.id,
+                        onClick = {
+                            navController.navigate(
+                                "avaliacaoServico/${servico.nomeServico}/${servico.nomeEmpresa ?: ""}/${servico.areaAtuacaoEsg}/${servico.valor}/${servico.descricao}/${servico.fkPrestadoraServico}"
+                            )
+                        }
                     )
                 }
                 if (rowServices.size == 1) {

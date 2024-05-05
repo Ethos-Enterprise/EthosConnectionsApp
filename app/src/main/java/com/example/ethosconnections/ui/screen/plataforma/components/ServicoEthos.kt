@@ -34,6 +34,7 @@ import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloServico
+import java.util.UUID
 
 @Composable
 fun ServicoEthos(
@@ -41,8 +42,10 @@ fun ServicoEthos(
     categoria: String,
     nomeServico: String,
     nomeEmpresa: String,
+    descricao:String,
+    valor:Double,
+    id:UUID,
     onClick: () -> Unit
-
 ) {
     Card(
         modifier = Modifier
@@ -122,7 +125,7 @@ fun ServicoEthos(
                     )
 
                     TextButton(
-                        onClick = onClick,
+                        onClick = {  onClick },
                         contentPadding = PaddingValues(0.dp),
                     ) {
                         Text(
@@ -144,13 +147,13 @@ fun ServicoEthos(
 @Composable
 fun SolucoesESGPreview() {
 
-    AppTheme {
-        Surface {
-            ServicoEthos(fotoEmpresa = R.mipmap.governance,
-                categoria = "Governança",
-                nomeServico = "Treinamento de Responsabilidade Social Corporativa (RSC)",
-                nomeEmpresa = "Deloitte",
-                onClick = { })
-        }
-    }
+//    AppTheme {
+//        Surface {
+//            ServicoEthos(fotoEmpresa = R.mipmap.governance,
+//                categoria = "Governança",
+//                nomeServico = "Treinamento de Responsabilidade Social Corporativa (RSC)",
+//                nomeEmpresa = "Deloitte",
+//                onClick = { })
+//        }
+//    }
 }
