@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,8 @@ data class Plano(
     val nome: String,
     val descricao: String,
     val beneficios: List<String>,
+    val desPreço: String,
+    val tipoPlano: String,
     val preco: Double
 )
 
@@ -47,6 +50,8 @@ fun getPlanos(): List<Plano> {
             nome = "Plano Free",
             descricao = "Ideal para buscar serviços para sua empresa.",
             beneficios = listOf("Acesso a portfolios de empresas", "Filtros de busca de serviços", "Intermediação de contato"),
+            desPreço = "GRATUITO",
+            tipoPlano = "Plano Padrão",
             preco = 0.0
 
         ),
@@ -54,12 +59,16 @@ fun getPlanos(): List<Plano> {
             nome = "Plano Analytics",
             descricao = "Ideal para analisar o crescimento ESG na sua empresa.",
             beneficios = listOf("Benefícios do Plano Free", "Acesso ao formulário ESG", "Gráficos de crescimento ESG"),
+            desPreço = "R$29,90/mês",
+            tipoPlano = "Plano Anual",
             preco = 29.90
         ),
         Plano(
             nome = "Plano Provider",
             descricao = "Permite a criação de um portfolio na plataforma.",
             beneficios = listOf("Benefícios do Plano Free", "Criação de Portfolio", "Intermediação entre empresas"),
+            desPreço = "R$49,90/mês",
+            tipoPlano = "Plano Anual",
             preco = 49.90
         )
     )
@@ -125,6 +134,7 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
                 contentDescription = "Sinal de check"
             )
             Text(text = plano.beneficios[0], style = tituloConteudoBranco)
+
         }
 
         Row(
@@ -157,6 +167,27 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
                 style = tituloConteudoBranco
             )
         }
+        Divider(modifier = Modifier.padding(top = 8.dp, bottom = 8.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = plano.desPreço,
+                style = tituloConteudoBrancoNegrito
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = plano.tipoPlano,
+                style = tituloConteudoBranco
+            )
+        }
     }
 }
 
@@ -184,11 +215,18 @@ fun CampoValor(
 }
 
 
-
-
 @Preview(showBackground = true)
 @Composable
 fun MeuPlanoPreview() {
-    val navController = rememberNavController()
-    //MeuPlano(navController)
+
+    PlanoCaixa(plano =      Plano(
+        nome = "Plano Free",
+        descricao = "Ideal para buscar serviços para sua empresa.",
+        beneficios = listOf("Acesso a portfolios de empresas", "Filtros de busca de serviços", "Intermediação de contato"),
+        desPreço = "GRATUITO",
+        tipoPlano = "Plano Padrão",
+        preco = 0.0
+
+    ), planoAtual = true, onClick={})
+
 }
