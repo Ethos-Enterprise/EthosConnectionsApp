@@ -44,11 +44,7 @@ import java.util.UUID
 fun Meta(navController: NavController) {
     val repository = remember { MetaRepository(MetaService.create()) }
     val viewModel = remember { MetaViewModel(repository) }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
+    Column{
         Text(
             text = "Meta",
             style = tituloPagina,

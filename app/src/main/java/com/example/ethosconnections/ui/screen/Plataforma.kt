@@ -271,7 +271,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "meuPortfolio") {
+                NavHost(navController = componenteNavController, startDestination = "meuProgresso") {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
@@ -327,8 +327,8 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
     }
 }
 
-@Preview(showBackground = true)
 @Composable
+@Preview(showBackground = true)
 fun PlataformaPreview() {
     AppTheme {
         val navController = rememberNavController()
