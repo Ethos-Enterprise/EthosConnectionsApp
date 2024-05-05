@@ -10,7 +10,6 @@ data class Portfolio (
     var dataEmpresaCertificada: String? = null,
     var fkPrestadoraServico: String? = null
 )
-
 data class Foto (
     val url: String,
     val altura: Int,

@@ -13,7 +13,8 @@ import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraPadrao
 
 @Composable
-fun OutlinedButtonEthos(acao: () -> Unit, nomeAcao: String) {
+fun OutlinedButtonEthos(acao: () -> Unit, nomeAcao: String ,
+) {
     OutlinedButton(
         onClick = { acao() },
         shape = RoundedCornerShape(5.dp),

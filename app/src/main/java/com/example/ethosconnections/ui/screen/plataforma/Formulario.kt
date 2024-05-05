@@ -28,7 +28,8 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
-fun Formulario(navController: NavController) {
+fun Formulario(navController: NavController, categoria: String) {
+
 
     Column {
 
@@ -45,7 +46,15 @@ fun Formulario(navController: NavController) {
         )
 
         Spacer(modifier = Modifier.height(14.dp))
-        Text(text = "Questionário Ambiental", style = tituloConteudoBranco)
+
+        var titulo = when (categoria) {
+            "Ambiental" -> "Questionário Ambiental"
+            "Social" -> "Questionário Social"
+            "Governamental" -> "Questionário Governamental"
+            else -> "Questionário Geral"
+        }
+
+        Text(text = titulo, style = tituloConteudoBranco)
 
         Text(
             text = "Sabemos que a sustentabilidade ambiental é uma preocupação cada vez mais relevante para empresas comprometidas com práticas responsáveis. Este formulário tem como objetivo ajudá-lo a avaliar e melhorar suas iniciativas ambientais.\n" +
@@ -55,6 +64,9 @@ fun Formulario(navController: NavController) {
                     "Juntos, podemos criar um impacto positivo na saúde do planeta e no sucesso do seu negócio. Vamos começar a avaliar suas práticas e a definir metas para um futuro mais verde!",
             style = letraPadraoExtraLigth
         )
+
+        FillButtonEthos(acao = { navController.navigate("questionario/${categoria}")
+        }, nomeAcao = "Iniciar Questionário")
     }
 }
 }

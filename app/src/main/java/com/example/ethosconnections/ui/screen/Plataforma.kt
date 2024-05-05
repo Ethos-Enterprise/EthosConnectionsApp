@@ -59,6 +59,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -87,6 +88,7 @@ import com.example.ethosconnections.ui.screen.plataforma.MeuPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
+import com.example.ethosconnections.ui.screen.plataforma.Questionario
 import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
@@ -97,6 +99,7 @@ import com.example.ethosconnections.ui.theme.tituloMenu
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
+import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import kotlinx.coroutines.launch
@@ -112,6 +115,7 @@ data class NavigationItem(
 fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, servicoViewModel: ServicoViewModel) {
 
     val empresaDataStore = empresaViewModel.empresaDataStore
+    val progressoViewModel: ProgressoViewModel = viewModel()
 
     val items = when (empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "Free") {
         "Free" -> listOf(
@@ -275,7 +279,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         AvaliacaoServico(componenteNavController)
                     }
                     composable("meuProgresso") {
-                        MeuProgresso(componenteNavController)
+                        MeuProgresso(componenteNavController, progressoViewModel)
                     }
                     composable("portfolio") {
                         Portfolio(componenteNavController)
@@ -289,10 +293,10 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
                         Contrato(componenteNavController, nomePlano, preco)
                     }
-                    composable("formulario") {
-                        Formulario(componenteNavController)
+                    composable("formulario/{categoria}") { backStackEntry ->
+                        val categoria = backStackEntry.arguments?.getString("categoria") ?: "AMBIENTAL"
+                        Formulario(componenteNavController, categoria)
                     }
-
                     composable("pagamento/{plano}") { backStackEntry ->
                         Pagamento(
                             componenteNavController,
@@ -311,6 +315,10 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                     }
                     composable("meuPortfolio") {
                         MeuPortfolio(componenteNavController, empresaDataStore)
+                    }
+                    composable("questionario/{categoria}") { backStackEntry ->
+                        val categoria = backStackEntry.arguments?.getString("categoria") ?: "Ambiental"
+                        Questionario(componenteNavController, progressoViewModel, categoria)
                     }
                 }
             }
