@@ -1,5 +1,7 @@
 package com.example.ethosconnections.ui.screen
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -10,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -43,129 +46,179 @@ import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.letraProgresso
 import com.example.ethosconnections.ui.theme.textoTop
+import com.example.ethosconnections.ui.theme.tituloConteudoBranco
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 
 @Composable
-fun Cadastro(navController: NavController) {
+fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
     val etapaAtual = remember { mutableStateOf(1) }
     val totalEtapa = 3
 
+    val isLoading = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
 
-    val nomeEmpresa = remember {
-        mutableStateOf(TextFieldValue())
+
+    var nomeEmpresa = remember {
+        mutableStateOf("")
     }
 
-    val cnpj = remember {
-        mutableStateOf(TextFieldValue())
+    var cnpj = remember {
+        mutableStateOf("")
     }
 
-    val cep = remember {
-        mutableStateOf(TextFieldValue())
+    var cep = remember {
+        mutableStateOf("")
     }
 
-    val telefone = remember {
-        mutableStateOf(TextFieldValue())
+    var telefone = remember {
+        mutableStateOf("")
     }
 
-    val email = remember {
-        mutableStateOf(TextFieldValue())
+    var email = remember {
+        mutableStateOf("")
     }
 
-    val senha = remember {
-        mutableStateOf(TextFieldValue())
+    var senha = remember {
+        mutableStateOf("")
     }
 
-    val confirmacaoSenha = remember {
-        mutableStateOf(TextFieldValue())
+    var confirmacaoSenha = remember {
+        mutableStateOf("")
     }
 
-    Image(
-        painter = painterResource(id = R.drawable.background_login),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.FillBounds
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(35.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.mipmap.icone_logo_branco),
-            contentDescription = null,
-            modifier = Modifier.size(70.dp)
-        )
-
-        Spacer(modifier = Modifier.height(22.dp))
-
-        Text(
-            text = "Cadastro de Empresa",
-            style = textoTop
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ProgressBar(etapaAtual.value, totalEtapa)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        when (etapaAtual.value) {
-            1 -> EtapaUm(nomeEmpresa, cnpj)
-            2 -> EtapaDois(cep, telefone, email)
-            3 -> EtapaTres(senha, confirmacaoSenha)
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            OutlinedButton(
-                onClick = { etapaAtual.value-- },
-                shape = RoundedCornerShape(5.dp),
-                enabled = etapaAtual.value > 1,
-                border = BorderStroke(
-                    1.dp,
-                    if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray
-                ),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
-            ) {
-                Text(
-                    text = "Anterior",
-                    style = letraButton,
-                    color = if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray,
-                )
-            }
-
-            Button(
-                onClick = { if (etapaAtual.value < totalEtapa) etapaAtual.value++ },
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Próximo",
-                    style = letraButton
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun EtapaUm(nomeEmpresa: MutableState<TextFieldValue>, cnpj: MutableState<TextFieldValue>) {
-
-    val areaAtuacao = remember {
+    var areaAtuacao = remember {
         mutableStateOf(TextFieldValue())
     }
 
     val nFuncionarios = remember {
         mutableStateOf(TextFieldValue())
     }
+
+    if (isLoading.value) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(text = "Login feito com sucesso", style = tituloConteudoBranco)
+            }
+
+        }
+    } else {
+
+        Image(
+            painter = painterResource(id = R.drawable.background_login),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(35.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.mipmap.icone_logo_branco),
+                contentDescription = null,
+                modifier = Modifier.size(70.dp)
+            )
+
+            Spacer(modifier = Modifier.height(22.dp))
+
+            Text(
+                text = "Cadastro de Empresa",
+                style = textoTop
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ProgressBar(etapaAtual.value, totalEtapa)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            when (etapaAtual.value) {
+                1 -> EtapaUm(nomeEmpresa, cnpj)
+                2 -> EtapaDois(cep, telefone, email)
+                3 -> EtapaTres(senha, confirmacaoSenha)
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedButton(
+                    onClick = { etapaAtual.value-- },
+                    shape = RoundedCornerShape(5.dp),
+                    enabled = etapaAtual.value > 1,
+                    border = BorderStroke(
+                        1.dp,
+                        if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
+                ) {
+                    Text(
+                        text = "Anterior",
+                        style = letraButton,
+                        color = if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray,
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        if (etapaAtual.value < totalEtapa) {
+                            if (etapaAtual.value == totalEtapa - 1) {
+                                empresaViewModel.cadastrarEmpresa(
+                                    nomeEmpresa.value,
+                                    cnpj.value,
+                                    telefone.value,
+                                    email.value,
+                                    senha.value,
+                                    setor = "TECNOLOGIA",
+                                    qtdFuncionarios = 100,
+                                    assinanteNewsletter = true
+                                ) { success ->
+                                    if (success) {
+                                        val handler = Handler(Looper.getMainLooper())
+                                        isLoading.value = true
+                                        handler.postDelayed({
+                                            navController.navigate("login")
+                                        }, 2000)
+                                    } else {
+                                        errorMessage.value = "Erro ao cadastrar empresa"
+                                    }
+                                }
+                            }
+                            etapaAtual.value++
+                        }
+                    },
+                    shape = RoundedCornerShape(5.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = if (etapaAtual.value < totalEtapa) "Próximo" else "Cadastrar",
+                        style = letraButton
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
+
 
     TextField(
         value = nomeEmpresa.value,
@@ -211,7 +264,8 @@ fun EtapaUm(nomeEmpresa: MutableState<TextFieldValue>, cnpj: MutableState<TextFi
             "Serviços de Consultoria",
             "Transporte e Logística",
             "Moda e Vestuário",
-            "Outros")
+            "Outros"
+        )
 
         var expanded2 = remember { mutableStateOf(false) }
         val selectedOption2 = remember { mutableStateOf("") }
@@ -333,9 +387,9 @@ fun EtapaUm(nomeEmpresa: MutableState<TextFieldValue>, cnpj: MutableState<TextFi
 
 @Composable
 fun EtapaDois(
-    cep:MutableState<TextFieldValue>,
-    telefone:MutableState<TextFieldValue>,
-    email:MutableState<TextFieldValue>
+    cep: MutableState<String>,
+    telefone: MutableState<String>,
+    email: MutableState<String>
 ) {
 
     TextField(
@@ -371,8 +425,8 @@ fun EtapaDois(
 
 @Composable
 fun EtapaTres(
-    senha:MutableState<TextFieldValue>,
-    confirmacaoSenha:MutableState<TextFieldValue>,
+    senha: MutableState<String>,
+    confirmacaoSenha: MutableState<String>,
 ) {
 
 
@@ -551,6 +605,6 @@ fun CircleNumber(
 fun CadastroPreview() {
     AppTheme {
         val navController = rememberNavController()
-        Cadastro(navController)
+        //Cadastro(navController)
     }
 }

@@ -122,4 +122,44 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
             }
         }
     }
+
+    fun cadastrarEmpresa(
+        nomeEmpresa: String,
+        cnpj: String,
+        telefone: String,
+        email: String,
+        senha: String,
+        setor: String,
+        qtdFuncionarios: Int,
+        assinanteNewsletter: Boolean,
+        callback: (Boolean) -> Unit
+    ) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = repository.cadastrarEmpresa(
+                    nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter
+                )
+                if (response.isSuccessful) {
+                    val empresaResponse = response.body()
+                    Log.e("empresaViewModel", "DEU BOM : ${empresaResponse}}")
+                    callback(true)
+
+                } else {
+                    errorMessage.value =
+                        response.errorBody()?.string() ?: "Erro desconhecido"
+                    callback(false)
+                    Log.e("empresaViewModel", "DEU RUIM : ${errorMessage}}")
+
+                }
+            } catch (e: Exception) {
+                callback(false)
+                Log.e("empresaViewModel", "DEU BOM : ${e.message}}")
+
+                errorMessage.value = e.message ?: "Erro ao cadastrar empresa"
+            }
+        }
+    }
 }
+
+

@@ -334,7 +334,7 @@ fun CircularProgress(
 
 @Composable
 fun ProgressBarWithNumber(progress: Float) {
-    val paddingValue = if (progress > 0) progress - 1f else 0f
+    val paddingValue = if (progress > 0) progress - 0.2f else 0f
 
     Column {
 

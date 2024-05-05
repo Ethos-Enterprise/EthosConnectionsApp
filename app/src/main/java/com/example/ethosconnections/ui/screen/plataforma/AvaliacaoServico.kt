@@ -115,7 +115,6 @@ fun AvaliacaoServico(
 
         }
 
-
         //Box 2 - Serviço
         BoxEthos {
 

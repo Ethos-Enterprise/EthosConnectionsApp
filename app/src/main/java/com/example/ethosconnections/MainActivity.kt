@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "cadastro"
                     ) {
-                        Cadastro(navController)
+                        Cadastro(navController,empresaViewModel)
                     }
 
                     composable(
