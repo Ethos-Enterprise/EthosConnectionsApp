@@ -299,7 +299,7 @@ fun Questionario(
 
             if (perguntaAtual < perguntas.size) {
                 val pergunta = perguntas[perguntaAtual]
-                Text("${perguntaAtual} - ${pergunta.pergunta}", style = tituloConteudoBranco, )
+                Text("${perguntaAtual+1} - ${pergunta.pergunta}", style = tituloConteudoBranco, )
 
                 pergunta.opcoes.forEachIndexed { index, opcao ->
                     Row(

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -137,7 +138,18 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                 text = "Cadastro de Empresa",
                 style = textoTop
             )
-
+            if (errorMessage.value.isNotEmpty()) {
+                Column {
+                    Text(
+                        text = errorMessage.value,
+                        style = letraPadrao,
+                        color = Color.Red,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+                }
+            }
             Spacer(modifier = Modifier.height(16.dp))
 
             ProgressBar(etapaAtual.value, totalEtapa)

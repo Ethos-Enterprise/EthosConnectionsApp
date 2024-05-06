@@ -1,9 +1,11 @@
 package com.example.ethosconnections.viewmodel.meta
 
 import android.util.Log
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.models.Meta
+import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.repositories.MetaRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +16,8 @@ import java.util.UUID
 
 class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
     val meta = MutableLiveData<Meta>()
-    val allMetas = MutableLiveData<List<Meta>>()
+    val allMetas = MutableLiveData(SnapshotStateList<Meta>())
+
     val errorMessage = MutableLiveData<String>()
 
     fun getAllMetas() {
@@ -27,7 +30,10 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
             try {
                 val response = repository.getAllMetas()
                 if (response.isSuccessful) {
-                    allMetas.postValue(response.body())
+                    val metas = response.body() ?: emptyList()
+                    Log.d("MetaViewModel", "Metas retornadas: $metas")
+                    allMetas.value!!.clear()
+                    allMetas.value!!.addAll(metas)
                     errorMessage.postValue("")
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
@@ -52,7 +58,10 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
             try {
                 val response = repository.getMetasByFkEmpresa(fkEmpresa)
                 if (response.isSuccessful) {
-                    allMetas.postValue(response.body())
+                    val metas = response.body() ?: emptyList()
+                    Log.d("MetaViewModel", "Metas retornadas: $metas")
+                    allMetas.value!!.clear()
+                    allMetas.value!!.addAll(metas)
                     errorMessage.postValue("")
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
@@ -106,13 +115,18 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
                     callback(true)
+                    Log.e("MetaViewModel", "OK: ${response.body()}")
+
                 } else {
                     errorMessage.postValue(response.errorBody()?.string() ?: "Unknown error")
                     callback(false)
+                    Log.e("MetaViewModel", "ELSE: ${errorMessage.value}")
+
                 }
             } catch (e: HttpException) {
                 Log.e("MetaViewModel", "HTTP Error: ${e.message}")
                 errorMessage.postValue(e.message ?: "Error posting Meta")
+
                 callback(false)
             } catch (e: Exception) {
                 Log.e("MetaViewModel", "Exception: ${e.message}")

@@ -1,5 +1,6 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,7 +22,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -32,10 +36,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
@@ -46,23 +52,32 @@ import com.example.compose.linha_divisoria
 import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
+import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
+import com.example.ethosconnections.ui.theme.letraButton
+import com.example.ethosconnections.ui.theme.letraDescricao
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.letraPadraoExtraLigth
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloFormularioCard
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
 
 @Composable
 fun MeuProgresso(
     navController: NavController,
-    progressoViewModel: ProgressoViewModel = viewModel()
+    progressoViewModel: ProgressoViewModel,
+    metaViewModel: MetaViewModel
 ) {
     val progressoTotal = progressoViewModel.progressoTotal.value
     val progressoAmbiental = progressoViewModel.progressoAmbiental.value
     val progressoSocial = progressoViewModel.progressoSocial.value
     val progressoGovernamental = progressoViewModel.progressoGovernamental.value
+
+    LaunchedEffect(key1 = null) {
+        metaViewModel.getAllMetas()
+    }
 
     Column {
 
@@ -71,6 +86,7 @@ fun MeuProgresso(
             Text(text = "Meu Nível de ESG", style = tituloConteudoAzul)
             Divider(modifier = Modifier.padding(bottom = 10.dp))
             Text(text = "Total de Aderência ESG - em %", style = tituloConteudoBranco)
+            Spacer(modifier = Modifier.height(16.dp))
             ProgressBarWithNumber(progress = progressoTotal.toFloat() / 100f)
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -95,38 +111,106 @@ fun MeuProgresso(
                 )
             }
         }
-
         BoxEthos {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-
+                verticalAlignment = Alignment.CenterVertically
                 ) {
                 Text(text = "Minha Meta", style = tituloConteudoAzul)
+                Box(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(25.dp)
+                        .clickable {navController.navigate("meta")  }
+                        .background(cor_primaria, shape = RoundedCornerShape(5.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Criar Meta",
+                        style = letraButton
+                    )
+                }
 
-                FillButtonEthos(
-                    acao = { navController.navigate("meta") },
-                    nomeAcao = "Criar Meta"
-                )
             }
-            Divider()
-            Spacer(modifier = Modifier.height(28.dp))
-            Image(
-                painter = painterResource(id = R.mipmap.meta),
-                contentDescription = "icone meta",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.6f)
-            )
-            Text(
-                text = "Nenhuma meta definida",
-                style = letraPadraoExtraLigth,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
+            Spacer(modifier = Modifier.height(5.dp))
+            Divider(modifier = Modifier.padding(bottom = 10.dp))
+            val metas = metaViewModel.allMetas.value
 
-            )
+
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (metas.isNullOrEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.mipmap.meta),
+                                contentDescription = "icone meta",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.6f)
+                            )
+                            Text(
+                                text = "Nenhuma meta definida",
+                                style = letraPadraoExtraLigth,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(top = 16.dp)
+                            )
+                        }
+                    }
+                } else {
+                    metas.forEach { meta ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    color = linha_divisoria,
+                                    shape = RoundedCornerShape(5.dp)
+                                )
+                                .padding(10.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = "Pilar ${meta.pilarEsg.toString()}",
+                                    style = tituloConteudoBranco
+                                )
+                                Text(text = meta.descricao.toString(), style = letraDescricao)
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+
+                                ){
+                                    Text(text = "Data Limite: ", style = tituloConteudoBranco)
+                                    Text(text =  meta.dataFim.toString(), style = letraDescricao)
+                                }
+                                Spacer(modifier = Modifier.height(5.dp))
+
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceAround,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    OutlinedButtonEthos(acao = { /*TODO*/ }, nomeAcao = "Excluir Meta")
+                                    FillButtonEthos(
+                                        acao = { /*TODO*/ },
+                                        nomeAcao = "Ver Serviços"
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                }
+            }
         }
 
         BoxEthos {
@@ -334,7 +418,7 @@ fun CircularProgress(
 
 @Composable
 fun ProgressBarWithNumber(progress: Float) {
-    val paddingValue = if (progress > 0) progress - 0.2f else 0f
+    val paddingValue = if (progress > 0) progress - 0.05f else 0f
 
     Column {
 
@@ -345,7 +429,7 @@ fun ProgressBarWithNumber(progress: Float) {
                     .width(40.dp)
                     .height(25.dp)
                     .background(color = cor_secundaria, shape = RoundedCornerShape(percent = 10)),
-                        contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "${(progress * 100).toInt()}%",

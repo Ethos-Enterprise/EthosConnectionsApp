@@ -1,6 +1,7 @@
 package com.example.ethosconnections.ui.screen
 
 import MeuPerfil
+import MinhasInterações
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -99,6 +100,7 @@ import com.example.ethosconnections.ui.theme.tituloMenu
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
+import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
@@ -112,36 +114,44 @@ data class NavigationItem(
 
 
 @Composable
-fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, servicoViewModel: ServicoViewModel) {
+fun Plataforma(
+    navController: NavController,
+    empresaViewModel: EmpresaViewModel,
+    servicoViewModel: ServicoViewModel,
+    metaViewModel: MetaViewModel,
+) {
 
     val empresaDataStore = empresaViewModel.empresaDataStore
     val progressoViewModel: ProgressoViewModel = viewModel()
 
-    val items = when (empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "Free") {
-        "Free" -> listOf(
-            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-            NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
-            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-            NavigationItem(titulo = "Sair", rota = "sair")
-        )
-        "Analytics" -> listOf(
-            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-            NavigationItem(titulo = "Meu Progresso", rota = "meuProgresso"),
-            NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
-            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-            NavigationItem(titulo = "Sair", rota = "sair")
-        )
-        else -> listOf(
-            NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-            NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
-            NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
-            NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
-            NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-            NavigationItem(titulo = "Sair", rota = "sair")
-        )
-    }
+    val items =
+        when (empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "Free") {
+            "Free" -> listOf(
+                NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+                NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
+                NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+                NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                NavigationItem(titulo = "Sair", rota = "sair")
+            )
+
+            "Analytics" -> listOf(
+                NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+                NavigationItem(titulo = "Meu Progresso", rota = "meuProgresso"),
+                NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
+                NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+                NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                NavigationItem(titulo = "Sair", rota = "sair")
+            )
+
+            else -> listOf(
+                NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
+                NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
+                NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
+                NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
+                NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                NavigationItem(titulo = "Sair", rota = "sair")
+            )
+        }
     val componenteNavController = rememberNavController()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -170,7 +180,13 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
 
                 Spacer(modifier = Modifier.height(14.dp))
                 Text(
-                    text = "Olá ${empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: "sem razao social"} | ${empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "plamo free"}",
+                    text = "Olá ${
+                        empresaDataStore.getRazaoSocialEmpresaFlow()
+                            .collectAsState(initial = null).value ?: "sem razao social"
+                    } | ${
+                        empresaDataStore.getPlanoFlow()
+                            .collectAsState(initial = null).value ?: "plamo free"
+                    }",
                     style = tituloMenu,
                     modifier = Modifier.padding(start = 25.dp, top = 10.dp)
                 )
@@ -271,7 +287,10 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
             ) {
 
 
-                NavHost(navController = componenteNavController, startDestination = "meuProgresso") {
+                NavHost(
+                    navController = componenteNavController,
+                    startDestination = "meuProgresso"
+                ) {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
                     }
@@ -281,11 +300,20 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         val categoria = backStackEntry.arguments?.getString("categoria") ?: ""
                         val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
                         val descricao = backStackEntry.arguments?.getString("descricao") ?: ""
-                        val fkPrestadoraServico = backStackEntry.arguments?.getString("fkPrestadoraServico") ?: ""
-                        AvaliacaoServico(navController, nomeServico, nomeEmpresa, categoria, preco, descricao, fkPrestadoraServico)
+                        val fkPrestadoraServico =
+                            backStackEntry.arguments?.getString("fkPrestadoraServico") ?: ""
+                        AvaliacaoServico(
+                            navController,
+                            nomeServico,
+                            nomeEmpresa,
+                            categoria,
+                            preco,
+                            descricao,
+                            fkPrestadoraServico
+                        )
                     }
                     composable("meuProgresso") {
-                        MeuProgresso(componenteNavController, progressoViewModel)
+                        MeuProgresso(componenteNavController, progressoViewModel, metaViewModel)
                     }
                     composable("portfolio") {
                         Portfolio(componenteNavController)
@@ -300,7 +328,8 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         Contrato(componenteNavController, nomePlano, preco)
                     }
                     composable("formulario/{categoria}") { backStackEntry ->
-                        val categoria = backStackEntry.arguments?.getString("categoria") ?: "AMBIENTAL"
+                        val categoria =
+                            backStackEntry.arguments?.getString("categoria") ?: "AMBIENTAL"
                         Formulario(componenteNavController, categoria)
                     }
                     composable("pagamento/{plano}") { backStackEntry ->
@@ -314,7 +343,7 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         MeuPerfil(componenteNavController, empresaDataStore)
                     }
                     composable("meta") {
-                        Meta(componenteNavController)
+                        Meta(componenteNavController, empresaDataStore)
                     }
                     composable("meuPlano") {
                         MeuPlano(componenteNavController, empresaDataStore)
@@ -323,8 +352,12 @@ fun Plataforma(navController: NavController,empresaViewModel: EmpresaViewModel, 
                         MeuPortfolio(componenteNavController, empresaDataStore)
                     }
                     composable("questionario/{categoria}") { backStackEntry ->
-                        val categoria = backStackEntry.arguments?.getString("categoria") ?: "Ambiental"
+                        val categoria =
+                            backStackEntry.arguments?.getString("categoria") ?: "Ambiental"
                         Questionario(componenteNavController, progressoViewModel, categoria)
+                    }
+                    composable("minhasInteracoes") {
+                        MinhasInterações(componenteNavController)
                     }
                 }
             }

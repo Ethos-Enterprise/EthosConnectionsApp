@@ -4,6 +4,7 @@ import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Meta
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -28,4 +29,7 @@ interface MetaService {
 
     @POST("v1.0/metas")
     suspend fun postMeta(@Body meta: Meta): Response<Meta>
+
+    @DELETE("v1.0/metas/{id}")
+    suspend fun deleteMeta(@Path("id") id: UUID)
 }

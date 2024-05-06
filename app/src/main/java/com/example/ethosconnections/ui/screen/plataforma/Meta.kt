@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedButton
@@ -20,15 +22,20 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.repositories.MetaRepository
 import com.example.ethosconnections.service.MetaService
@@ -38,51 +45,44 @@ import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
+import java.time.LocalDate
+import java.util.Calendar
 import java.util.UUID
 
 @Composable
-fun Meta(navController: NavController) {
+fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val repository = remember { MetaRepository(MetaService.create()) }
     val viewModel = remember { MetaViewModel(repository) }
-    Column{
+    Column {
         Text(
             text = "Meta",
             style = tituloPagina,
         )
-        CadastroMeta(navController, viewModel)
+        CadastroMeta(navController, viewModel, empresaDataStore)
     }
 }
 
 @Composable
-fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
+fun CadastroMeta(
+    navController: NavController,
+    viewModel: MetaViewModel,
+    empresaDataStore: EmpresaDataStore
+) {
 
     var pilarEsg = remember {
         mutableStateOf("")
     }
 
-    var pilarAmbiental = remember {
-        mutableStateOf(false)
-    }
-
-    var pilarSocial = remember {
-        mutableStateOf(false)
-    }
-
-    var pilarGovernamental = remember {
-        mutableStateOf(false)
-    }
-
     var descricao = remember {
-        mutableStateOf(TextFieldValue())
+        mutableStateOf("")
     }
 
     var dataInicio = remember {
-        mutableStateOf(TextFieldValue())
+        mutableStateOf("")
     }
 
-    var dataFim = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var dataFimState = remember { mutableStateOf("") }
+
 
     BoxEthos {
         Column {
@@ -103,15 +103,14 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
                     .padding(top = 8.dp, bottom = 20.dp)
             )
 
-            Column {
-                Row {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                    .clickable { pilarEsg.value = "Ambiental" }
+                ) {
                     RadioButton(
-                        selected = pilarAmbiental.value,
-                        onClick = {
-                            pilarAmbiental.value = true
-                            pilarSocial.value = false
-                            pilarGovernamental.value = false
-                        }
+                        selected = pilarEsg.value == "Ambiental",
+                        onClick = { }
                     )
                     Text(
                         text = "Pilar Ambiental",
@@ -121,14 +120,13 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
                     )
                 }
 
-                Row {
+                Row(
+                    modifier = Modifier.clickable { pilarEsg.value = "Social" }
+                        .fillMaxWidth()
+                ) {
                     RadioButton(
-                        selected = pilarSocial.value,
-                        onClick = {
-                            pilarAmbiental.value = false
-                            pilarSocial.value = true
-                            pilarGovernamental.value = false
-                        }
+                        selected = pilarEsg.value == "Social",
+                        onClick = { }
                     )
                     Text(
                         text = "Pilar Social",
@@ -138,14 +136,13 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
                     )
                 }
 
-                Row {
+                Row(
+                    modifier = Modifier.clickable { pilarEsg.value = "Governamental" }
+                        .fillMaxWidth()
+                ) {
                     RadioButton(
-                        selected = pilarGovernamental.value,
-                        onClick = {
-                            pilarAmbiental.value = false
-                            pilarSocial.value = false
-                            pilarGovernamental.value = true
-                        }
+                        selected = pilarEsg.value == "Governamental",
+                        onClick = { }
                     )
                     Text(
                         text = "Pilar Governamental",
@@ -172,26 +169,52 @@ fun CadastroMeta(navController: NavController, viewModel: MetaViewModel) {
                         .height(150.dp)
                         .background(color = Color(0xFF1B1B1B))
                 )
-                ValidarData()
+
+                ValidarData(
+                    dataFim = dataFimState.value,
+                    onDateChange = { dataFimState.value = it }
+                )
             }
         }
-        MetaButtons(navController, viewModel)
     }
+    MetaButtons(
+        navController, viewModel, empresaDataStore,
+        pilarEsg.value,
+        descricao.value,
+        dataFimState.value
+    )
 }
 
+
 @Composable
-fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
+fun MetaButtons(
+    navController: NavController,
+    viewModel: MetaViewModel,
+    empresaDataStore: EmpresaDataStore,
+    pilarEsg: String,
+    descricao: String,
+    dataFim: String
+) {
     val errorMessage = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
-    // Dados para testar cadastro de meta
+    val hoje = Calendar.getInstance()
+    val dataAtual = String.format(
+        "%04d-%02d-%02d",
+        hoje.get(Calendar.YEAR),
+        hoje.get(Calendar.MONTH) + 1,
+        hoje.get(Calendar.DAY_OF_MONTH)
+    )
+    val dataConvertida = converterData(dataFim)
+
+
     val meta = Meta(
-        id = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361454"),
-        pilarEsg = "Ambiental",
-        descricao = "teste",
-        dataInicio = null,
-        dataFim = null,
-        fkEmpresa = UUID.fromString("a7ee76fb-2b65-4d36-b8d3-831ce5361499"),
+        pilarEsg = pilarEsg,
+        descricao = descricao,
+        dataInicio = dataAtual,
+        dataFim = dataConvertida,
+        fkEmpresa = empresa?.id
     )
 
     Box(
@@ -212,7 +235,7 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
                             isLoading.value = true
                             handler.postDelayed({
                                 navController.navigate("meuProgresso")
-                            },2000)
+                            }, 2000)
                         } else {
                             errorMessage.value = "Erro ao cadastrar a meta"
                         }
@@ -243,10 +266,8 @@ fun MetaButtons(navController: NavController, viewModel: MetaViewModel) {
         }
     }
 }
-
 @Composable
-fun ValidarData() {
-    val dataFim = remember { mutableStateOf("") }
+fun ValidarData(dataFim: String, onDateChange: (String) -> Unit) {
     Column {
         Text(
             text = "Data Limite",
@@ -256,13 +277,15 @@ fun ValidarData() {
                 .padding(top = 30.dp)
         )
         TextField(
-            value = dataFim.value,
-            onValueChange = { dataFim.value = it },
-            label = { Text("dd/mm/aaaa") },
+            value = dataFim,
+            onValueChange = { newValue ->
+                onDateChange(newValue.take(10))
+            },
+            label = { Text("dd-mm-aaaa") },
             modifier = Modifier
                 .background(color = Color(0xFF1B1B1B))
         )
-        if (!validarData(dataFim.value) && dataFim.value.isNotBlank()) {
+        if (!validarData(dataFim) && dataFim.isNotBlank()) {
             Text(
                 text = "Insira uma data válida",
                 color = Color.Red,
@@ -272,8 +295,9 @@ fun ValidarData() {
     }
 }
 
+
 fun validarData(data: String): Boolean {
-    val partes = data.split("/")
+    val partes = data.split("-")
     if (partes.size != 3) return false
     val dia = partes[0].toIntOrNull() ?: return false
     val mes = partes[1].toIntOrNull() ?: return false
@@ -286,10 +310,22 @@ fun validarData(data: String): Boolean {
     return true
 }
 
+fun converterData(data: String): String {
+    val partes = data.split("-")
+    if (partes.size != 3) {
+        return "Formato de data inválido"
+    }
+
+    val dia = partes[0]
+    val mes = partes[1]
+    val ano = partes[2]
+
+    return "$ano-$mes-$dia"
+}
 @Composable
 @Preview(showBackground = true)
 fun MetaPreview() {
     val navController = rememberNavController()
     val repository = remember { MetaRepository(MetaService.create()) }
-    Meta(navController)
+    //Meta(navController)
 }
