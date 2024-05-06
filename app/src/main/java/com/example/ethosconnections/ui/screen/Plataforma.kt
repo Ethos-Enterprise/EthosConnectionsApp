@@ -1,7 +1,6 @@
 package com.example.ethosconnections.ui.screen
 
 import MeuPerfil
-import MinhasInteracoes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -87,6 +86,7 @@ import com.example.ethosconnections.ui.screen.plataforma.Meta
 import com.example.ethosconnections.ui.screen.plataforma.MeuPlano
 import com.example.ethosconnections.ui.screen.plataforma.MeuPortfolio
 import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
+import com.example.ethosconnections.ui.screen.plataforma.MinhasInteracoes
 import com.example.ethosconnections.ui.screen.plataforma.Pagamento
 import com.example.ethosconnections.ui.screen.plataforma.Portfolio
 import com.example.ethosconnections.ui.screen.plataforma.Questionario
@@ -129,7 +129,7 @@ fun Plataforma(
             "Free" -> listOf(
                 NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
                 NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-                NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+                NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
                 NavigationItem(titulo = "Sair", rota = "sair")
             )
@@ -138,14 +138,14 @@ fun Plataforma(
                 NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
                 NavigationItem(titulo = "Meu Progresso", rota = "meuProgresso"),
                 NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-                NavigationItem(titulo = "Minhas Interações", rota = "contrato"),
+                NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
                 NavigationItem(titulo = "Sair", rota = "sair")
             )
 
             else -> listOf(
                 NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-                NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
+//                NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
                 NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
                 NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
