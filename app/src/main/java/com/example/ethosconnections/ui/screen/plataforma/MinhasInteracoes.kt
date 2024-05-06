@@ -20,6 +20,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +47,10 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
 fun MinhasInteracoes(navController: NavController) {
+
+    // Lógica dos Cards
+    var exibirBox1 by remember { mutableStateOf(true) }
+
     Column {
         Text(text = "Minhas interações", style = tituloPagina)
 
@@ -58,7 +66,7 @@ fun MinhasInteracoes(navController: NavController) {
                         imagemCard = R.mipmap.contatoint,
                         contentDescription = "Contatos",
                         buttonText = "Contatos",
-                        onClick = { },
+                        onClick = { exibirBox1 = true },
                         cardSelecionado = false,
                         setSelectedCard = {}
                     )
@@ -67,7 +75,7 @@ fun MinhasInteracoes(navController: NavController) {
                         imagemCard = R.mipmap.favoritoin,
                         contentDescription = "Favoritos",
                         buttonText = "Favoritos",
-                        onClick = { },
+                        onClick = { exibirBox1 = false },
                         cardSelecionado = false,
                         setSelectedCard = {}
                     )
@@ -76,270 +84,278 @@ fun MinhasInteracoes(navController: NavController) {
         }
 
         // Empresas Contatadas
-        Column{
-            Spacer(modifier = Modifier.height(10.dp))
+        if (exibirBox1) {
+            Column{
+                Spacer(modifier = Modifier.height(10.dp))
 
-            Text(text = "Empresas Contatadas", style = tituloConteudoBranco)
-            BoxEthos{
+                Text(text = "Empresas Contatadas", style = tituloConteudoBranco)
+                BoxEthos{
 
-                Column {
-                    Row(modifier = Modifier.padding(end = 8.dp)) {
-                        Text(text = "Em andamento: ", style = tituloConteudoBrancoNegrito)
-                        Text(text = "1 empresas", style = tituloConteudoBranco, )
+                    Column {
+                        Row(modifier = Modifier.padding(end = 8.dp)) {
+                            Text(text = "Em andamento: ", style = tituloConteudoBrancoNegrito)
+                            Text(text = "1 empresas", style = tituloConteudoBranco, )
+                        }
+
+                        Row() {
+                            Text(text = "Finalizado: ", style = tituloConteudoBrancoNegrito)
+                            Text(text = "1 empresas", style = tituloConteudoBranco)
+                        }
                     }
+                }
 
-                    Row() {
-                        Text(text = "Finalizado: ", style = tituloConteudoBrancoNegrito)
-                        Text(text = "1 empresas", style = tituloConteudoBranco)
+                BoxEthos{
+                    Column {
+                        Row {
+                            Image(
+                                modifier = Modifier
+                                    .width(100.dp)
+                                    .padding(top = 15.dp),
+                                painter = painterResource(id = R.mipmap.deloitte_logo),
+                                contentDescription = "Logo Deloitte"
+                            )
+                            Column {
+                                Text(
+                                    text = "Deloitte",
+                                    style = tituloConteudoAzul
+                                )
+                                Text(
+                                    text = "Serviço de interesse: Treinamento de Responsabilidade Social Corporativa (RSC)",
+                                    style = tituloConteudoBranco,
+                                    fontSize = 12.sp
+                                )
+                                Text(text = "Status do contato: Aguardando resposta da empresa",
+                                    style = tituloConteudoBrancoNegrito,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Button(
+                                onClick = {
+                                    navController.navigate("minhasInteracoes")
+                                },
+                                modifier = Modifier
+                                    .padding(start = 5.dp)
+                                    .background(Color(0xFF1B1F23))
+                                    .widthIn(max = 200.dp)
+                                    .height(35.dp),
+                                shape = RoundedCornerShape(3.dp)
+                            ) {
+                                Text(
+                                    text = "Avaliar Serviço",
+                                    style = letraButton
+                                )
+                            }
+                        }
+                    }
+                }
+
+                BoxEthos{
+                    Column {
+                        Row {
+                            Image(
+                                modifier = Modifier
+                                    .width(100.dp)
+                                    .padding(top = 15.dp),
+                                painter = painterResource(id = R.mipmap.ey),
+                                contentDescription = "Logo EY"
+                            )
+                            Column {
+                                Text(
+                                    text = "Ernest & Young",
+                                    style = tituloConteudoAzul
+                                )
+                                Text(
+                                    text = "Serviço de interesse: Gestão de portfólios de investimentos",
+                                    style = tituloConteudoBranco,
+                                    fontSize = 12.sp
+                                )
+                                Text(text = "Status do contato: Aguardando resposta da empresa",
+                                    style = tituloConteudoBrancoNegrito,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Button(
+                                onClick = {
+                                    navController.navigate("minhasInteracoes")
+                                },
+                                modifier = Modifier
+                                    .padding(start = 5.dp)
+                                    .background(Color(0xFF1B1F23))
+                                    .widthIn(max = 200.dp)
+                                    .height(35.dp),
+                                shape = RoundedCornerShape(3.dp)
+                            ) {
+                                Text(
+                                    text = "Avaliar Serviço",
+                                    style = letraButton
+                                )
+                            }
+                        }
                     }
                 }
             }
 
-            BoxEthos{
-                Column {
+        } else {
+
+
+            // Histórico de Curtidas
+            Column {
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(text = "Histórico de Curtidas", style = tituloConteudoBranco)
+
+                BoxEthos {
                     Row {
                         Image(
                             modifier = Modifier
-                                .width(100.dp),
+                                .width(100.dp)
+                                .padding(top = 15.dp),
                             painter = painterResource(id = R.mipmap.deloitte_logo),
                             contentDescription = "Logo Deloitte"
                         )
-                        Column {
+                        Column(modifier = Modifier.padding(bottom = 8.dp)) {
                             Text(
-                                text = "Deloitte",
+                                text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
                                 style = tituloConteudoAzul
                             )
                             Text(
-                                text = "Serviço de interesse: Treinamento de Responsabilidade Social Corporativa (RSC)",
+                                text = "Deloitte",
                                 style = tituloConteudoBranco,
                                 fontSize = 12.sp
                             )
-                            Text(text = "Status do contato: Aguardando resposta da empresa",
-                                style = tituloConteudoBrancoNegrito,
-                                fontSize = 12.sp
+                            Text(
+                                text = "Saiba mais",
+                                style = letraClicavel,
+                                fontSize = 12.sp,
+                                textDecoration = TextDecoration.Underline
                             )
                         }
                     }
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        OutlinedButton(
+                            onClick = { navController.navigate("minhasInteracoes") },
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .size(width = 120.dp, height = 40.dp)
+                                .height(35.dp),
+                            shape = RoundedCornerShape(5.dp),
+                            border = BorderStroke(1.dp, Color(0xFF01A2C3)),
+                        ) {
+                            Text(
+                                text = "Remover",
+                                style = letraButton,
+                                color = Color(0xFF01A2C3)
+                            )
+                        }
+
                         Button(
                             onClick = {
-                                navController.navigate("")
+                                navController.navigate("portfolio")
                             },
                             modifier = Modifier
                                 .padding(start = 5.dp)
                                 .background(Color(0xFF1B1F23))
-                                .widthIn(max = 200.dp)
-                                .height(35.dp),
+                                .widthIn(max = 120.dp)
+                                .height(40.dp),
                             shape = RoundedCornerShape(3.dp)
                         ) {
                             Text(
-                                text = "Avaliar Serviço",
+                                text = "Contato",
                                 style = letraButton
                             )
                         }
                     }
-                }
-            }
 
-            BoxEthos{
-                Column {
+                }
+
+                BoxEthos {
                     Row {
                         Image(
                             modifier = Modifier
-                                .width(100.dp),
+                                .width(100.dp)
+                                .padding(top = 15.dp),
                             painter = painterResource(id = R.mipmap.ey),
                             contentDescription = "Logo EY"
                         )
-                        Column {
+                        Column(modifier = Modifier.padding(bottom = 8.dp)) {
                             Text(
-                                text = "Ernest & Young",
+                                text = "Gestão de portfólios de investimentos",
                                 style = tituloConteudoAzul
                             )
                             Text(
-                                text = "Serviço de interesse: Gestão de portfólios de investimentos",
+                                text = "Ernest & Young",
                                 style = tituloConteudoBranco,
                                 fontSize = 12.sp
                             )
-                            Text(text = "Status do contato: Aguardando resposta da empresa",
-                                style = tituloConteudoBrancoNegrito,
-                                fontSize = 12.sp
+                            Text(
+                                text = "Saiba mais",
+                                style = letraClicavel,
+                                fontSize = 12.sp,
+                                textDecoration = TextDecoration.Underline
                             )
                         }
                     }
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        OutlinedButton(
+                            onClick = { navController.navigate("minhasInteracoes") },
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .size(width = 120.dp, height = 40.dp)
+                                .height(35.dp),
+                            shape = RoundedCornerShape(5.dp),
+                            border = BorderStroke(1.dp, Color(0xFF01A2C3)),
+                        ) {
+                            Text(
+                                text = "Remover",
+                                style = letraButton,
+                                color = Color(0xFF01A2C3)
+                            )
+                        }
+
                         Button(
                             onClick = {
-                                navController.navigate("")
+                                navController.navigate("portfolio")
                             },
                             modifier = Modifier
                                 .padding(start = 5.dp)
                                 .background(Color(0xFF1B1F23))
-                                .widthIn(max = 200.dp)
-                                .height(35.dp),
+                                .widthIn(max = 120.dp)
+                                .height(40.dp),
                             shape = RoundedCornerShape(3.dp)
                         ) {
                             Text(
-                                text = "Avaliar Serviço",
+                                text = "Contato",
                                 style = letraButton
                             )
                         }
                     }
+
                 }
             }
+
         }
-
-        // Histórico de Curtidas
-        Column{
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Text(text = "Histórico de Curtidas", style = tituloConteudoBranco)
-
-            BoxEthos {
-                Row {
-                    Image(
-                        modifier = Modifier
-                            .width(100.dp),
-                        painter = painterResource(id = R.mipmap.deloitte_logo),
-                        contentDescription = "Logo Deloitte"
-                    )
-                    Column(modifier = Modifier.padding(bottom = 8.dp)) {
-                        Text(
-                            text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
-                            style = tituloConteudoAzul
-                        )
-                        Text(
-                            text = "Deloitte",
-                            style = tituloConteudoBranco,
-                            fontSize = 12.sp
-                        )
-                        Text(
-                            text = "Saiba mais",
-                            style = letraClicavel,
-                            fontSize = 12.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    OutlinedButton(
-                        onClick = { navController.navigate("minhasInteracoes") },
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp)
-                            .size(width = 120.dp, height = 40.dp)
-                            .height(35.dp),
-                        shape = RoundedCornerShape(5.dp),
-                        border = BorderStroke(1.dp, Color(0xFF01A2C3)),
-                    ) {
-                        Text(
-                            text = "Remover",
-                            style = letraButton,
-                            color = Color(0xFF01A2C3)
-                        )
-                    }
-
-                    Button(
-                        onClick = {
-                            navController.navigate("portfolio")
-                        },
-                        modifier = Modifier
-                            .padding(start = 5.dp)
-                            .background(Color(0xFF1B1F23))
-                            .widthIn(max = 120.dp)
-                            .height(40.dp),
-                        shape = RoundedCornerShape(3.dp)
-                    ) {
-                        Text(
-                            text = "Contato",
-                            style = letraButton
-                        )
-                    }
-                }
-
-            }
-
-            BoxEthos {
-                Row {
-                    Image(
-                        modifier = Modifier
-                            .width(100.dp),
-                        painter = painterResource(id = R.mipmap.ey),
-                        contentDescription = "Logo EY"
-                    )
-                    Column(modifier = Modifier.padding(bottom = 8.dp)) {
-                        Text(
-                            text = "Gestão de portfólios de investimentos",
-                            style = tituloConteudoAzul
-                        )
-                        Text(
-                            text = "Ernest & Young",
-                            style = tituloConteudoBranco,
-                            fontSize = 12.sp
-                        )
-                        Text(
-                            text = "Saiba mais",
-                            style = letraClicavel,
-                            fontSize = 12.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    OutlinedButton(
-                        onClick = { navController.navigate("minhasInteracoes") },
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp)
-                            .size(width = 120.dp, height = 40.dp)
-                            .height(35.dp),
-                        shape = RoundedCornerShape(5.dp),
-                        border = BorderStroke(1.dp, Color(0xFF01A2C3)),
-                    ) {
-                        Text(
-                            text = "Remover",
-                            style = letraButton,
-                            color = Color(0xFF01A2C3)
-                        )
-                    }
-
-                    Button(
-                        onClick = {
-                            navController.navigate("portfolio")
-                        },
-                        modifier = Modifier
-                            .padding(start = 5.dp)
-                            .background(Color(0xFF1B1F23))
-                            .widthIn(max = 120.dp)
-                            .height(40.dp),
-                        shape = RoundedCornerShape(3.dp)
-                    ) {
-                        Text(
-                            text = "Contato",
-                            style = letraButton
-                        )
-                    }
-                }
-
-            }
-        }
-
-
     }
 }
 
@@ -353,9 +369,6 @@ fun CategoriaCardRetangulo(
     cardSelecionado: Boolean,
     setSelectedCard: (Boolean) -> Unit
 ) {
-
-    val shadowColor = Color(0xFFDDDDDD)
-
     Card(
         modifier = Modifier
             .height(73.dp)
@@ -381,8 +394,7 @@ fun CategoriaCardRetangulo(
                 contentDescription = contentDescription,
                 modifier = Modifier
                     .fillMaxSize()
-                    .fillMaxHeight(),
-
+                    .fillMaxHeight()
                 )
             Surface(
                 color = Color(0xFF014D5C),
@@ -397,7 +409,8 @@ fun CategoriaCardRetangulo(
                     text = buttonText,
                     style = letraPadrao,
                     color = Color.White,
-                    modifier = Modifier.padding(3.dp)
+                    modifier = Modifier
+                        .padding(3.dp)
                 )
             }
         }
