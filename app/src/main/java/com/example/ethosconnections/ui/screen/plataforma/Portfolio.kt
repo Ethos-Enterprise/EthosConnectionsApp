@@ -132,11 +132,11 @@ fun BoxPortfolio(navController: NavController) {
                     )
             ) {
                 Text(
-                    text = "Deloitte",
+                    text = "Empresa D",
                     style = tituloConteudoBranco
                 )
                 Text(
-                    text = "www.deloitte.com",
+                    text = "www.empresaD.com",
                     style = letraClicavel
                 )
             }

@@ -1,5 +1,6 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.app.AlertDialog
 import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -25,6 +28,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.currentCompositionLocalContext
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -42,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
@@ -63,6 +72,7 @@ import com.example.ethosconnections.ui.theme.tituloFormularioCard
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
+import java.util.UUID
 
 @Composable
 fun MeuProgresso(
@@ -78,6 +88,8 @@ fun MeuProgresso(
     LaunchedEffect(key1 = null) {
         metaViewModel.getAllMetas()
     }
+
+    var mostrarDialogo by remember { mutableStateOf(false) }
 
     Column {
 
@@ -199,7 +211,19 @@ fun MeuProgresso(
                                     horizontalArrangement = Arrangement.SpaceAround,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    OutlinedButtonEthos(acao = { /*TODO*/ }, nomeAcao = "Excluir Meta")
+                                    OutlinedButtonEthos(
+                                        acao = {
+                                            val metaIdConvertido: UUID = meta?.id ?: UUID.randomUUID()
+                                            metaViewModel.deleteMeta(metaIdConvertido) { sucesso ->
+                                                if (sucesso) {
+                                                    mostrarDialogo = true
+                                                } else {
+                                                    Log.e("ErroDeletarMeta", "Erro ao deletar a meta")
+                                                }
+                                            }
+                                        },
+                                        nomeAcao = "Excluir Meta"
+                                    )
                                     FillButtonEthos(
                                         acao = { /*TODO*/ },
                                         nomeAcao = "Ver Serviços"
@@ -237,6 +261,22 @@ fun MeuProgresso(
                 onClick = { navController.navigate("formulario/Governamental") }
             )
         }
+    }
+
+    if (mostrarDialogo) {
+        AlertDialog(
+            onDismissRequest = { mostrarDialogo = false },
+            confirmButton = {
+                Button(onClick = {
+
+                    mostrarDialogo = false
+                }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("Meta Excluída") },
+            text = { Text("Sua meta foi excluída com sucesso!") })
+
     }
 }
 

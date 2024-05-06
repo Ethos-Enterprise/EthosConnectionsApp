@@ -289,7 +289,7 @@ fun Plataforma(
 
                 NavHost(
                     navController = componenteNavController,
-                    startDestination = "meuProgresso"
+                    startDestination = "solucoesEsg"
                 ) {
                     composable("solucoesEsg") {
                         SolucoesESG(componenteNavController, servicoViewModel)
@@ -303,7 +303,7 @@ fun Plataforma(
                         val fkPrestadoraServico =
                             backStackEntry.arguments?.getString("fkPrestadoraServico") ?: ""
                         AvaliacaoServico(
-                            navController,
+                            componenteNavController,
                             nomeServico,
                             nomeEmpresa,
                             categoria,

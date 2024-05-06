@@ -135,4 +135,37 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
             }
         }
     }
+
+
+    fun deleteMeta(id: UUID, callback: (Boolean) -> Unit) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Log.e("MetaViewModel", "Error: ${throwable.message}")
+            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            callback(false)
+        }
+
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            try {
+                val response = repository.deleteMeta(id)
+                if (response.isSuccessful) {
+                    errorMessage.postValue("")
+                    Log.d("MetaViewModel", "Meta deleted successfully")
+                    callback(true)
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string() ?: "Unknown error")
+                    Log.e("MetaViewModel", "Error deleting Meta: ${errorMessage.value}")
+                    callback(false)
+                }
+            } catch (e: HttpException) {
+                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
+                errorMessage.postValue(e.message ?: "Error deleting Meta")
+                callback(false)
+            } catch (e: Exception) {
+                Log.e("MetaViewModel", "Exception: ${e.message}")
+                errorMessage.postValue(e.message ?: "Exception while deleting Meta")
+                callback(false)
+            }
+        }
+    }
+
 }

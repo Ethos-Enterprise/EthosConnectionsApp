@@ -162,7 +162,7 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
                             .wrapContentWidth()
                             .background(Color(0xFF1B1F23))
                             .padding(0.dp)
-                        .size(width = 124.dp, height = 40.dp),
+                            .size(width = 124.dp, height = 40.dp),
                         shape = RoundedCornerShape(5.dp)
 
                     ) {
@@ -217,10 +217,12 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
             Divider(modifier = Modifier.padding(bottom = 10.dp))
 
             Text(
-                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
+//                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
+                text = "Descreve melhor a sua empresa",
                 style = letraDescricao,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(20.dp)
             )
         }
 
@@ -325,7 +327,8 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            GridServicos(servicos, navController)
+//            GridServicos(servicos, navController)
+            Text(text = "Nenhum serviço cadastrado", style = tituloConteudoBranco)
         }
     }
 }

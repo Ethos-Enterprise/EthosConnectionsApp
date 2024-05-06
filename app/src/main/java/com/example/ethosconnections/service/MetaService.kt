@@ -31,5 +31,5 @@ interface MetaService {
     suspend fun postMeta(@Body meta: Meta): Response<Meta>
 
     @DELETE("v1.0/metas/{id}")
-    suspend fun deleteMeta(@Path("id") id: UUID)
+    suspend fun deleteMeta(@Path("id") id: UUID): Response<Meta>
 }
