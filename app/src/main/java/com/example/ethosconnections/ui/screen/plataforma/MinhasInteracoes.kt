@@ -94,12 +94,12 @@ fun MinhasInteracoes(navController: NavController) {
                     Column {
                         Row(modifier = Modifier.padding(end = 8.dp)) {
                             Text(text = "Em andamento: ", style = tituloConteudoBrancoNegrito)
-                            Text(text = "1 empresas", style = tituloConteudoBranco, )
+                            Text(text = "1 Empresa", style = tituloConteudoBranco, )
                         }
 
                         Row() {
                             Text(text = "Finalizado: ", style = tituloConteudoBrancoNegrito)
-                            Text(text = "1 empresas", style = tituloConteudoBranco)
+                            Text(text = "1 Empresa", style = tituloConteudoBranco)
                         }
                     }
                 }
@@ -208,13 +208,18 @@ fun MinhasInteracoes(navController: NavController) {
             }
 
         } else {
-
-
             // Histórico de Curtidas
             Column {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(text = "Histórico de Curtidas", style = tituloConteudoBranco)
+
+                BoxEthos{
+                    Row(modifier = Modifier.padding(end = 8.dp)) {
+                        Text(text = "Total: ", style = tituloConteudoBrancoNegrito)
+                        Text(text = "1 Empresa", style = tituloConteudoBranco, )
+                    }
+                }
 
                 BoxEthos {
                     Row {
