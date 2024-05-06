@@ -175,7 +175,7 @@ fun MinhasInteracoes(navController: NavController) {
                                     style = tituloConteudoBranco,
                                     fontSize = 12.sp
                                 )
-                                Text(text = "Status do contato: Aguardando resposta da empresa",
+                                Text(text = "Status do contato: Contato realizado",
                                     style = tituloConteudoBrancoNegrito,
                                     fontSize = 12.sp
                                 )
@@ -217,7 +217,7 @@ fun MinhasInteracoes(navController: NavController) {
                 BoxEthos{
                     Row(modifier = Modifier.padding(end = 8.dp)) {
                         Text(text = "Total: ", style = tituloConteudoBrancoNegrito)
-                        Text(text = "1 Empresa", style = tituloConteudoBranco, )
+                        Text(text = "2 Empresas", style = tituloConteudoBranco, )
                     }
                 }
 
