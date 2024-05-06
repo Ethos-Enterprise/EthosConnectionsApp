@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
+import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
@@ -84,15 +85,19 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
 
     Column {
         Text(text = "Meu Plano", style = tituloPagina)
+        Spacer(modifier = Modifier.height(5.dp))
 
         BoxEthos {
 
+            Text(text = "Plano Atual", style = tituloPagina)
             planoAtual?.let {
                 PlanoCaixa(plano = it, planoAtual = true, onClick = {
                 })
             }
 
+            Spacer(modifier = Modifier.height(5.dp))
             Text(text = "Outros Planos", style = tituloPagina)
+            Spacer(modifier = Modifier.height(5.dp))
 
             outrosPlanos.forEach { plano ->
                 PlanoCaixa(plano = plano, planoAtual = false, onClick = {
@@ -100,7 +105,15 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
                 })
             }
 
+
         }
+//        Spacer(modifier = Modifier.height(5.dp))
+//        Rodape(
+//            acaoBotaoEsquerda = { },
+//            nomeBotaoEsquerda = "Editar Dados",
+//            acaoBotaoDireita = {},
+//            nomeBotaoDireita = "Salvar"
+//        )
     }
 
 }
@@ -189,6 +202,8 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
             )
         }
     }
+
+
 }
 
 

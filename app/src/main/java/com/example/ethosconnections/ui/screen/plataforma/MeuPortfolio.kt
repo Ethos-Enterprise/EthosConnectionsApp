@@ -167,7 +167,7 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
 
                     ) {
                         Text(
-                            text = "Editar dados",
+                            text = "Editar",
                             style = letraButton,
                             fontSize = 12.sp
                         )

@@ -1,7 +1,7 @@
 package com.example.ethosconnections.ui.screen
 
 import MeuPerfil
-import MinhasInterações
+import MinhasInteracoes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -357,7 +357,7 @@ fun Plataforma(
                         Questionario(componenteNavController, progressoViewModel, categoria)
                     }
                     composable("minhasInteracoes") {
-                        MinhasInterações(componenteNavController)
+                        MinhasInteracoes(componenteNavController)
                     }
                 }
             }

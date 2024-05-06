@@ -18,13 +18,17 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import com.example.ethosconnections.datastore.EmpresaDataStore
+import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 
 // Modelo de dados do usuário
 data class Usuario(
@@ -106,37 +110,47 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                         .border(1.dp, Color.White, shape = RoundedCornerShape(5.dp))
                         .padding(8.dp) // Adiciona padding interno
                 ) {
-                        Column {
-                            CampoValor(
-                                nomeCampo = "Logradouro:",
-                                valorCampo = usuario.endereco
-                            )
-                            CampoValor(
-                                nomeCampo = "Número:",
-                                valorCampo = usuario.numero
-                            )
-                            CampoValor(
-                                nomeCampo = "Bairro:",
-                                valorCampo = usuario.bairro
-                            )
-                            CampoValor(
-                                nomeCampo = "CEP:",
-                                valorCampo = usuario.cep
-                            )
-                            CampoValor(
-                                nomeCampo = "Telefone Corporativo:",
-                                valorCampo = empresa?.telefone ?: "N/A"
+                    Column {
+                        CampoValor(
+                            nomeCampo = "Logradouro:",
+                            valorCampo = usuario.endereco
+                        )
+                        CampoValor(
+                            nomeCampo = "Número:",
+                            valorCampo = usuario.numero
+                        )
+                        CampoValor(
+                            nomeCampo = "Bairro:",
+                            valorCampo = usuario.bairro
+                        )
+                        CampoValor(
+                            nomeCampo = "CEP:",
+                            valorCampo = usuario.cep
+                        )
+                        CampoValor(
+                            nomeCampo = "Telefone Corporativo:",
+                            valorCampo = empresa?.telefone ?: "N/A"
 
-                            )
-                            CampoValor(
-                                nomeCampo = "Email Corporativo:",
-                                valorCampo = empresa?.email?: "N/A",
-                            )
-                        }
+                        )
+                        CampoValor(
+                            nomeCampo = "Email Corporativo:",
+                            valorCampo = empresa?.email?: "N/A",
+                        )
+                    }
 
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(140.dp))
+
+        // Aqui está o Rodape adicionado no final da tela
+        Rodape(
+            acaoBotaoEsquerda = { },
+            nomeBotaoEsquerda = "Editar Dados",
+            acaoBotaoDireita = {},
+            nomeBotaoDireita = "Salvar",
+        )
     }
 }
 
