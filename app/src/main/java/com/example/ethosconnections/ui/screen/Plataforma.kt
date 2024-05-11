@@ -131,7 +131,7 @@ fun Plataforma(
                 NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
                 NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                NavigationItem(titulo = "Sair", rota = "sair")
+                NavigationItem(titulo = "Sair", rota = "")
             )
 
             "Analytics" -> listOf(
@@ -140,7 +140,7 @@ fun Plataforma(
                 NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
                 NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                NavigationItem(titulo = "Sair", rota = "sair")
+                NavigationItem(titulo = "Sair", rota = "")
             )
 
             else -> listOf(
@@ -149,7 +149,7 @@ fun Plataforma(
                 NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
                 NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                 NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                NavigationItem(titulo = "Sair", rota = "sair")
+                NavigationItem(titulo = "Sair", rota = "")
             )
         }
     val componenteNavController = rememberNavController()

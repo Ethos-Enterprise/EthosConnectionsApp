@@ -134,7 +134,6 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
         assinanteNewsletter: Boolean,
         callback: (Boolean) -> Unit
     ) {
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = repository.cadastrarEmpresa(
