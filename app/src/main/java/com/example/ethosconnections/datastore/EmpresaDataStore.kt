@@ -24,6 +24,7 @@ class EmpresaDataStore(private val context: Context) {
         private val EMPRESA_QTD_FUNCIONARIOS = intPreferencesKey("empresa_qtd_funcionarios")
         private val EMPRESA_ASSINANTE_NEWSLETTER = booleanPreferencesKey("empresa_assinante_newsletter")
         private val EMPRESA_PLANO = stringPreferencesKey("empresa_plano")
+        private val EMPRESA_TOKEN = stringPreferencesKey("empresa_token")
 
     }
 
@@ -38,6 +39,7 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_QTD_FUNCIONARIOS] = empresa.qtdFuncionarios ?: 0
             preferences[EMPRESA_ASSINANTE_NEWSLETTER] = empresa.assinanteNewsletter ?: false
             preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: "Free"
+
         }
     }
 

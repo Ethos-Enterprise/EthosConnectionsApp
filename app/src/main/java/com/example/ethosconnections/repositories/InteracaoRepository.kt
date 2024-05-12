@@ -10,4 +10,6 @@ class InteracaoRepository constructor(private val service: InteracaoService) {
          fkServico: UUID,
          fkEmpresa: UUID,
     ) = service.postInteracao(status, fkServico, fkEmpresa)
+
+    suspend fun getInteracoesByFkEmpresa(fkEmpresa: UUID) = service.getInteracoesByFkEmpresa(fkEmpresa)
 }

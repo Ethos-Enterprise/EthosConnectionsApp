@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.util.UUID
 
 class ServicoViewModel constructor(private val repository: ServicoRepository): ViewModel(){
 
@@ -31,7 +32,7 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
     }
 
     val servicos = MutableLiveData(SnapshotStateList<Servico>())
-
+    val servico= MutableLiveData<Servico>()
     val errorMessage = MutableLiveData("")
 
     fun getServicos() {
@@ -59,7 +60,33 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
                 errorMessage.postValue(e.message ?: "Erro ao logar")
             } catch (e: Exception) {
                 Log.e("ViewModel", "Excecao: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao salvar o filme")
+                errorMessage.postValue(e.message ?: "Erro ao pegar servicos")
+            }
+        }
+    }
+
+    fun getServicoById(id: UUID) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = repository.getServicoById(id)
+                if (response.isSuccessful) {
+                    val response = response.body()
+                    if (response != null) {
+                        val nomeServicoAtual = getNomeEmpresaServico(response)
+                        response.nomeEmpresa = nomeServicoAtual
+
+                    } else {
+                        errorMessage.postValue("Serviço não encontrado")
+                    }
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string())
+                }
+            } catch (e: HttpException) {
+                Log.e("servicoViewModel", "Erro na HTTP: ${e.message}")
+                errorMessage.postValue(e.message ?: "Erro ao buscar serviço por ID")
+            } catch (e: Exception) {
+                Log.e("servicoViewModel", "Excecao: ${e.message}")
+                errorMessage.postValue(e.message ?: "Erro ao buscar serviço por ID")
             }
         }
     }

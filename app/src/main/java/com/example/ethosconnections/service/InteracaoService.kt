@@ -3,7 +3,9 @@ package com.example.ethosconnections.service
 import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Interacao
 import retrofit2.Response
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import java.util.UUID
 
 interface InteracaoService {
@@ -20,4 +22,8 @@ interface InteracaoService {
         fkServico: UUID,
         fkEmpresa: UUID,
     ): Response<Interacao>
+
+    @GET("v1.0/interacoes/{fkEmpresa}")
+    suspend fun getInteracoesByFkEmpresa(@Path("fkEmpresa") fkEmpresa: UUID): Response<List<Interacao>>
+
 }

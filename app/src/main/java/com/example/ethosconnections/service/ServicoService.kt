@@ -4,6 +4,8 @@ import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Servico
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
+import java.util.UUID
 
 interface ServicoService {
     companion object {
@@ -13,5 +15,8 @@ interface ServicoService {
     }
     @GET("v1.0/servicos")
     suspend fun getServicos(): Response<List<Servico>>
+
+    @GET("v1.0/servicos/{id}")
+    suspend fun getServicoById(@Path("id") id:UUID ): Response<Servico>
 
 }
