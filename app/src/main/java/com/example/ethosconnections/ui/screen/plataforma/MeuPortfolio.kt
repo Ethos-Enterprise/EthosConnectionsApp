@@ -30,6 +30,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -80,7 +81,7 @@ fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStor
             text = "Meu Portfólio",
             style = tituloPagina,
         )
-        BoxMeusDadosGerais(navController, empresaDataStore)
+        BoxMeusDadosGerais(navController, empresaDataStore, portfolioViewModel)
         Column(
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -98,11 +99,12 @@ fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStor
 
 
 @Composable
-fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
+fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore, viewModel: PortfolioViewModel) {
     val fotoPerfil = remember { mutableStateOf(Foto("", 80, 95)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 110, 500)) }
 
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+    val portfolio by viewModel.portfolio.observeAsState()
 
     Box {
         Image(
@@ -148,7 +150,7 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
                         style = tituloConteudoBranco
                     )
                     Text(
-                        text = "www.empresaA.com",
+                        text = portfolio?.linkWebsiteEmpresa ?: "www.website.com",
                         style = letraClicavel,
                         fontSize = 12.sp
                     )
@@ -181,8 +183,17 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
 
 
 @Composable
-fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDataStore) {
+fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDataStore, portfolioViewModel: PortfolioViewModel) {
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+    val portfolio by portfolioViewModel.portfolio.observeAsState()
+
+    LaunchedEffect(Unit) {
+        empresaDataStore.getEmpresaFlow().collect { empresa ->
+            empresa?.let {
+                portfolioViewModel.getPortfolio(it.id!!)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -196,12 +207,12 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
         ) {
             Column {
-                BoxMeuPortfolio(navController, empresaDataStore)
+                BoxMeuPortfolio(navController, empresaDataStore, portfolioViewModel)
                 Column(
                     modifier = Modifier.padding(start = 15.dp, top = 7.dp)
                 ) {
                     Text(
-                        text = "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
+                        text = portfolio?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
                         style = corLetra
                     )
                 }
@@ -218,7 +229,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
             Text(
 //                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
-                text = "Descreve melhor a sua empresa",
+                text = portfolio?.sobreEmpresa?: "Descrição sobre a Empresa",
                 style = letraDescricao,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -327,7 +338,7 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-//            GridServicos(servicos, navController)
+            GridServicos(servicos, navController)
             Text(text = "Nenhum serviço cadastrado", style = tituloConteudoBranco)
         }
     }
@@ -337,5 +348,7 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
 @Composable
 fun MeuPortfolioPreview() {
     val navController = rememberNavController()
-    //MeuPortfolio(navController)
+    val context = LocalContext.current
+    val empresaDataStore = EmpresaDataStore(context)
+    MeuPortfolio(navController, empresaDataStore)
 }

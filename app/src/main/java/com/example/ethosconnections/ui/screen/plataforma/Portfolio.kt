@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Foto
+import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.repositories.PortfolioRepository
 import com.example.ethosconnections.repositories.ServicoRepository
@@ -49,6 +50,7 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import java.util.UUID
 
 @Composable
 fun Portfolio(navController: NavController) {
@@ -58,24 +60,27 @@ fun Portfolio(navController: NavController) {
     val servicoRepository = remember { ServicoRepository(ServicoService.create()) }
     val servicoViewModel = remember { ServicoViewModel(servicoRepository) }
 
+    val fkPrestadoraAtual = remember { mutableStateOf<UUID?>(null) }
+
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos()
+        fkPrestadoraAtual.value?.let { prestadoraId ->
+            portfolioViewModel.getPortfolio(prestadoraId)
+        }
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
-
+    val portfolioAtual = remember { portfolioViewModel.portfolio }.observeAsState()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(
             text = "Portfólio",
             style = tituloPagina,
         )
-        BoxDadosGerais(navController)
+        BoxDadosGerais(navController = navController, portfolioAtual = portfolioAtual.value, fkPrestadoraAtual = fkPrestadoraAtual.value, portfolioViewModel)
         Column(
-            modifier = Modifier
-                .padding(top = 8.dp)
+            modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(
                 text = "Todos os serviços",
@@ -90,7 +95,7 @@ fun Portfolio(navController: NavController) {
 
 
 @Composable
-fun BoxPortfolio(navController: NavController) {
+fun BoxPortfolio(navController: NavController, viewModel: PortfolioViewModel) {
     val fotoPerfil = remember { mutableStateOf(Foto("", 90, 100)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 110, 500)) }
 
@@ -146,7 +151,7 @@ fun BoxPortfolio(navController: NavController) {
 
 
 @Composable
-fun BoxDadosGerais(navController: NavController) {
+fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkPrestadoraAtual: UUID?, portfolioViewModel: PortfolioViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,20 +162,17 @@ fun BoxDadosGerais(navController: NavController) {
                 .background(color = Color(0xFF1B1F23), shape = RoundedCornerShape(5.dp))
                 .padding(start = 0.dp, top = 0.dp, bottom = 15.dp)
         ) {
-            Column (
-            ){
-
-                BoxPortfolio(navController)
+            Column {
+                BoxPortfolio(navController, portfolioViewModel)
                 Column(
                     modifier = Modifier.padding(start = 15.dp, top = 5.dp)
                 ) {
                     Text(
-                        text = "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
+                        text = portfolioAtual?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
                         style = corLetra
                     )
                 }
             }
-
         }
         BoxEthos {
             Text(
@@ -181,7 +183,8 @@ fun BoxDadosGerais(navController: NavController) {
             Divider(modifier = Modifier.padding(bottom = 10.dp))
 
             Text(
-                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
+                //text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
+                text = portfolioAtual?.sobreEmpresa ?: "Descrição sobre a Empresa",
                 style = corLetra,
                 modifier = Modifier
                     .fillMaxWidth()

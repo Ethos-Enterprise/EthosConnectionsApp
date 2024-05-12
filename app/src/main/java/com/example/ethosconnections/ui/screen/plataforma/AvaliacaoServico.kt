@@ -96,7 +96,7 @@ fun AvaliacaoServico(
                     Spacer(modifier = Modifier.weight(1f))
 
                     OutlinedButton(
-                        onClick = { navController.navigate("portfolio") },
+                        onClick = { navController.navigate("portfolio/${fkPrestadora}") },
                         shape = RoundedCornerShape(5.dp),
                         border = BorderStroke(2.dp, Color(0xFF01A2C3)),
                         modifier = Modifier.size(width = 140.dp, height = 35.dp)
