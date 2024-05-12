@@ -20,10 +20,14 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.letraClicavel
@@ -44,15 +49,24 @@ import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
+import java.util.UUID
 
 @Composable
-fun MinhasInteracoes(navController: NavController) {
+fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataStore, interacaoViewModel: InteracaoViewModel ) {
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+
+    LaunchedEffect(key1 = true) {
+        interacaoViewModel.getInteracoesByFkEmpresa(empresa?.id ?: UUID.randomUUID())
+    }
+    val interacoes = remember { interacaoViewModel.interacoes }.observeAsState(SnapshotStateList())
 
     // Lógica dos Cards
     var exibirBox1 by remember { mutableStateOf(true) }
 
     Column {
         Text(text = "Minhas interações", style = tituloPagina)
+
 
         BoxEthos {
             Column {
@@ -104,107 +118,111 @@ fun MinhasInteracoes(navController: NavController) {
                     }
                 }
 
-                BoxEthos{
-                    Column {
-                        Row {
-                            Image(
-                                modifier = Modifier
-                                    .width(100.dp)
-                                    .padding(top = 15.dp),
-                                painter = painterResource(id = R.mipmap.deloitte_logo),
-                                contentDescription = "Logo Deloitte"
-                            )
-                            Column {
-                                Text(
-                                    text = "Deloitte",
-                                    style = tituloConteudoAzul
+                for (interacao in interacoes.value) {
+                    BoxEthos {
+                        Column {
+                            Row {
+                                Image(
+                                    modifier = Modifier
+                                        .width(100.dp)
+                                        .padding(top = 15.dp),
+                                    painter = painterResource(id = R.mipmap.deloitte_logo),
+                                    contentDescription = "Logo Deloitte"
                                 )
-                                Text(
-                                    text = "Serviço de interesse: Treinamento de Responsabilidade Social Corporativa (RSC)",
-                                    style = tituloConteudoBranco,
-                                    fontSize = 12.sp
-                                )
-                                Text(text = "Status do contato: Aguardando resposta da empresa",
-                                    style = tituloConteudoBrancoNegrito,
-                                    fontSize = 12.sp
-                                )
+                                Column {
+                                    Text(
+                                        text = interacao.nomeEmpresa,
+                                        style = tituloConteudoAzul
+                                    )
+                                    Text(
+                                        text = "Serviço de interesse: ${interacao.nomeServico}",
+                                        style = tituloConteudoBranco,
+                                        fontSize = 12.sp
+                                    )
+                                    Text(
+                                        text = "Status do contato: ${interacao.status}",
+                                        style = tituloConteudoBrancoNegrito,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
-                        }
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            Button(
-                                onClick = {
-                                    navController.navigate("minhasInteracoes")
-                                },
-                                modifier = Modifier
-                                    .padding(start = 5.dp)
-                                    .background(Color(0xFF1B1F23))
-                                    .widthIn(max = 200.dp)
-                                    .height(35.dp),
-                                shape = RoundedCornerShape(3.dp)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End
                             ) {
-                                Text(
-                                    text = "Avaliar Serviço",
-                                    style = letraButton
-                                )
+                                Button(
+                                    onClick = {
+                                        navController.navigate("minhasInteracoes")
+                                    },
+                                    modifier = Modifier
+                                        .padding(start = 5.dp)
+                                        .background(Color(0xFF1B1F23))
+                                        .widthIn(max = 200.dp)
+                                        .height(35.dp),
+                                    shape = RoundedCornerShape(3.dp)
+                                ) {
+                                    Text(
+                                        text = "Avaliar Serviço",
+                                        style = letraButton
+                                    )
+                                }
                             }
                         }
                     }
                 }
 
-                BoxEthos{
-                    Column {
-                        Row {
-                            Image(
-                                modifier = Modifier
-                                    .width(100.dp)
-                                    .padding(top = 15.dp),
-                                painter = painterResource(id = R.mipmap.ey),
-                                contentDescription = "Logo EY"
-                            )
-                            Column {
-                                Text(
-                                    text = "Ernest & Young",
-                                    style = tituloConteudoAzul
-                                )
-                                Text(
-                                    text = "Serviço de interesse: Gestão de portfólios de investimentos",
-                                    style = tituloConteudoBranco,
-                                    fontSize = 12.sp
-                                )
-                                Text(text = "Status do contato: Contato realizado",
-                                    style = tituloConteudoBrancoNegrito,
-                                    fontSize = 12.sp
-                                )
-                            }
-                        }
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            Button(
-                                onClick = {
-                                    navController.navigate("minhasInteracoes")
-                                },
-                                modifier = Modifier
-                                    .padding(start = 5.dp)
-                                    .background(Color(0xFF1B1F23))
-                                    .widthIn(max = 200.dp)
-                                    .height(35.dp),
-                                shape = RoundedCornerShape(3.dp)
-                            ) {
-                                Text(
-                                    text = "Avaliar Serviço",
-                                    style = letraButton
-                                )
-                            }
-                        }
-                    }
-                }
+//                BoxEthos{
+//                    Column {
+//                        Row {
+//                            Image(
+//                                modifier = Modifier
+//                                    .width(100.dp)
+//                                    .padding(top = 15.dp),
+//                                painter = painterResource(id = R.mipmap.ey),
+//                                contentDescription = "Logo EY"
+//                            )
+//                            Column {
+//                                Text(
+//                                    text = "Ernest & Young",
+//                                    style = tituloConteudoAzul
+//                                )
+//                                Text(
+//                                    text = "Serviço de interesse: Gestão de portfólios de investimentos",
+//                                    style = tituloConteudoBranco,
+//                                    fontSize = 12.sp
+//                                )
+//                                Text(text = "Status do contato: Contato realizado",
+//                                    style = tituloConteudoBrancoNegrito,
+//                                    fontSize = 12.sp
+//                                )
+//                            }
+//                        }
+//
+//                        Row(
+//                            modifier = Modifier.fillMaxWidth(),
+//                            horizontalArrangement = Arrangement.End
+//                        ) {
+//                            Button(
+//                                onClick = {
+//                                    navController.navigate("minhasInteracoes")
+//                                },
+//                                modifier = Modifier
+//                                    .padding(start = 5.dp)
+//                                    .background(Color(0xFF1B1F23))
+//                                    .widthIn(max = 200.dp)
+//                                    .height(35.dp),
+//                                shape = RoundedCornerShape(3.dp)
+//                            ) {
+//                                Text(
+//                                    text = "Avaliar Serviço",
+//                                    style = letraButton
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
             }
 
         } else {
@@ -427,5 +445,5 @@ fun CategoriaCardRetangulo(
 @Composable
 fun MinhasInteracoesPreview() {
     val navController = rememberNavController()
-    MinhasInteracoes(navController)
+    //MinhasInteracoes(navController)
 }

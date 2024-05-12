@@ -99,6 +99,7 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloMenu
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
+import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
@@ -119,6 +120,7 @@ fun Plataforma(
     empresaViewModel: EmpresaViewModel,
     servicoViewModel: ServicoViewModel,
     metaViewModel: MetaViewModel,
+    interacaoViewModel: InteracaoViewModel
 ) {
 
     val empresaDataStore = empresaViewModel.empresaDataStore
@@ -357,7 +359,7 @@ fun Plataforma(
                         Questionario(componenteNavController, progressoViewModel, categoria)
                     }
                     composable("minhasInteracoes") {
-                        MinhasInteracoes(componenteNavController)
+                        MinhasInteracoes(componenteNavController,empresaDataStore, interacaoViewModel)
                     }
                 }
             }

@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
         val servicoViewModel = ViewModelProvider(this, ServicoViewModelFactory(ServicoRepository(ServicoService.create()))).get(ServicoViewModel::class.java)
         val portfolioViewModel = ViewModelProvider(this, PortfolioViewModelFactory(PortfolioRepository(PortfolioService.create()))).get(PortfolioViewModel::class.java)
         val metaViewModel = ViewModelProvider(this, MetaViewModelFactory(MetaRepository(MetaService.create()))).get(MetaViewModel::class.java)
-        val avaliacaoViewModel = ViewModelProvider(this, InteracaoViewModelFactory(InteracaoRepository(InteracaoService.create()))).get(InteracaoViewModel::class.java)
+        val interacaoViewModel = ViewModelProvider(this, InteracaoViewModelFactory(InteracaoRepository(InteracaoService.create()))).get(InteracaoViewModel::class.java)
+
         setContent {
             AppTheme {
 
@@ -72,7 +73,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "plataforma",
                     ) {
-                        Plataforma(navController, empresaViewModel, servicoViewModel, metaViewModel)
+                        Plataforma(navController, empresaViewModel, servicoViewModel, metaViewModel,interacaoViewModel)
                     }
 
                 }
