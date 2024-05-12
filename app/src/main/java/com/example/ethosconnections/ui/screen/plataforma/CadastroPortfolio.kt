@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
@@ -68,7 +70,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
     BoxEthos {
         Column {
             Text(
-                text = "Dados Gerais",
+                stringResource(R.string.subtitulo_pagina_cadastro_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -77,7 +79,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
 
 
             Text(
-                text = "Nome da Empresa",
+                stringResource(R.string.label_nome_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,7 +92,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "CNPJ",
+                stringResource(R.string.label_cnpj_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -105,7 +107,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "Email",
+                stringResource(R.string.label_email_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,7 +121,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "Telefone",
+                stringResource(R.string.label_telefone_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,7 +136,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "CEP",
+                stringResource(R.string.label_cep_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -149,7 +151,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "Área de Atuação",
+                stringResource(R.string.label_area_atuacao_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -163,7 +165,7 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
             )
 
             Text(
-                text = "Quantidade de Funcionários",
+                stringResource(R.string.label_qtd_funcionarios_cadastro_portfolio),
                 style = tituloConteudoBranco,
                 modifier = Modifier
                     .fillMaxWidth()
