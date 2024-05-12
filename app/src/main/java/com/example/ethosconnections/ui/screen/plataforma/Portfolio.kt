@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -75,7 +76,7 @@ fun Portfolio(navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "Portfólio",
+            stringResource(R.string.titulo_pagina_portfolio),
             style = tituloPagina,
         )
         BoxDadosGerais(navController = navController, portfolioAtual = portfolioAtual.value, fkPrestadoraAtual = fkPrestadoraAtual.value, portfolioViewModel)
@@ -83,7 +84,7 @@ fun Portfolio(navController: NavController) {
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(
-                text = "Todos os serviços",
+                stringResource(R.string.titulo_todos_servicos_portfolio),
                 style = tituloPagina,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -176,7 +177,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
         }
         BoxEthos {
             Text(
-                text = "Sobre a empresa",
+                stringResource(R.string.subtitulo_sobre_empresa_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -192,7 +193,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
         }
         BoxEthos {
             Text(
-                text = "Dados Gerais",
+                stringResource(R.string.subtitulo_dados_gerais_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -266,7 +267,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
 
         BoxEthos {
             Text(
-                text = "Certificados",
+                stringResource(R.string.subtitulo_certificados_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )

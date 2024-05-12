@@ -29,12 +29,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.repositories.MetaRepository
@@ -55,7 +57,7 @@ fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val viewModel = remember { MetaViewModel(repository) }
     Column {
         Text(
-            text = "Meta",
+            stringResource(R.string.titulo_pagina_meta),
             style = tituloPagina,
         )
         CadastroMeta(navController, viewModel, empresaDataStore)
@@ -87,7 +89,7 @@ fun CadastroMeta(
     BoxEthos {
         Column {
             Text(
-                text = "Defina sua meta",
+                stringResource(R.string.subtitulo_pagina_meta),
                 style = tituloPagina,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -96,7 +98,7 @@ fun CadastroMeta(
 
 
             Text(
-                text = "Em qual dos 3 pilares do ESG sua empresa busca melhorar?",
+                stringResource(R.string.opcoes_pilares_esg_meta),
                 style = tituloConteudoAzul,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,7 +157,7 @@ fun CadastroMeta(
 
             Column {
                 Text(
-                    text = "Descreva a sua meta ou deixe uma observação",
+                    stringResource(R.string.descricao_meta),
                     style = tituloConteudoAzul,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -270,7 +272,7 @@ fun MetaButtons(
 fun ValidarData(dataFim: String, onDateChange: (String) -> Unit) {
     Column {
         Text(
-            text = "Data Limite",
+            stringResource(R.string.data_limite_meta),
             style = tituloConteudoAzul,
             modifier = Modifier
                 .fillMaxWidth()

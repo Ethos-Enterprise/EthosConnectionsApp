@@ -2,4 +2,25 @@
     <string name="app_name">Ethos Connections</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_plataforma">Plataforma</string>
+
+    // Meta
+    <string name="titulo_pagina_meta">Meta</string>
+    <string name="subtitulo_pagina_meta">Defina sua meta</string>
+    <string name="opcoes_pilares_esg_meta">Em qual dos 3 pilares do ESG sua empresa busca melhorar?</string>
+    <string name="descricao_meta">Descreva a sua meta ou deixe uma observação</string>
+    <string name="data_limite_meta">Data Limite</string>
+
+    // Portfolio
+    <string name="titulo_pagina_portfolio">Portfólio</string>
+    <string name="subtitulo_sobre_empresa_portfolio">Sobre a empresa</string>
+    <string name="subtitulo_dados_gerais_portfolio">Dados Gerais</string>
+    <string name="subtitulo_certificados_portfolio">Certificados</string>
+    <string name="titulo_todos_servicos_portfolio">Todos os serviços</string>
+
+    // Meu Portfolio
+    <string name="titulo_pagina_meu_portfolio">Meu Portfólio</string>
+    <string name="subtitulo_sobre_empresa_meu_portfolio">Sobre a empresa</string>
+    <string name="subtitulo_dados_gerais_meu_portfolio">Dados Gerais</string>
+    <string name="subtitulo_certificados_meu_portfolio">Certificados</string>
+    <string name="titulo_todos_servicos_meu_portfolio">Todos os serviços</string>
 </resources>

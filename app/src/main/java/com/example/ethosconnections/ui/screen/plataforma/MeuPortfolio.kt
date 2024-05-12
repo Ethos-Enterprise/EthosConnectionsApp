@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,7 +79,7 @@ fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStor
             .fillMaxSize()
     ) {
         Text(
-            text = "Meu Portfólio",
+            stringResource(R.string.titulo_pagina_meu_portfolio),
             style = tituloPagina,
         )
         BoxMeusDadosGerais(navController, empresaDataStore, portfolioViewModel)
@@ -87,7 +88,7 @@ fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStor
                 .padding(top = 8.dp)
         ) {
             Text(
-                text = "Todos os serviços",
+                stringResource(R.string.titulo_todos_servicos_meu_portfolio),
                 style = tituloPagina,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -221,7 +222,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
         BoxEthos {
             Text(
-                text = "Sobre a empresa",
+                stringResource(R.string.subtitulo_sobre_empresa_meu_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -239,7 +240,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
         BoxEthos {
             Text(
-                text = "Dados Gerais",
+                stringResource(R.string.subtitulo_dados_gerais_meu_portfolio),
                 style = tituloConteudoAzul,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -315,7 +316,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
     BoxEthos {
         Text(
-            text = "Certificados",
+            stringResource(R.string.subtitulo_certificados_meu_portfolio),
             style = tituloConteudoAzul,
             modifier = Modifier.fillMaxWidth()
         )
