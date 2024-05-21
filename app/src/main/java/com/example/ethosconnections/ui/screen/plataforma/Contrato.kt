@@ -19,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ethosconnections.R
 import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
@@ -37,7 +39,7 @@ fun Contrato(navController: NavController,
 ) {
 
     Column {
-        Text(text = "Aquisição de Plano", style = tituloPagina)
+        Text(stringResource(R.string.titulo_pagina_contrato), style = tituloPagina)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,7 +52,7 @@ fun Contrato(navController: NavController,
             Column {
 
                 Text(
-                    text = "Leia atentamente as informações para a aquisição do plano",
+                    stringResource(R.string.txt_aquisicao_plano_contrato),
                     style = tituloConteudoBranco
                 )
 
@@ -97,59 +99,59 @@ fun Contrato(navController: NavController,
 
                 Column {
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(text = "Termos e Condições", style = tituloPagina)
+                    Text(stringResource(R.string.txt_termos_contrato), style = tituloPagina)
                     Spacer(modifier = Modifier.height(14.dp))
                 }
 
                 Column {
-                    Text(text = "1. Descrição do Plano", style = tituloConteudoBrancoNegrito)
+                    Text(stringResource(R.string.topico_1_contrato), style = tituloConteudoBrancoNegrito)
                     Text(
-                        text = "   O Plano oferece serviços e benefícios conforme descritos na oferta ou material promocional da Ethos.",
+                        stringResource(R.string.txt_topico_1_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(text = "2. Pagamento e Faturamento", style = tituloConteudoBrancoNegrito)
+                    Text(stringResource(R.string.topico_2_contrato), style = tituloConteudoBrancoNegrito)
                     Text(
-                        text = "    O Cliente concorda em pagar as taxas de acordo com as condições de pagamento especificadas pela Ethos.",
+                        stringResource(R.string.txt_topico_2_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(text = "3. Duração e Cancelamento", style = tituloConteudoBrancoNegrito)
+                    Text(stringResource(R.string.topico_3_contrato), style = tituloConteudoBrancoNegrito)
                     Text(
-                        text = "    A duração do Plano é estabelecida na aquisição. O Cliente pode cancelar de acordo com as políticas de cancelamento da Ethos,",
+                        stringResource(R.string.txt_topico_3_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = "4. Responsabilidades do Cliente",
+                        stringResource(R.string.topico_4_contrato),
                         style = tituloConteudoBrancoNegrito
                     )
                     Text(
-                        text = "    O Cliente deve usar os serviços de forma ética e legal, respeitando todas as leis aplicáveis.",
+                        stringResource(R.string.txt_topico_4_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = "5. Responsabilidades da Ethos",
+                        stringResource(R.string.topico_5_contrato),
                         style = tituloConteudoBrancoNegrito
                     )
                     Text(
-                        text = "    A Ethos fornecerá os serviços de acordo com os padrões de qualidade e prazos acordados.",
+                        stringResource(R.string.txt_topico_5_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = "6. Privacidade e Proteção de Dados",
+                        stringResource(R.string.topico_6_contrato),
                         style = tituloConteudoBrancoNegrito
                     )
                     Text(
-                        text = "    A Ethos protegerá os dados do Cliente de acordo com as leis de privacidade aplicáveis. Consulte a Política de Privacidade da Ethos para obter mais informações.",
+                        stringResource(R.string.txt_topico_6_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(text = "7. Disposições Gerais", style = tituloConteudoBrancoNegrito)
+                    Text(stringResource(R.string.topico_7_contrato), style = tituloConteudoBrancoNegrito)
                     Text(
-                        text = "    Estes Termos e Condições constituem o acordo",
+                        stringResource(R.string.txt_topico_7_contrato),
                         style = tituloConteudoBranco
                     )
                     Spacer(modifier = Modifier.height(14.dp))

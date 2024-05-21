@@ -33,4 +33,24 @@
     <string name="label_cep_cadastro_portfolio">CEP</string>
     <string name="label_area_atuacao_cadastro_portfolio">Área Atuação</string>
     <string name="label_qtd_funcionarios_cadastro_portfolio">Quantidade de Funcionários</string>
+
+    <!-- Contrato -->
+    <string name="titulo_pagina_contrato">Aquisição de Plano</string>
+    <string name="txt_aquisicao_plano_contrato">Leia atentamente as informações para a aquisição do plano:</string>
+    <string name="txt_termos_contrato">Termos e Condições</string>
+    <string name="topico_1_contrato">1. Descrição do Plano</string>
+    <string name="txt_topico_1_contrato">    O Plano oferece serviços e benefícios conforme descritos na oferta ou material promocional da Ethos.</string>
+    <string name="topico_2_contrato">2. Pagamento e Faturamento</string>
+    <string name="txt_topico_2_contrato">    O Cliente concorda em pagar as taxas de acordo com as condições de pagamento especificadas pela Ethos.</string>
+    <string name="topico_3_contrato">3. Duração e Cancelamento</string>
+    <string name="txt_topico_3_contrato">    A duração do Plano é estabelecida na aquisição. O Cliente pode cancelar de acordo com as políticas de cancelamento da Ethos.</string>
+    <string name="topico_4_contrato">4. Responsabilidades do Cliente</string>
+    <string name="txt_topico_4_contrato">    O Cliente deve usar os serviços de forma ética e legal, respeitando todas as leis aplicáveis.</string>
+    <string name="topico_5_contrato">5. Responsabilidades da Ethos</string>
+    <string name="txt_topico_5_contrato">    A Ethos fornecerá os serviços de acordo com os padrões de qualidade e prazos acordados.</string>
+    <string name="topico_6_contrato">6. Privacidade e Proteção de Dados</string>
+    <string name="txt_topico_6_contrato">    A Ethos protegerá os dados do Cliente de acordo com as leis de privacidade aplicáveis. Consulte a Política de Privacidade da Ethos para obter mais informações.</string>
+    <string name="topico_7_contrato">7. Disposições Gerais</string>
+    <string name="txt_topico_7_contrato">    Estes Termos e Condições constituem o acordo.</string>
+
 </resources>
