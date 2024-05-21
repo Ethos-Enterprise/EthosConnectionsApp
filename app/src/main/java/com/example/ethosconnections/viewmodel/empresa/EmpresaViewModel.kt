@@ -8,7 +8,10 @@ import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.PrestadoraRepository
+import com.example.ethosconnections.repositories.TokenRepository
 import com.example.ethosconnections.service.PrestadoraService
+import com.example.ethosconnections.service.TokenService
+import com.example.ethosconnections.viewmodel.token.TokenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +26,10 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
         PrestadoraRepository(
             PrestadoraService.create()
         )
+    }
+
+    private val tokenViewModel: TokenViewModel by lazy {
+        TokenViewModel(TokenRepository(TokenService.create()))
     }
 
     val empresa = MutableLiveData<Empresa>()
@@ -159,6 +166,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
             }
         }
     }
+
 }
 
 

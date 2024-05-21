@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.ethosconnections.models.Empresa
+import com.example.ethosconnections.models.Token
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
@@ -39,7 +40,6 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_QTD_FUNCIONARIOS] = empresa.qtdFuncionarios ?: 0
             preferences[EMPRESA_ASSINANTE_NEWSLETTER] = empresa.assinanteNewsletter ?: false
             preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: "Free"
-
         }
     }
 
@@ -58,6 +58,20 @@ class EmpresaDataStore(private val context: Context) {
             )
         }
     }
+
+
+    suspend fun saveToken(token: Token) {
+        context.usuarioAtual.edit { preferences ->
+            preferences[EMPRESA_TOKEN] = token.token
+        }
+    }
+
+    fun getTokenFlow(): Flow<String?> {
+        return context.usuarioAtual.data.map { preferences ->
+            preferences[EMPRESA_TOKEN]
+        }
+    }
+    
     fun getRazaoSocialEmpresaFlow(): Flow<String?> {
         return context.usuarioAtual.data.map { preferences ->
             preferences[EMPRESA_RAZAO_SOCIAL]
