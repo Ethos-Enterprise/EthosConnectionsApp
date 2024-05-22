@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,7 +65,7 @@ fun AvaliacaoServico(
     fkPrestadora:String
 ) {
     Column {
-        Text(text = "Avaliação do Serviço", style = tituloPagina)
+        Text(stringResource(R.string.titulo_pagina_avaliacao), style = tituloPagina)
 
         // Box 1 - Perfil
         BoxEthos {
@@ -164,7 +165,8 @@ fun AvaliacaoServico(
                                         )
 
                                         Text(
-                                            text = "Contatar Empresa", style = tituloConteudoAzul,
+                                            stringResource(R.string.subtitulo_modal_avaliacao),
+                                            style = tituloConteudoAzul,
                                             fontSize = 17.sp
                                         )
 
@@ -174,7 +176,7 @@ fun AvaliacaoServico(
 
 
                                         Text(
-                                            text = "Informaremos a empresa que você solicitou que ela entre em contato com você.",
+                                            stringResource(R.string.txt_modal_avaliacao),
                                             style = tituloConteudoBranco,
                                         )
                                         Spacer(modifier = Modifier.height(10.dp))
@@ -183,7 +185,7 @@ fun AvaliacaoServico(
 
                                             Row {
                                                 Text(
-                                                    text = "Empresa:",
+                                                    stringResource(R.string.txt_empresa_avaliacao),
                                                     style = tituloConteudoAzul,
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
@@ -195,7 +197,7 @@ fun AvaliacaoServico(
 
                                             Row {
                                                 Text(
-                                                    text = "Serviço:",
+                                                    stringResource(R.string.txt_servico_avaliacao),
                                                     style = tituloConteudoAzul,
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
@@ -207,7 +209,7 @@ fun AvaliacaoServico(
 
                                             Row {
                                                 Text(
-                                                    text = "Preço Médio:",
+                                                    stringResource(R.string.txt_preco_avaliacao),
                                                     style = tituloConteudoAzul,
                                                 )
                                                 Spacer(modifier = Modifier.width(5.dp))
@@ -301,7 +303,7 @@ fun AvaliacaoServico(
             Column {
                 Row {
                     Text(
-                        text = "Avaliações de Serviços ", style = tituloConteudoAzul,
+                        stringResource(R.string.subtitulo_pagina_avaliacao), style = tituloConteudoAzul,
                         fontSize = 17.sp
                     )
                     Text(
@@ -375,7 +377,7 @@ fun AvaliacaoServico(
                             modifier = Modifier
                                 .size(23.dp),
                             painter = painterResource(id = R.mipmap.estrelavazia),
-                            contentDescription = "estrelVazia"
+                            contentDescription = "estrelaVazia"
                         )
                     }
 
@@ -387,7 +389,7 @@ fun AvaliacaoServico(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico  ",
+                    stringResource(R.string.txt_descricao_avaliacao),
                     style = letraDescricao
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -458,7 +460,7 @@ fun AvaliacaoServico(
                             modifier = Modifier
                                 .size(23.dp),
                             painter = painterResource(id = R.mipmap.estrelavazia),
-                            contentDescription = "estrelVazia"
+                            contentDescription = "estrelaVazia"
                         )
                     }
 
@@ -470,7 +472,7 @@ fun AvaliacaoServico(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico descricao do servico  ",
+                    stringResource(R.string.txt_descricao_avaliacao),
                     style = letraDescricao
                 )
                 Spacer(modifier = Modifier.height(10.dp))

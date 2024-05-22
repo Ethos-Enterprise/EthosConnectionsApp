@@ -206,7 +206,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                 ) {
                     Column {
                         Text(
-                            text = "Área de Atuação",
+                            stringResource(R.string.txt_area_atuacao_portfolio),
                             style = letraPadrao
                         )
                         Text(
@@ -217,7 +217,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Telefone Corporativo",
+                            stringResource(R.string.txt_telefone_portfolio),
                             style = letraPadrao
                         )
                         Text(
@@ -231,7 +231,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                 ) {
                     Column {
                         Text(
-                            text = "Email Corporativo",
+                            stringResource(R.string.txt_email_portfolio),
                             style = letraPadrao
                         )
                         Text(
@@ -242,7 +242,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Tamanho da Empresa",
+                            stringResource(R.string.txt_qtd_funcionario_portfolio),
                             style = letraPadrao
                         )
                         Text(
@@ -255,7 +255,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
             }
             Column {
                 Text(
-                    text = "Endereço",
+                    stringResource(R.string.txt_endereco_portfolio),
                     style = letraPadrao
                 )
                 Text(

@@ -14,6 +14,11 @@
     <string name="titulo_pagina_portfolio">Portfólio</string>
     <string name="subtitulo_sobre_empresa_portfolio">Sobre a empresa</string>
     <string name="subtitulo_dados_gerais_portfolio">Dados Gerais</string>
+    <string name="txt_area_atuacao_portfolio">Área de Atuação</string>
+    <string name="txt_telefone_portfolio">Telefone Corporativo</string>
+    <string name="txt_email_portfolio">Email Corporativo</string>
+    <string name="txt_qtd_funcionario_portfolio">Tamanho da Empresa</string>
+    <string name="txt_endereco_portfolio">Endereço</string>
     <string name="subtitulo_certificados_portfolio">Certificados</string>
     <string name="titulo_todos_servicos_portfolio">Todos os serviços</string>
 
@@ -63,4 +68,19 @@
     <string name="txt_vencimento_pagamento">Vencimento:</string>
     <string name="txt_valor_pagamento">Valor:</string>
     <string name="txt_pix_pagamento">Código Pix:</string>
+
+    <!-- Avaliacao Servico -->
+    <string name="titulo_pagina_avaliacao">Avaliações do serviço</string>
+    <string name="subtitulo_pagina_avaliacao">Avaliações anteriores</string>
+    <string name="txt_descricao_avaliacao">Contratamos uma consultoria em sustentabilidade ESG e a experiência tem sido absolutamente transformadora para a nossa organização.
+        Eles realizaram uma avaliação detalhada das nossas operações, ajudando-nos a identificar áreas críticas onde poderíamos melhorar nossa eficiência.
+    </string>
+
+    <!-- Avaliacao Servico - Modal -->
+    <string name="subtitulo_modal_avaliacao">Contatar Empresa</string>
+    <string name="txt_modal_avaliacao">Informaremos a empresa que você solicitou que ela entre em contato com você.</string>
+    <string name="txt_empresa_avaliacao">Empresa:</string>
+    <string name="txt_servico_avaliacao">Serviço:</string>
+    <string name="txt_preco_avaliacao">Preço Médio:</string>
+
 </resources>
