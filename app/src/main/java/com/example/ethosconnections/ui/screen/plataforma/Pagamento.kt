@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,7 +55,10 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
     Column {
 
-        Text(text = "Realizar Pagamento Pix", style = tituloPagina)
+        Text(
+            stringResource(R.string.titulo_pagina_pagamento),
+            style = tituloPagina
+        )
         // Estado para armazenar o número do Pix
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
 
@@ -93,10 +97,9 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                     Spacer(modifier = Modifier.width(15.dp))
 
                     Text(
-                        text = "Obrigado por fazer parte da Ethos!", style = tituloConteudoBranco
+                        stringResource(R.string.subtitulo_pagina_pagamento),
+                        style = tituloConteudoBranco
                     )
-
-
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -128,7 +131,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                         ) {
                         Text(
-                            text = "Sua plataforma será atualizada imediatamente após o pagamento",
+                            stringResource(R.string.txt_pagamento),
                             style = tituloConteudoBranco,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -152,7 +155,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                             Row {
 
                                 Text(
-                                    text = "Nome da Empresa:", style = tituloConteudoBrancoNegrito
+                                    text = stringResource(R.string.txt_nome_empresa_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -163,7 +166,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Recebedor:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_recebedor_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -174,7 +177,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Plano:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_plano_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -185,7 +188,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Vencimento:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_vencimento_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -196,7 +199,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Valor:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_valor_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -224,7 +227,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                         ) {
                         Text(
-                            text = "Sua plataforma será atualizada imediatamente após o pagamento",
+                            stringResource(R.string.txt_pagamento),
                             style = tituloConteudoBranco,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -236,7 +239,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                         val context = LocalContext.current
                         Column {
                             Text(
-                                text = "Código Pix:",
+                                stringResource(R.string.txt_pix_pagamento),
                                 style = tituloConteudoBrancoNegrito
 
                             )
@@ -291,7 +294,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                             Row {
 
                                 Text(
-                                    text = "Nome da Empresa:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_nome_empresa_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -302,7 +305,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Recebedor:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_recebedor_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -313,7 +316,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Plano:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_plano_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -324,7 +327,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Vencimento:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_vencimento_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
@@ -335,7 +338,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Row {
                                 Text(
-                                    text = "Valor:", style = tituloConteudoBrancoNegrito
+                                    stringResource(R.string.txt_valor_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(

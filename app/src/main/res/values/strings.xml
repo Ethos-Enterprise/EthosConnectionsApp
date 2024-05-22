@@ -53,4 +53,14 @@
     <string name="topico_7_contrato">7. Disposições Gerais</string>
     <string name="txt_topico_7_contrato">    Estes Termos e Condições constituem o acordo.</string>
 
+    <!-- Pagamento -->
+    <string name="titulo_pagina_pagamento">Realizar Pagamento Pix</string>
+    <string name="subtitulo_pagina_pagamento">Obrigado por fazer parte da Ethos!</string>
+    <string name="txt_pagamento">Sua plataforma será atualizada imediatamente após o pagamento</string>
+    <string name="txt_nome_empresa_pagamento">Nome da Empresa:</string>
+    <string name="txt_recebedor_pagamento">Recebedor:</string>
+    <string name="txt_plano_pagamento">Plano:</string>
+    <string name="txt_vencimento_pagamento">Vencimento:</string>
+    <string name="txt_valor_pagamento">Valor:</string>
+    <string name="txt_pix_pagamento">Código Pix:</string>
 </resources>
