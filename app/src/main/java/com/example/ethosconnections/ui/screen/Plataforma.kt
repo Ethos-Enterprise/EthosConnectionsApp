@@ -87,6 +87,7 @@
     import com.example.ethosconnections.ui.screen.plataforma.MeuPortfolio
     import com.example.ethosconnections.ui.screen.plataforma.MeuProgresso
     import com.example.ethosconnections.ui.screen.plataforma.MinhasInteracoes
+    import com.example.ethosconnections.ui.screen.plataforma.MinhasNegociacoes
     import com.example.ethosconnections.ui.screen.plataforma.Pagamento
     import com.example.ethosconnections.ui.screen.plataforma.Portfolio
     import com.example.ethosconnections.ui.screen.plataforma.Questionario
@@ -360,6 +361,9 @@
                         }
                         composable("minhasInteracoes") {
                             MinhasInteracoes(componenteNavController,empresaDataStore, interacaoViewModel)
+                        }
+                        composable("minhasNegociacoes") {
+                            MinhasNegociacoes(componenteNavController)
                         }
                     }
                 }
