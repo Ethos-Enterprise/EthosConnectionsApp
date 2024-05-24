@@ -1,117 +1,129 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.border
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.unit.sp
+import com.example.compose.cor_primaria
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
+import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
-import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.ui.theme.tituloConteudoBranco
+
+data class Negociacao(
+    val id: String,
+    val texto: String
+)
 
 @Composable
-fun MinhasNegociacoes(componenteNavController: NavHostController) {
-    var selectedStatus by remember { mutableStateOf<String?>(null) }
+fun MinhasNegociacoes() {
+    val negociacoes = listOf(
+        Negociacao(id = "1", texto = "Em andamento"),
+        Negociacao(id = "2", texto = "Pendente"),
+        Negociacao(id = "3", texto = "Finalizada")
+    )
+    val dadosTabela = listOf(
+        listOf("Empresa A", "Serviço A", "01/05/2024", "Em andamento"),
+        listOf("Empresa B", "Serviço B", "02/05/2024", "Pendente"),
+        listOf("Empresa C", "Serviço C", "03/05/2024", "Finalizado")
+    )
+    var selectedNegociacao by remember { mutableStateOf<String?>(null) }
+    val titulosColunas = listOf("Nome da Empresa", "Serviço", "Data de Contato", "Status Atual")
 
-    Column {
+    Column(modifier = Modifier.padding(2.dp)) {
         Text(
             text = "Minhas Negociações",
-            style = tituloPagina,
+            style = tituloConteudoBranco,
             modifier = Modifier.padding(8.dp)
+        )
+        BoxEthos {
+            Text(
+                text = "Status das Negociações",
+                style = tituloConteudoAzul,
+                modifier = Modifier.padding(2.dp)
+            )
+            Column(modifier = Modifier.padding(16.dp)) {
+                negociacoes.forEach { negociacao ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {
+                                selectedNegociacao = negociacao.id
+                            }
+                            .padding(vertical = 1.dp)
+                    ) {
+                        RadioButton(
+                            selected = selectedNegociacao == negociacao.id,
+                            onClick = { selectedNegociacao = negociacao.id },
+                            colors = RadioButtonDefaults.colors(selectedColor = cor_primaria)
+                        )
+                        Text(
+                            text = negociacao.texto,
+                            modifier = Modifier.padding(start = 1.dp),
+                            style = letraPadrao
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(
+            text = "Controle de Negociações",
+            style = tituloConteudoBranco,
+            modifier = Modifier.padding(2.dp)
         )
 
         BoxEthos {
-            Column(Modifier.padding(8.dp)) {
-                Text(
-                    text = "Status das Negociações",
-                    style = tituloConteudoAzul,
-                    modifier = Modifier.padding(horizontal = 3.dp)
-                )
-                Spacer(modifier = Modifier.height(13.dp))
+            Column(modifier = Modifier.padding(1.dp)) {
+                // Títulos das colunas
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    titulosColunas.forEach { titulo ->
+                        Text(
+                            text = titulo,
+                            style = tituloConteudoBranco,
+                            modifier = Modifier.padding(horizontal = 2.dp)
+                        )
+                    }
+                }
+                Divider(modifier = Modifier.padding(bottom = 10.dp))
 
-                Text(
-                    text = "Filtrar por Status:",
-                    style = tituloConteudoAzul,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                StatusFilterRow(
-                    filters = listOf("Pendente", "Em Andamento", "Finalizado"),
-                    selectedStatus = selectedStatus,
-                    onStatusSelected = { selectedStatus = it }
-                )
+                // Dados da tabela
+                dadosTabela.forEach { rowData ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        rowData.forEach { cellData ->
+                            Text(
+                                text = cellData,
+                                modifier = Modifier.padding(horizontal = 8.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
+
     }
 }
 
-@Composable
-fun StatusFilterRow(
-    filters: List<String>,
-    selectedStatus: String?,
-    onStatusSelected: (String) -> Unit
-) {
-    Column(Modifier.padding(horizontal = 16.dp)) {
-        for (filter in filters) {
-            StatusFilterButton(
-                text = filter,
-                isSelected = filter == selectedStatus,
-                onStatusSelected = { selectedStatus ->
-                    onStatusSelected(selectedStatus)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-fun StatusFilterButton(
-    text: String,
-    isSelected: Boolean,
-    onStatusSelected: (String) -> Unit
-) {
-    Column(
-
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onStatusSelected(text) }
-    ) {
-        Canvas(modifier = Modifier.size(24.dp)) {
-            drawCircle(
-                color = if (isSelected) Color.Blue else Color.Transparent,
-                style = Fill
-            )
-            drawCircle(
-                color = Color.Blue,
-                style = Stroke(width = 2.dp.toPx())
-            )
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = text,
-            style = tituloConteudoAzul,
-            color = if (isSelected) Color.Blue else Color.Black
-        )
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun MinhasNegociacoesPreview() {
-    MinhasNegociacoes(rememberNavController())
+    MinhasNegociacoes()
 }
