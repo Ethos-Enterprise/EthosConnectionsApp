@@ -5,6 +5,7 @@ import com.example.ethosconnections.api.Api
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,11 +17,19 @@ interface EmpresaService {
             return Api.getInstance().create(EmpresaService::class.java)
         }
     }
+
     @GET("v1.0/empresas/login/{email}/{senha}")
-     suspend fun loginEmpresa(@Path("email") email: String, @Path("senha") senha: String): Response<Empresa>
+    suspend fun loginEmpresa(
+        @Path("email") email: String,
+        @Path("senha") senha: String,
+        @Header("Authorization") token: String
+    ): Response<Empresa>
 
     @GET("v1.0/empresas/{id}")
-    suspend fun getEmpresPorId(@Path("id") id: UUID): Response<Empresa>
+    suspend fun getEmpresPorId(
+        @Path("id") id: UUID,
+        @Header("Authorization") token: String
+    ): Response<Empresa>
 
     @POST("v1.0/empresas")
     suspend fun cadastrarEmpresa(
@@ -31,7 +40,8 @@ interface EmpresaService {
         senha: String,
         setor: String,
         qtdFuncionarios: Int,
-        assinanteNewsletter: Boolean
+        assinanteNewsletter: Boolean,
+        @Header("Authorization") token: String
     ): Response<Empresa>
 
 }

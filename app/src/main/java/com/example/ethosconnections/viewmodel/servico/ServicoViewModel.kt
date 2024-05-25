@@ -35,14 +35,14 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
     val servico= MutableLiveData<Servico>()
     val errorMessage = MutableLiveData("")
 
-    fun getServicos() {
+    fun getServicos(token:String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getServicos()
+                val response = repository.getServicos("Bearer $token")
                 if (response.isSuccessful) {
                     val servicosList = response.body() ?: emptyList()
                     for (servico in servicosList) {
-                        val nomeServicoAtual = getNomeEmpresaServico(servico)
+                        val nomeServicoAtual = getNomeEmpresaServico(servico, "Bearer $token")
                         servico.nomeEmpresa = nomeServicoAtual
                         Log.e("ServicoViewModel", "nome: ${servico.nomeEmpresa}")
                     }
@@ -65,14 +65,14 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
         }
     }
 
-    fun getServicoById(id: UUID) {
+    fun getServicoById(id: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getServicoById(id)
+                val response = repository.getServicoById(id, "Bearer $token")
                 if (response.isSuccessful) {
                     val response = response.body()
                     if (response != null) {
-                        val nomeServicoAtual = getNomeEmpresaServico(response)
+                        val nomeServicoAtual = getNomeEmpresaServico(response, "Bearer $token")
                         response.nomeEmpresa = nomeServicoAtual
 
                     } else {
@@ -91,15 +91,15 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
         }
     }
 
-    suspend fun getNomeEmpresaServico(servico: Servico): String {
+    suspend fun getNomeEmpresaServico(servico: Servico, token: String): String {
         return try {
-            val response = prestadoraRepository.getPrestadoraPorId(servico.fkPrestadoraServico)
+            val response = prestadoraRepository.getPrestadoraPorId(servico.fkPrestadoraServico, "Bearer $token")
             if (response.isSuccessful) {
                 val prestadora = response.body()
 
                 if (prestadora != null) {
 
-                    val empresaResponse = empresaRepository.getEmpresaPorId(prestadora!!.fkEmpresa!!)
+                    val empresaResponse = empresaRepository.getEmpresaPorId(prestadora!!.fkEmpresa!!, "Bearer $token")
                     if (empresaResponse.isSuccessful) {
 
                         val empresa = empresaResponse.body()

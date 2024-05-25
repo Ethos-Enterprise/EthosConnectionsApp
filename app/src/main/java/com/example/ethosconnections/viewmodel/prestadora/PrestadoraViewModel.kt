@@ -20,10 +20,10 @@ class PrestadoraViewModel(private val repository: PrestadoraRepository): ViewMod
     val empresa = MutableLiveData<Prestadora>()
     val errorMessage = MutableLiveData<String>()
 
-    fun getPrestadoras() {
+    fun getPrestadoras(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getPrestadoras()
+                val response = repository.getPrestadoras("Bearer $token")
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         prestadoras.value!!.clear()
@@ -47,10 +47,10 @@ class PrestadoraViewModel(private val repository: PrestadoraRepository): ViewMod
             }
         }
     }
-    fun getPrestadoraPorId(id: UUID) {
+    fun getPrestadoraPorId(id: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getPrestadoraPorId(id)
+                val response = repository.getPrestadoraPorId(id, "Bearer $token")
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         prestadora.value = response.body()

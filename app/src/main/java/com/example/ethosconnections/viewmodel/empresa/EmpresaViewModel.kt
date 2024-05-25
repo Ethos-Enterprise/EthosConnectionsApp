@@ -14,12 +14,13 @@ import com.example.ethosconnections.service.TokenService
 import com.example.ethosconnections.viewmodel.token.TokenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class EmpresaViewModel(private val context: Context, private val repository: EmpresaRepository) : ViewModel() {
+class EmpresaViewModel(private val context: Context, private val repository: EmpresaRepository, ) : ViewModel() {
 
     val empresaDataStore: EmpresaDataStore = EmpresaDataStore(context)
     private val prestadoraRepository: PrestadoraRepository by lazy {
@@ -29,40 +30,47 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     }
 
     private val tokenViewModel: TokenViewModel by lazy {
-        TokenViewModel(TokenRepository(TokenService.create()))
+        TokenViewModel(TokenRepository(TokenService.create()), empresaDataStore)
     }
 
     val empresa = MutableLiveData<Empresa>()
     val errorMessage = MutableLiveData<String>()
 
     fun loginEmpresa(email: String, senha: String, callback: (Boolean) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = repository.loginEmpresa(email, senha)
-                withContext(Dispatchers.Main) {
-                    if (response.isSuccessful) {
-                        val empresa = response.body()
-                        empresa?.let {
-                            empresaDataStore.saveEmpresa(it)
-                            verificaSeEmpresaEPrestadora(it, callback)
+        tokenViewModel.loginAutenticacao(email, senha) { isSuccess ->
+            if (isSuccess) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val token = empresaDataStore.getToken()
+                        val response = repository.loginEmpresa(email, senha, "Bearer $token")
+                        withContext(Dispatchers.Main) {
+                            if (response.isSuccessful) {
+                                val empresa = response.body()
+                                empresa?.let {
+                                    empresaDataStore.saveEmpresa(it)
+                                    verificaSeEmpresaEPrestadora(it, callback)
+                                }
+                            } else {
+                                errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                                callback(false)
+                            }
                         }
-                    } else {
-                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
-                        callback(false)
+                    } catch (e: HttpException) {
+                        Log.e("ViewModel", "Erro na HTTP: ${e.message}")
+                        withContext(Dispatchers.Main) {
+                            errorMessage.value = e.message ?: "Erro ao logar"
+                            callback(false)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ViewModel", "Excecao: ${e.message}")
+                        withContext(Dispatchers.Main) {
+                            errorMessage.value = e.message ?: "Erro ao logar"
+                            callback(false)
+                        }
                     }
                 }
-            } catch (e: HttpException) {
-                Log.e("ViewModel", "Erro na HTTP: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro ao logar"
-                    callback(false)
-                }
-            } catch (e: Exception) {
-                Log.e("ViewModel", "Excecao: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro ao logar"
-                    callback(false)
-                }
+            } else {
+                callback(false)
             }
         }
     }
@@ -70,7 +78,9 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     private fun verificaSeEmpresaEPrestadora(empresa: Empresa, callback: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = prestadoraRepository.getPrestadoras()
+                val token = empresaDataStore.getToken()
+                val response = prestadoraRepository.getPrestadoras("Bearer $token")
+
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val prestadoras = response.body() ?: emptyList()
@@ -107,7 +117,9 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     fun getPrestadoraPorId(id: UUID) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getEmpresaPorId(id)
+                val token = empresaDataStore.getToken()
+                val response = repository.getEmpresaPorId(id,"Bearer $token")
+
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         empresa.value = response.body()
@@ -143,8 +155,9 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                val token = empresaDataStore.getToken()
                 val response = repository.cadastrarEmpresa(
-                    nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter
+                    nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter, "Bearer $token"
                 )
                 if (response.isSuccessful) {
                     val empresaResponse = response.body()

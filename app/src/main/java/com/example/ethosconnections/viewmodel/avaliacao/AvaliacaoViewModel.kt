@@ -15,7 +15,7 @@ class AvaliacaoViewModel(private val repository: AvaliacaoRepository) : ViewMode
     val meta = MutableLiveData<Avaliacao>()
     val allAvaliacoes = MutableLiveData<List<Avaliacao>>()
     val errorMessage = MutableLiveData<String>()
-    fun getAllAvaliacoes() {
+    fun getAllAvaliacoes(token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("MetaViewModel", "Error: ${throwable.message}")
             errorMessage.postValue(throwable.message ?: "Unknown error occurred")
@@ -23,7 +23,7 @@ class AvaliacaoViewModel(private val repository: AvaliacaoRepository) : ViewMode
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
-                val response = repository.getAllAvaliacoes()
+                val response = repository.getAllAvaliacoes("Bearer $token")
                 if (response.isSuccessful) {
                     allAvaliacoes.postValue(response.body())
                     errorMessage.postValue("")

@@ -7,9 +7,10 @@ import retrofit2.http.POST
 import java.util.UUID
 
 class EmpresaRepository constructor(private val service:EmpresaService) {
-    suspend fun loginEmpresa(email:String , senha:String) = service.loginEmpresa(email, senha)
-
-    suspend fun getEmpresaPorId(id:UUID) = service.getEmpresPorId(id)
+    suspend fun loginEmpresa(email: String, senha: String, token: String): Response<Empresa> {
+        return service.loginEmpresa(email, senha, token)
+    }
+    suspend fun getEmpresaPorId(id:UUID, token : String) = service.getEmpresPorId(id, token)
 
 
     suspend fun cadastrarEmpresa(
@@ -20,6 +21,7 @@ class EmpresaRepository constructor(private val service:EmpresaService) {
         senha: String,
         setor: String,
         qtdFuncionarios: Int,
-        assinanteNewsletter: Boolean
-    ) = service.cadastrarEmpresa(nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter)
+        assinanteNewsletter: Boolean,
+        token: String
+    ) = service.cadastrarEmpresa(nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter,token)
 }

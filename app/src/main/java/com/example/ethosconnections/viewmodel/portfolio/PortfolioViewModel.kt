@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.models.Portfolio
+import com.example.ethosconnections.models.Token
 import com.example.ethosconnections.repositories.PortfolioRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +17,7 @@ class PortfolioViewModel(private val repository: PortfolioRepository) : ViewMode
     val portfolio = MutableLiveData<Portfolio>()
     val errorMessage = MutableLiveData<String>()
 
-    fun getPortfolio(id: UUID) {
+    fun getPortfolio(id: UUID, token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("ViewModel", "Error: ${throwable.message}")
             errorMessage.postValue(throwable.message ?: "Unknown error occurred")
@@ -24,7 +25,7 @@ class PortfolioViewModel(private val repository: PortfolioRepository) : ViewMode
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
-                val response = repository.getPortfolioById(id)
+                val response = repository.getPortfolioById(id, "Bearer $token")
                 if (response.isSuccessful) {
                     portfolio.postValue(response.body())
                     errorMessage.postValue("")
@@ -41,7 +42,7 @@ class PortfolioViewModel(private val repository: PortfolioRepository) : ViewMode
         }
     }
 
-    fun putPortfolio(id: UUID, portfolio: Portfolio) {
+    fun putPortfolio(id: UUID, portfolio: Portfolio, token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Log.e("ViewModel", "Error: ${throwable.message}")
             errorMessage.postValue(throwable.message ?: "Unknown error occurred")
@@ -49,7 +50,7 @@ class PortfolioViewModel(private val repository: PortfolioRepository) : ViewMode
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
-                val response = repository.putPortfolioById(id, portfolio)
+                val response = repository.putPortfolioById(id, portfolio, "Bearer $token")
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
                 } else {

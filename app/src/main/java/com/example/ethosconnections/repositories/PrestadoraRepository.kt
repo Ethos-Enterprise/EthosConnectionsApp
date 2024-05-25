@@ -5,8 +5,8 @@ import java.util.UUID
 
 
 class PrestadoraRepository constructor(private val service: PrestadoraService) {
-    suspend fun getPrestadoras() = service.getPrestadoras()
+    suspend fun getPrestadoras(token : String) = service.getPrestadoras(token)
 
-    suspend fun getPrestadoraPorId(id:UUID) = service.getPrestadoraPorId(id)
+    suspend fun getPrestadoraPorId(id:UUID, token : String) = service.getPrestadoraPorId(id, token)
 
 }

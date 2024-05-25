@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Token
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.util.*
 
@@ -88,6 +89,13 @@ class EmpresaDataStore(private val context: Context) {
         context.usuarioAtual.edit { preferences ->
             preferences[EMPRESA_PLANO] = novoPlano
         }
+    }
+
+
+    suspend fun getToken(): String? {
+        return context.usuarioAtual.data.map { preferences ->
+            preferences[EMPRESA_TOKEN]
+        }.first()
     }
 }
 

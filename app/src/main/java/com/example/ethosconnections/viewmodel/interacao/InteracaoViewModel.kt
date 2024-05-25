@@ -31,11 +31,12 @@ class InteracaoViewModel(
         status: String,
         fkServico: UUID,
         fkEmpresa: UUID,
+        token: String,
         callback: (Boolean) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.postInteracao(status, fkServico, fkEmpresa)
+                val response = repository.postInteracao(status, fkServico, fkEmpresa, "Bearer $token")
 
                 if (response.isSuccessful) {
                     val interacaoResponse = response.body()
@@ -56,17 +57,17 @@ class InteracaoViewModel(
     }
 
 
-    fun getInteracoesByFkEmpresa(fkEmpresa: UUID) {
+    fun getInteracoesByFkEmpresa(fkEmpresa: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.getInteracoesByFkEmpresa(fkEmpresa)
+                val response = repository.getInteracoesByFkEmpresa(fkEmpresa, "Bearer $token")
                 if (response.isSuccessful) {
                     val interacoesList = response.body() ?: emptyList()
 
                     for (interacao in interacoesList) {
                         val servicoViewModel = ServicoViewModel(ServicoRepository(ServicoService.create()))
 
-                        servicoViewModel.getServicoById(interacao.fkServico)
+                        servicoViewModel.getServicoById(interacao.fkServico, "Bearer $token")
 
                         interacao.nomeServico = servicoViewModel.servico.value?.nomeServico ?: "NomeServico não encontrado"
                         interacao.nomeEmpresa = servicoViewModel.servico.value?.nomeEmpresa ?: "Nome do serviço não encontrado"

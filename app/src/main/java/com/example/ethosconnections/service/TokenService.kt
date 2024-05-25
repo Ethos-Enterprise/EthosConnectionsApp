@@ -4,6 +4,7 @@ import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Token
 import retrofit2.Response
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface TokenService {

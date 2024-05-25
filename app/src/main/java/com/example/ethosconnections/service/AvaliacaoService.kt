@@ -4,6 +4,7 @@ import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Avaliacao
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 
 interface AvaliacaoService {
     companion object {
@@ -13,5 +14,7 @@ interface AvaliacaoService {
     }
 
     @GET("/v1.0/avaliacoes")
-    suspend fun getAllAvaliacoes(): Response<List<Avaliacao>>
+    suspend fun getAllAvaliacoes(
+        @Header("Authorization") token: String
+    ): Response<List<Avaliacao>>
 }

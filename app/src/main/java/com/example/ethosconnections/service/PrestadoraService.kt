@@ -6,6 +6,7 @@ import com.example.ethosconnections.models.Prestadora
 import com.example.ethosconnections.models.Servico
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import java.util.UUID
 
@@ -16,9 +17,9 @@ interface PrestadoraService {
         }
     }
     @GET("v1.0/prestadoras")
-    suspend fun getPrestadoras(): Response<List<Prestadora>>
+    suspend fun getPrestadoras(@Header("Authorization") token: String): Response<List<Prestadora>>
 
     @GET("v1.0/prestadoras/{id}")
-    suspend fun getPrestadoraPorId(@Path("id") id:UUID): Response<Prestadora>
+    suspend fun getPrestadoraPorId(@Path("id") id:UUID, @Header("Authorization") token: String): Response<Prestadora>
 
 }
