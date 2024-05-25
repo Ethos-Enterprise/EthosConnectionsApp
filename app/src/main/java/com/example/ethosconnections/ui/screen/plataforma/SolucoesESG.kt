@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -121,10 +122,10 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
 
     Column {
 
-        Text(text = "Soluções ESG", style = tituloPagina)
+        Text(stringResource(R.string.titulo_pagina_solucoes_esg), style = tituloPagina)
 
         BoxEthos {
-            Text(text = "Categorias ESG ", style = tituloConteudoBranco)
+            Text(stringResource(R.string.subtitulo_filtro_solucoes_esg), style = tituloConteudoBranco)
             Spacer(modifier = Modifier.height(14.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -185,7 +186,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
 
                 placeholder = {
                     Text(
-                        "Buscar soluções",
+                        stringResource(R.string.placeholder_busca_solucoes_esg),
                         color = Color.White,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(bottom = 0.dp)
