@@ -65,45 +65,53 @@ class InteracaoViewModel(
             } catch (e: Exception) {
                 errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
                 callback(false)
+
             }
         }
     }
 
+    suspend fun getInteracoesByFkEmpresa(fkEmpresa: UUID, token: String) {
+        try {
+            val response = repository.getInteracoesByFkEmpresa(fkEmpresa, "Bearer $token")
 
-    fun getInteracoesByFkEmpresa(fkEmpresa: UUID, token: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = repository.getInteracoesByFkEmpresa(fkEmpresa, "Bearer $token")
-                if (response.isSuccessful) {
-                    val interacoesList = response.body() ?: emptyList()
+            if (response.isSuccessful) {
+                val interacoesList = response.body() ?: emptyList()
 
-                    for (interacao in interacoesList) {
-                        val servicoViewModel =
-                            ServicoViewModel(context, ServicoRepository(ServicoService.create()))
+                for (interacao in interacoesList) {
+                    val servicoViewModel =
+                        ServicoViewModel(context, ServicoRepository(ServicoService.create()))
 
-                        servicoViewModel.getServicoById(interacao.fkServico, "Bearer $token")
+                    val servico = withContext(Dispatchers.IO) {
+                        servicoViewModel.getServicoById(interacao.fkServico, token)
+                        servicoViewModel.servico.value
 
-                        interacao.nomeServico = servicoViewModel.servico.value?.nomeServico
-                            ?: context.getString(R.string.nao_encontrado)
-                        interacao.nomeEmpresa = servicoViewModel.servico.value?.nomeEmpresa
-                            ?: context.getString(R.string.nao_encontrado)
                     }
+
+                    interacao.nomeServico = servico?.nomeServico ?: context.getString(R.string.nao_encontrado)
+                    interacao.nomeEmpresa = context.getString(R.string.nao_encontrado)
+                }
+
+                withContext(Dispatchers.Main) {
                     interacoes.value!!.clear()
                     interacoes.value!!.addAll(interacoesList)
-
-                } else {
-                    errorMessage.postValue(response.errorBody()?.string())
+                    errorMessage.postValue("")
+                    Log.e("OK getInteracoesByFkEmpresa", interacoesList.toString())
                 }
-            } catch (e: HttpException) {
-                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
-            } catch (e: Exception) {
-                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
+            } else {
+                errorMessage.postValue(response.errorBody()?.string())
+                Log.e("else getInteracoesByFkEmpresa", errorMessage.value.toString())
             }
+        } catch (e: HttpException) {
+            errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+            Log.e("http getInteracoesByFkEmpresa", errorMessage.value.toString())
+        } catch (e: Exception) {
+            errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
+            Log.e("exception getInteracoesByFkEmpresa", e.message.toString())
         }
     }
 
 
-    fun getInteracoesServicos(fkPrestadora:UUID, token: String) {
+    fun getInteracoesServicos(fkPrestadora: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val responseServicos = servicoRepository.getServicos("Bearer $token")

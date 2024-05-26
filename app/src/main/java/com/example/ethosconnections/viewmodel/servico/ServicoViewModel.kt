@@ -34,7 +34,7 @@ class ServicoViewModel constructor(private val context: Context, private val rep
     }
 
     val servicos = MutableLiveData(SnapshotStateList<Servico>())
-    val servico= MutableLiveData<Servico>()
+    val servico = MutableLiveData<Servico>()
     val errorMessage = MutableLiveData("")
 
     fun getServicos(token:String) {
@@ -43,8 +43,6 @@ class ServicoViewModel constructor(private val context: Context, private val rep
                 val response = repository.getServicos("Bearer $token")
                 if (response.isSuccessful) {
                     val servicosList = response.body() ?: emptyList()
-                    Log.e("GETSERVICOS", servicosList.toString())
-
                     for (servico in servicosList) {
                         val nomeServicoAtual = getNomeEmpresaServico(servico, token)
                         servico.nomeEmpresa = nomeServicoAtual
@@ -66,28 +64,27 @@ class ServicoViewModel constructor(private val context: Context, private val rep
         }
     }
 
-    fun getServicoById(id: UUID, token: String) {
+    suspend fun getServicoById(id: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = repository.getServicoById(id, "Bearer $token")
                 if (response.isSuccessful) {
-                    val response = response.body()
-                    if (response != null) {
-                        val nomeServicoAtual = getNomeEmpresaServico(response,  token)
-                        response.nomeEmpresa = nomeServicoAtual
-
-                    } else {
-                        errorMessage.postValue(context.getString(R.string.nao_encontrado))
+                    val servicoResponse = response.body()!!
+                    withContext(Dispatchers.Main) {
+                        servico.postValue(servicoResponse)
+                        Log.e("OK getservicobyid", servicoResponse.toString())
                     }
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
+                    Log.e("else getservicobyid", errorMessage.toString())
                 }
             } catch (e: HttpException) {
                 errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
-                Log.e("servicoViewModel", errorMessage.toString())
+                Log.e("else getservicobyid", e.message.toString())
+
             } catch (e: Exception) {
                 errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
-                Log.e("servicoViewModel", errorMessage.toString())
+                Log.e("else getservicobyid", e.message.toString())
 
             }
         }
@@ -98,19 +95,15 @@ class ServicoViewModel constructor(private val context: Context, private val rep
             val response = prestadoraRepository.getPrestadoraPorId(servico.fkPrestadoraServico, "Bearer $token")
             if (response.isSuccessful) {
                 val prestadora = response.body()
-                Log.e("getNomeEmpresaServico , pegou prestadora", prestadora.toString())
-
 
                 if (prestadora != null) {
 
                     val empresaResponse = empresaRepository.getEmpresaPorId(prestadora!!.fkEmpresa!!, "Bearer $token")
                     if (empresaResponse.isSuccessful) {
-                        Log.e("getNomeEmpresaServico , pegou empresa", empresaResponse.toString())
 
                         val empresa = empresaResponse.body()
                         empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado)
                     } else {
-                        Log.e("getNomeEmpresaServico , nao pegou empresa", empresaResponse.toString())
 
                         "${empresaResponse.message()}"
                     }

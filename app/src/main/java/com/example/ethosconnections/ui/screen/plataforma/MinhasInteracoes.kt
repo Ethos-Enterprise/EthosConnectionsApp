@@ -56,9 +56,17 @@ import java.util.UUID
 fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataStore, interacaoViewModel: InteracaoViewModel ) {
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
-    LaunchedEffect(key1 = true) {
-        interacaoViewModel.getInteracoesByFkEmpresa(empresa?.id ?: UUID.randomUUID(), empresaDataStore.getToken())
+
+    LaunchedEffect(key1 = empresa) {
+        empresa?.let {
+            val token = empresaDataStore.getToken()
+            val idPrestadora = it.idPrestadora
+            if (idPrestadora != null) {
+                interacaoViewModel.getInteracoesByFkEmpresa(idPrestadora, token)
+            }
+        }
     }
+
     val interacoes = remember { interacaoViewModel.interacoes }.observeAsState(SnapshotStateList())
 
     // Lógica dos Cards

@@ -6,7 +6,7 @@ import java.util.UUID
 data class Interacao(
     var id: UUID,
     var status: String,
-    var data: LocalDate,
+    var data: String,
     var fkServico: UUID,
     var fkEmpresa: UUID,
     var nomeEmpresa: String,

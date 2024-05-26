@@ -116,7 +116,10 @@ class EmpresaDataStore(private val context: Context) {
         }.first()
 
     }
-
+    suspend fun getId(): UUID? {
+        val empresa = getEmpresaFlow().first()
+        return empresa?.id
+    }
     suspend fun clearDataStore() {
         context.usuarioAtual.edit { preferences ->
             preferences.clear()

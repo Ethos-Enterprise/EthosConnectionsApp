@@ -25,7 +25,7 @@ interface InteracaoService {
         @Header("Authorization") token: String
     ): Response<Interacao>
 
-    @GET("v1.0/interacoes/{fkEmpresa}")
+    @GET("v1.0/interacoes/empresa/{fkEmpresa}")
     suspend fun getInteracoesByFkEmpresa(
         @Path("fkEmpresa") fkEmpresa: UUID,
         @Header("Authorization") token: String
