@@ -5,5 +5,5 @@ import com.example.ethosconnections.service.TokenService
 
 class TokenRepository constructor(private val service: TokenService) {
 
-    suspend fun loginAutenticacao( email: String,senha: String) = service.loginAutenticacao(email, senha)
+    suspend fun loginAutenticacao( email: String,password: String) = service.loginAutenticacao(email, password)
 }

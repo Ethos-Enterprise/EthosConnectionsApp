@@ -16,10 +16,10 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
     val token= MutableLiveData<Token>()
     val errorMessage = MutableLiveData("")
 
-    fun loginAutenticacao(email: String, senha: String, callback: (Boolean) -> Unit) {
+    fun loginAutenticacao(email: String, password: String, callback: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.loginAutenticacao(email, senha)
+                val response = repository.loginAutenticacao(email, password)
                 if (response.isSuccessful) {
                     val jwtToken = response.body()?.token ?: ""
                     empresaDataStore.saveToken(Token(jwtToken))
@@ -36,7 +36,7 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
                         errorMessage.value = error
                         callback(false)
                     }
-                    Log.e("TokenViewModel", "Excecao: $error")
+                    Log.e("TokenViewModel", "Excecao else: $error")
 
                 }
             } catch (e: HttpException) {
@@ -45,7 +45,7 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
                     errorMessage.value = error
                     callback(false)
                 }
-                Log.e("TokenViewModel", "Excecao: $error")
+                Log.e("TokenViewModel", "http exception: $error")
             } catch (e: Exception) {
                 val error = e.message ?: "Exception ao pegar token"
                 withContext(Dispatchers.Main) {

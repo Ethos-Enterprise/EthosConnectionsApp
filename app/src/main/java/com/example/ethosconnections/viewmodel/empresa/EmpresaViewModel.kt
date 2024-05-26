@@ -71,7 +71,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                 }
             } else {
                 callback(false)
-                Log.e("TokenViewModel" , "DEU RUIMM")
+                Log.e("EmpresaToken", "DEU RUIM")
             }
         }
     }

@@ -4,8 +4,10 @@ import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Token
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface TokenService {
 
@@ -17,8 +19,8 @@ interface TokenService {
 
     @POST("v1.0/auth/login")
     suspend fun loginAutenticacao(
-        email: String,
-        senha: String,
+        @Query("email") email: String,
+        @Query("password") password: String,
     ): Response<Token>
 
 }

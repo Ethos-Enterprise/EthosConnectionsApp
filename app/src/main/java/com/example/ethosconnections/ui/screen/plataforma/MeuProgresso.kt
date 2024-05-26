@@ -92,6 +92,7 @@ fun MeuProgresso(
     LaunchedEffect(key1 = null) {
         token = empresaDataStore.getToken()
 
+
         metaViewModel.getAllMetas(token)
     }
 
