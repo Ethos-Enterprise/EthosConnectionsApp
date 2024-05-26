@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -98,16 +99,16 @@ fun MeuProgresso(
 
     Column {
 
-        Text(text = "Meu Progresso", style = tituloPagina)
+        Text(stringResource(R.string.titulo_pagina_meu_progresso), style = tituloPagina)
         BoxEthos {
-            Text(text = "Meu Nível de ESG", style = tituloConteudoAzul)
+            Text(stringResource(R.string.subtitulo_meu_progresso), style = tituloConteudoAzul)
             Divider(modifier = Modifier.padding(bottom = 10.dp))
-            Text(text = "Total de Aderência ESG - em %", style = tituloConteudoBranco)
+            Text(stringResource(R.string.titulo_grafico_meu_progresso), style = tituloConteudoBranco)
             Spacer(modifier = Modifier.height(16.dp))
             ProgressBarWithNumber(progress = progressoTotal.toFloat() / 100f)
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Aderência ESG por Área de Impacto - em %", style = tituloConteudoBranco)
+            Text(stringResource(R.string.subtitulo_grafico_meu_progresso), style = tituloConteudoBranco)
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -178,7 +179,7 @@ fun MeuProgresso(
                                     .fillMaxHeight(0.6f)
                             )
                             Text(
-                                text = "Nenhuma meta definida",
+                                stringResource(R.string.mensagem_meta_meu_progresso),
                                 style = letraPadraoExtraLigth,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.padding(top = 16.dp)
@@ -243,26 +244,26 @@ fun MeuProgresso(
         }
 
         BoxEthos {
-            Text(text = "Formulários Avaliativos", style = tituloConteudoAzul)
+            Text(stringResource(R.string.titulo_formulario_meu_progresso), style = tituloConteudoAzul)
             Divider(modifier = Modifier.padding(bottom = 10.dp))
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_ambiental,
                 categoria = "Ambiental",
                 nomeServico = "Ambiental",
-                nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
+                nomeEmpresa = stringResource(R.string.formulario_ambiental_meu_progresso),
                 onClick = { navController.navigate("formulario/Ambiental") }
             )
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_social,
                 categoria = "Social",
                 nomeServico = "Social",
-                nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
+                nomeEmpresa = stringResource(R.string.formulario_social_meu_progresso),
                 onClick = { navController.navigate("formulario/Social") }
             )
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_governamental,
                 categoria = "Governamental",
                 nomeServico = "Governamental",
-                nomeEmpresa = "Explicação do formulário breve, talvez sobre o pilar não sei mas deve ser sucinto please amigos e amigas.",
+                nomeEmpresa = stringResource(R.string.formulario_governamental_meu_progresso),
                 onClick = { navController.navigate("formulario/Governamental") }
             )
         }

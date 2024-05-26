@@ -83,4 +83,19 @@
     <string name="txt_servico_avaliacao">Serviço:</string>
     <string name="txt_preco_avaliacao">Preço Médio:</string>
 
+    <!-- Soluções ESG -->
+    <string name="titulo_pagina_solucoes_esg">Soluções ESG</string>
+    <string name="subtitulo_filtro_solucoes_esg">Categorias ESG</string>
+    <string name="placeholder_busca_solucoes_esg">Buscas soluções</string>
+
+    <!-- Meu progresso -->
+    <string name="titulo_pagina_meu_progresso">Meu progresso</string>
+    <string name="subtitulo_meu_progresso">Meu nível de ESG</string>
+    <string name="titulo_grafico_meu_progresso">Total de Aderência ESG - em %</string>
+    <string name="subtitulo_grafico_meu_progresso">Aderência ESG por Área de Impacto - em %</string>
+    <string name="mensagem_meta_meu_progresso">Nenhuma meta definida</string>
+    <string name="titulo_formulario_meu_progresso">Formulários Avaliativos</string>
+    <string name="formulario_ambiental_meu_progresso">Este formulário ESG avalia o impacto ambiental para promover práticas sustentáveis e responsabilidade ambiental.</string>
+    <string name="formulario_social_meu_progresso">Este formulário ESG avalia o impacto social visa quantificar práticas sociais responsáveis e identificar melhorias.</string>
+    <string name="formulario_governamental_meu_progresso">Este formulário ESG analisa a governança corporativa visando fortalecer a integridade e responsabilidade empresarial.</string>
 </resources>
