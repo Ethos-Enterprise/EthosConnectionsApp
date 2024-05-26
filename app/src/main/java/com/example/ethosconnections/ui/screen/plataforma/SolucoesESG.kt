@@ -319,7 +319,7 @@ fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavControl
                         fkPrestadora = servico.fkPrestadoraServico,
                         onClick = {
                             navController.navigate(
-                                "avaliacaoServico/${servico.nomeServico}/${servico.nomeEmpresa ?: ""}/${servico.areaAtuacaoEsg}/${servico.valor}/${servico.descricao}/${servico.fkPrestadoraServico}"
+                                "avaliacaoServico/${servico.id}/${servico.nomeServico}/${servico.nomeEmpresa ?: ""}/${servico.areaAtuacaoEsg}/${servico.valor}/${servico.descricao}/${servico.fkPrestadoraServico}"
                             )
                         }
                     )

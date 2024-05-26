@@ -64,6 +64,8 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
     // Lógica dos Cards
     var exibirBox1 by remember { mutableStateOf(true) }
 
+    var cardSelecionadoInteracao by remember { mutableStateOf(0) }
+
     Column {
         Text(text = "Minhas interações", style = tituloPagina)
 
@@ -81,8 +83,8 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         contentDescription = "Contatos",
                         buttonText = "Contatos",
                         onClick = { exibirBox1 = true },
-                        cardSelecionado = false,
-                        setSelectedCard = {}
+                        cardSelecionado = cardSelecionadoInteracao == 0,
+                        setSelectedCard = {selecionado -> if (selecionado) cardSelecionadoInteracao = 0 }
                     )
 
                     CategoriaCardRetangulo(
@@ -90,14 +92,13 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         contentDescription = "Favoritos",
                         buttonText = "Favoritos",
                         onClick = { exibirBox1 = false },
-                        cardSelecionado = false,
-                        setSelectedCard = {}
+                        cardSelecionado = cardSelecionadoInteracao == 1,
+                        setSelectedCard = {selecionado -> if (selecionado) cardSelecionadoInteracao = 1}
                     )
                 }
             }
         }
 
-        // Empresas Contatadas
         if (exibirBox1) {
             Column{
                 Spacer(modifier = Modifier.height(10.dp))
@@ -171,62 +172,10 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         }
                     }
                 }
-
-
-//                BoxEthos{
-//                    Column {
-//                        Row {
-//                            Image(
-//                                modifier = Modifier
-//                                    .width(100.dp)
-//                                    .padding(top = 15.dp),
-//                                painter = painterResource(id = R.mipmap.ey),
-//                                contentDescription = "Logo EY"
-//                            )
-//                            Column {
-//                                Text(
-//                                    text = "Ernest & Young",
-//                                    style = tituloConteudoAzul
-//                                )
-//                                Text(
-//                                    text = "Serviço de interesse: Gestão de portfólios de investimentos",
-//                                    style = tituloConteudoBranco,
-//                                    fontSize = 12.sp
-//                                )
-//                                Text(text = "Status do contato: Contato realizado",
-//                                    style = tituloConteudoBrancoNegrito,
-//                                    fontSize = 12.sp
-//                                )
-//                            }
-//                        }
-//
-//                        Row(
-//                            modifier = Modifier.fillMaxWidth(),
-//                            horizontalArrangement = Arrangement.End
-//                        ) {
-//                            Button(
-//                                onClick = {
-//                                    navController.navigate("minhasInteracoes")
-//                                },
-//                                modifier = Modifier
-//                                    .padding(start = 5.dp)
-//                                    .background(Color(0xFF1B1F23))
-//                                    .widthIn(max = 200.dp)
-//                                    .height(35.dp),
-//                                shape = RoundedCornerShape(3.dp)
-//                            ) {
-//                                Text(
-//                                    text = "Avaliar Serviço",
-//                                    style = letraButton
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
             }
 
         } else {
-            // Histórico de Curtidas
+
             Column {
                 Spacer(modifier = Modifier.height(10.dp))
 

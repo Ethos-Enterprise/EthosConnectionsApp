@@ -26,6 +26,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,19 +55,30 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoCinza
 import com.example.ethosconnections.ui.theme.tituloConteudoCinzaNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
 import java.util.UUID
 
 @Composable
 fun AvaliacaoServico(
     navController: NavController,
+    id: UUID,
     nomeServico: String,
     nomeEmpresa: String,
     categoria: String,
     valorMedio: Double,
     descricao: String,
-    fkPrestadora:String,
-    empresaDataStore: EmpresaDataStore
+    fkPrestadora:UUID,
+    empresaDataStore: EmpresaDataStore,
+    interacaoViewModel: InteracaoViewModel
 ) {
+
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+    var token by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = true) {
+        token = empresaDataStore.getToken()
+    }
+
     Column {
         Text(stringResource(R.string.titulo_pagina_avaliacao), style = tituloPagina)
 
@@ -118,7 +131,6 @@ fun AvaliacaoServico(
 
         }
 
-        //Box 2 - Serviço
         BoxEthos {
 
             Column {
@@ -238,11 +250,15 @@ fun AvaliacaoServico(
                                             )
                                             Spacer(modifier = Modifier.width(5.dp))
                                             FillButtonEthos(
-                                                acao = { showDialog = false },
+                                                acao = {
+                                                    token?.let { token ->
+                                                        interacaoViewModel.postInteracao("PENDENTE", id, empresa?.id ?: UUID.randomUUID(), token) { success ->
+                                                            showDialog = false
+                                                        }
+                                                    }
+                                                },
                                                 nomeAcao = "Confirmar"
                                             )
-
-
                                         }
 
                                     }
@@ -255,7 +271,9 @@ fun AvaliacaoServico(
 
                     Row() {
                         Button(
-                            onClick = { showDialog = true },
+                            onClick = {
+                                        showDialog = true
+                            },
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(
                                 Color(0xFF01A2C3)

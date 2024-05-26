@@ -107,6 +107,7 @@
     import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
     import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
     import kotlinx.coroutines.launch
+    import java.util.UUID
 
     data class NavigationItem(
         val titulo: String,
@@ -322,30 +323,33 @@
                         composable("solucoesEsg") {
                             SolucoesESG(componenteNavController, servicoViewModel, empresaDataStore)
                         }
-                        composable("avaliacaoServico/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}") { backStackEntry ->
+                        composable("avaliacaoServico/{id}/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}") { backStackEntry ->
+                            val id = UUID.fromString(backStackEntry.arguments?.getString("id") ?: "")
                             val nomeServico = backStackEntry.arguments?.getString("nomeServico") ?: ""
                             val nomeEmpresa = backStackEntry.arguments?.getString("nomeEmpresa") ?: ""
                             val categoria = backStackEntry.arguments?.getString("categoria") ?: ""
                             val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
                             val descricao = backStackEntry.arguments?.getString("descricao") ?: ""
-                            val fkPrestadoraServico =
-                                backStackEntry.arguments?.getString("fkPrestadoraServico") ?: ""
+                            val fkPrestadoraServico = UUID.fromString(backStackEntry.arguments?.getString("fkPrestadoraServico") ?: "")
                             AvaliacaoServico(
                                 componenteNavController,
+                                id,
                                 nomeServico,
                                 nomeEmpresa,
                                 categoria,
                                 preco,
                                 descricao,
                                 fkPrestadoraServico,
-                                empresaDataStore
+                                empresaDataStore,
+                                interacaoViewModel
                             )
                         }
                         composable("meuProgresso") {
                             MeuProgresso(componenteNavController, progressoViewModel, metaViewModel,empresaDataStore)
                         }
-                        composable("portfolio") {
-                            Portfolio(componenteNavController, servicoViewModel, portfolioViewModel, empresaDataStore)
+                        composable("portfolio/{fkPrestadora}") { backStackEntry ->
+                            val fkPrestadora = UUID.fromString(backStackEntry.arguments?.getString("fkPrestadora") ?: "")
+                            Portfolio(componenteNavController, servicoViewModel, portfolioViewModel, empresaDataStore, fkPrestadora)
                         }
                         composable("cadastroPortfolio") {
                             CadastroPortfolio(componenteNavController, empresaDataStore)
@@ -389,7 +393,7 @@
                             MinhasInteracoes(componenteNavController,empresaDataStore, interacaoViewModel)
                         }
                         composable("minhasNegociacoes") {
-                            MinhasNegociacoes(componenteNavController,empresaDataStore)
+                            MinhasNegociacoes(componenteNavController,empresaDataStore, interacaoViewModel)
                         }
                     }
                 }

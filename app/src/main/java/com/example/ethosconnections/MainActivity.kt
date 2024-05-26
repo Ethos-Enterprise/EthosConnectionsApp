@@ -81,8 +81,6 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             val empresa = empresaDataStore.getEmpresaFlow().first()
 
-            Log.e("olha o valor dataStore ", empresa.toString())
-
             tokenViewModel.loginAutenticacao("admin@ethos", "123") { success ->
                 val startDestination = if (empresa != null && success) {
                     "plataforma"
@@ -122,9 +120,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-
-            Log.e("resultado token view model", tokenViewModel.errorMessage.toString() )
-
         }
     }
 }

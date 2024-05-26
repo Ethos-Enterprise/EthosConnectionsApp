@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +20,8 @@ import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
+import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
+import kotlinx.coroutines.flow.first
 
 data class Negociacao(
     val id: String,
@@ -25,7 +29,21 @@ data class Negociacao(
 )
 
 @Composable
-fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDataStore) {
+fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDataStore, interacaoViewModel: InteracaoViewModel) {
+
+    LaunchedEffect(key1 = true) {
+        val empresaAtual = empresaDataStore.getEmpresaFlow().first()
+
+        empresaAtual?.idPrestadora?.let { idPrestadora ->
+            interacaoViewModel.getInteracoesServicos(idPrestadora, empresaDataStore.getToken())
+        } ?: run {
+            println("ID Prestadora é nulo")
+        }
+    }
+
+    var interacoes = remember { interacaoViewModel.interacoes }.observeAsState(SnapshotStateList())
+
+
     val negociacoes = listOf(
         Negociacao(id = "1", texto = "Em andamento"),
         Negociacao(id = "2", texto = "Pendente"),
@@ -122,7 +140,6 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
 
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Token
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +29,7 @@ class EmpresaDataStore(private val context: Context) {
             booleanPreferencesKey("empresa_assinante_newsletter")
         private val EMPRESA_PLANO = stringPreferencesKey("empresa_plano")
         private val EMPRESA_TOKEN = stringPreferencesKey("empresa_token")
-
+        private val EMPRESA_ID_PRESTADORA = stringPreferencesKey("empresa_id_prestadora")
     }
 
     suspend fun saveEmpresa(empresa: Empresa) {
@@ -42,6 +43,8 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_QTD_FUNCIONARIOS] = empresa.qtdFuncionarios ?: 0
             preferences[EMPRESA_ASSINANTE_NEWSLETTER] = empresa.assinanteNewsletter ?: false
             preferences[EMPRESA_PLANO] = empresa.plano ?: empresa.plano ?: "Free"
+            preferences[EMPRESA_ID_PRESTADORA] = empresa.idPrestadora?.toString() ?: ""
+
         }
     }
 
@@ -57,6 +60,8 @@ class EmpresaDataStore(private val context: Context) {
             val qtdFuncionarios = preferences[EMPRESA_QTD_FUNCIONARIOS]
             val assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER]
             val plano = preferences[EMPRESA_PLANO]
+            val idPrestadoraString = preferences[EMPRESA_ID_PRESTADORA]
+            val idPrestadora = idPrestadoraString?.let { UUID.fromString(it) }
 
             if (idString != null && razaoSocial != null && cnpj != null && telefone != null && email != null &&
                 setor != null && qtdFuncionarios != null && assinanteNewsletter != null && plano != null
@@ -70,7 +75,8 @@ class EmpresaDataStore(private val context: Context) {
                     setor = setor,
                     qtdFuncionarios = qtdFuncionarios,
                     assinanteNewsletter = assinanteNewsletter,
-                    plano = plano
+                    plano = plano,
+                    idPrestadora = idPrestadora
                 )
             } else {
                 null
@@ -106,7 +112,7 @@ class EmpresaDataStore(private val context: Context) {
 
     suspend fun getToken(): String {
         return context.usuarioAtual.data.map { preferences ->
-            preferences[EMPRESA_TOKEN] ?: throw NoSuchElementException("Token nao existe")
+            preferences[EMPRESA_TOKEN] ?: throw NoSuchElementException(context.getString(R.string.nao_encontrado))
         }.first()
 
     }

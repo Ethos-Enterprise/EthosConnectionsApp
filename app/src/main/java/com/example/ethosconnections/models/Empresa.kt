@@ -12,7 +12,9 @@ data class Empresa(
     var setor:String? = null,
     var qtdFuncionarios:Int? = null,
     var assinanteNewsletter:Boolean? = null,
-    var plano:String? = null
+    var plano:String? = null,
+    var idPrestadora:UUID? = null
+
 )
 
 data class EmpresaNova(

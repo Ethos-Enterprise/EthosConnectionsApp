@@ -89,6 +89,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                         val isPrestadora = prestadoras.any { it.fkEmpresa == empresa.id }
                         if (isPrestadora) {
                             empresa.plano = "Provider"
+                            empresa.idPrestadora = prestadoras.find { it.fkEmpresa == empresa.id }?.fkEmpresa
                         } else {
                             empresa.plano = "Free"
                         }

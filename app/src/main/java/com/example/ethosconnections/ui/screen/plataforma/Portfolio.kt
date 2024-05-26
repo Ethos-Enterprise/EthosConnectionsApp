@@ -55,14 +55,15 @@ import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
 @Composable
-fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore) {
+fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore, fkPrestadora: UUID,
+) {
 
-    val fkPrestadoraAtual = remember { mutableStateOf<UUID?>(null) }
+    val fkPrestadoraAtual = remember {mutableStateOf(fkPrestadora)}
 
     LaunchedEffect(key1 = true) {
         val token = empresaDataStore.getToken()
         servicoViewModel.getServicos(token)
-        fkPrestadoraAtual.value?.let { prestadoraId ->
+        fkPrestadoraAtual.value.let { prestadoraId ->
             portfolioViewModel.getPortfolio(prestadoraId, token)
         }
     }
