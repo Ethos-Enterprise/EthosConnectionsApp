@@ -47,17 +47,34 @@ class EmpresaDataStore(private val context: Context) {
 
     fun getEmpresaFlow(): Flow<Empresa?> {
         return context.usuarioAtual.data.map { preferences ->
-            Empresa(
-                id = preferences[EMPRESA_ID]?.let { UUID.fromString(it) },
-                razaoSocial = preferences[EMPRESA_RAZAO_SOCIAL],
-                cnpj = preferences[EMPRESA_CNPJ],
-                telefone = preferences[EMPRESA_TELEFONE],
-                email = preferences[EMPRESA_EMAIL],
-                setor = preferences[EMPRESA_SETOR],
-                qtdFuncionarios = preferences[EMPRESA_QTD_FUNCIONARIOS],
-                assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER],
-                plano = preferences[EMPRESA_PLANO]
-            )
+            val idString = preferences[EMPRESA_ID]
+            val id = idString?.let { UUID.fromString(it) }
+            val razaoSocial = preferences[EMPRESA_RAZAO_SOCIAL]
+            val cnpj = preferences[EMPRESA_CNPJ]
+            val telefone = preferences[EMPRESA_TELEFONE]
+            val email = preferences[EMPRESA_EMAIL]
+            val setor = preferences[EMPRESA_SETOR]
+            val qtdFuncionarios = preferences[EMPRESA_QTD_FUNCIONARIOS]
+            val assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER]
+            val plano = preferences[EMPRESA_PLANO]
+
+            if (idString != null && razaoSocial != null && cnpj != null && telefone != null && email != null &&
+                setor != null && qtdFuncionarios != null && assinanteNewsletter != null && plano != null
+            ) {
+                Empresa(
+                    id = id,
+                    razaoSocial = razaoSocial,
+                    cnpj = cnpj,
+                    telefone = telefone,
+                    email = email,
+                    setor = setor,
+                    qtdFuncionarios = qtdFuncionarios,
+                    assinanteNewsletter = assinanteNewsletter,
+                    plano = plano
+                )
+            } else {
+                null
+            }
         }
     }
 
@@ -65,12 +82,6 @@ class EmpresaDataStore(private val context: Context) {
     suspend fun saveToken(token: Token) {
         context.usuarioAtual.edit { preferences ->
             preferences[EMPRESA_TOKEN] = token.token
-        }
-    }
-
-    fun getTokenFlow(): Flow<String?> {
-        return context.usuarioAtual.data.map { preferences ->
-            preferences[EMPRESA_TOKEN]
         }
     }
 
@@ -98,6 +109,12 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_TOKEN] ?: throw NoSuchElementException("Token nao existe")
         }.first()
 
+    }
+
+    suspend fun clearDataStore() {
+        context.usuarioAtual.edit { preferences ->
+            preferences.clear()
+        }
     }
 }
 

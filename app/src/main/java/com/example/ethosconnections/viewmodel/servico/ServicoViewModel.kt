@@ -43,8 +43,10 @@ class ServicoViewModel constructor(private val context: Context, private val rep
                 val response = repository.getServicos("Bearer $token")
                 if (response.isSuccessful) {
                     val servicosList = response.body() ?: emptyList()
+                    Log.e("GETSERVICOS", servicosList.toString())
+
                     for (servico in servicosList) {
-                        val nomeServicoAtual = getNomeEmpresaServico(servico, "Bearer $token")
+                        val nomeServicoAtual = getNomeEmpresaServico(servico, token)
                         servico.nomeEmpresa = nomeServicoAtual
                     }
 
@@ -71,7 +73,7 @@ class ServicoViewModel constructor(private val context: Context, private val rep
                 if (response.isSuccessful) {
                     val response = response.body()
                     if (response != null) {
-                        val nomeServicoAtual = getNomeEmpresaServico(response, "Bearer $token")
+                        val nomeServicoAtual = getNomeEmpresaServico(response,  token)
                         response.nomeEmpresa = nomeServicoAtual
 
                     } else {
@@ -96,15 +98,20 @@ class ServicoViewModel constructor(private val context: Context, private val rep
             val response = prestadoraRepository.getPrestadoraPorId(servico.fkPrestadoraServico, "Bearer $token")
             if (response.isSuccessful) {
                 val prestadora = response.body()
+                Log.e("getNomeEmpresaServico , pegou prestadora", prestadora.toString())
+
 
                 if (prestadora != null) {
 
                     val empresaResponse = empresaRepository.getEmpresaPorId(prestadora!!.fkEmpresa!!, "Bearer $token")
                     if (empresaResponse.isSuccessful) {
+                        Log.e("getNomeEmpresaServico , pegou empresa", empresaResponse.toString())
 
                         val empresa = empresaResponse.body()
                         empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado)
                     } else {
+                        Log.e("getNomeEmpresaServico , nao pegou empresa", empresaResponse.toString())
+
                         "${empresaResponse.message()}"
                     }
                 } else {

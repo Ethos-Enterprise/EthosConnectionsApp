@@ -152,7 +152,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                                 navController.navigate("plataforma")
                                 },2000)
                             } else {
-                                errorMessage.value = usuarioSenhaIncorretos
+                                errorMessage.value = viewModel.errorMessage.value.toString()
                             }
                         }
                     }

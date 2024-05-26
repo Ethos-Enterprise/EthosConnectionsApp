@@ -122,10 +122,10 @@
         servicoViewModel: ServicoViewModel,
         metaViewModel: MetaViewModel,
         interacaoViewModel: InteracaoViewModel,
-        portfolioViewModel: PortfolioViewModel
+        portfolioViewModel: PortfolioViewModel,
+        empresaDataStore: EmpresaDataStore
     ) {
 
-        val empresaDataStore = empresaViewModel.empresaDataStore
         val progressoViewModel: ProgressoViewModel = viewModel()
 
         val items =
@@ -135,7 +135,6 @@
                     NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
                     NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                     NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                    NavigationItem(titulo = "Sair", rota = "")
                 )
 
                 "Analytics" -> listOf(
@@ -144,7 +143,6 @@
                     NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
                     NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                     NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                    NavigationItem(titulo = "Sair", rota = "")
                 )
 
                 else -> listOf(
@@ -153,7 +151,6 @@
                     NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
                     NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                     NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
-                    NavigationItem(titulo = "Sair", rota = "")
                 )
             }
         val componenteNavController = rememberNavController()
@@ -189,7 +186,7 @@
                                 .collectAsState(initial = null).value ?: "sem razao social"
                         } | ${
                             empresaDataStore.getPlanoFlow()
-                                .collectAsState(initial = null).value ?: "plamo free"
+                                .collectAsState(initial = null).value ?: "plano free"
                         }",
                         style = tituloMenu,
                         modifier = Modifier.padding(start = 25.dp, top = 10.dp)
@@ -226,6 +223,33 @@
                                 .padding(start = 0.dp, top = 0.dp)
                         )
                     }
+
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Sair",
+                                style = letraMenu,
+                                modifier = Modifier.padding(start = 17.dp)
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                empresaDataStore.clearDataStore()
+                                drawerState.close()
+                                navController.navigate("home")
+                            }
+                        },
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = Color(0x6F121212),
+                            unselectedContainerColor = preto_azulado,
+                            selectedTextColor = cor_primaria,
+                            unselectedTextColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(1f)
+                            .padding(start = 0.dp, top = 0.dp)
+                    )
                 }
             },
             drawerState = drawerState

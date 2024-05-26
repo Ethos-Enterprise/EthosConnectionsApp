@@ -23,9 +23,9 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class EmpresaViewModel(private val context: Context, private val repository: EmpresaRepository, ) : ViewModel() {
+class EmpresaViewModel(private val context: Context, private val repository: EmpresaRepository,private val empresaDataStore: EmpresaDataStore
+) : ViewModel() {
 
-    val empresaDataStore: EmpresaDataStore = EmpresaDataStore(context)
     private val prestadoraRepository: PrestadoraRepository by lazy {
         PrestadoraRepository(
             PrestadoraService.create()
@@ -72,7 +72,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                 }
             } else {
                 callback(false)
-                Log.e("EmpresaToken", "DEU RUIM")
+                errorMessage.value = tokenViewModel.errorMessage.value
             }
         }
     }
