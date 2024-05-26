@@ -68,7 +68,7 @@ fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStor
 
 
     LaunchedEffect(key1 = true) {
-        servicoViewModel.getServicos()
+        servicoViewModel.getServicos(empresaDataStore.getToken())
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
@@ -191,7 +191,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
     LaunchedEffect(Unit) {
         empresaDataStore.getEmpresaFlow().collect { empresa ->
             empresa?.let {
-                portfolioViewModel.getPortfolio(it.id!!)
+                portfolioViewModel.getPortfolio(it.id!!, empresaDataStore.getToken())
             }
         }
     }

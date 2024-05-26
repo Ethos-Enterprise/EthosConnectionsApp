@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
@@ -36,6 +37,7 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 fun Contrato(navController: NavController,
              nomePlano: String?,
              preco: Double?,
+             empresaDataStore: EmpresaDataStore
 ) {
 
     Column {
@@ -179,5 +181,5 @@ fun Contrato(navController: NavController,
 @Composable
 fun contratoESGPreview() {
     val navController = rememberNavController()
-    Contrato(navController, "Analytics", 29.90)
+    //Contrato(navController, "Analytics", 29.90)
 }

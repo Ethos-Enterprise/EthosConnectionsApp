@@ -25,16 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
-import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
-import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 
 data class Plano(
     val nome: String,

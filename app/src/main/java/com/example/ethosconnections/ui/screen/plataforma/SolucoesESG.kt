@@ -51,6 +51,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.compose.cor_primaria
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.ServicoEthos
@@ -61,10 +62,10 @@ import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
 @Composable
-fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel) {
+fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel, empresaDataStore: EmpresaDataStore) {
 
     LaunchedEffect(key1 = true) {
-        servicoViewModel.getServicos()
+        servicoViewModel.getServicos(empresaDataStore.getToken())
     }
 
     var servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())

@@ -57,7 +57,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     LaunchedEffect(key1 = true) {
-        interacaoViewModel.getInteracoesByFkEmpresa(empresa?.id ?: UUID.randomUUID())
+        interacaoViewModel.getInteracoesByFkEmpresa(empresa?.id ?: UUID.randomUUID(), empresaDataStore.getToken())
     }
     val interacoes = remember { interacaoViewModel.interacoes }.observeAsState(SnapshotStateList())
 

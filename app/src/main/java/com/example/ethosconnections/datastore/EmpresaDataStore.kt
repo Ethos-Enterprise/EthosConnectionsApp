@@ -24,7 +24,8 @@ class EmpresaDataStore(private val context: Context) {
         private val EMPRESA_EMAIL = stringPreferencesKey("empresa_email")
         private val EMPRESA_SETOR = stringPreferencesKey("empresa_setor")
         private val EMPRESA_QTD_FUNCIONARIOS = intPreferencesKey("empresa_qtd_funcionarios")
-        private val EMPRESA_ASSINANTE_NEWSLETTER = booleanPreferencesKey("empresa_assinante_newsletter")
+        private val EMPRESA_ASSINANTE_NEWSLETTER =
+            booleanPreferencesKey("empresa_assinante_newsletter")
         private val EMPRESA_PLANO = stringPreferencesKey("empresa_plano")
         private val EMPRESA_TOKEN = stringPreferencesKey("empresa_token")
 
@@ -72,7 +73,7 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_TOKEN]
         }
     }
-    
+
     fun getRazaoSocialEmpresaFlow(): Flow<String?> {
         return context.usuarioAtual.data.map { preferences ->
             preferences[EMPRESA_RAZAO_SOCIAL]
@@ -92,10 +93,11 @@ class EmpresaDataStore(private val context: Context) {
     }
 
 
-    suspend fun getToken(): String? {
+    suspend fun getToken(): String {
         return context.usuarioAtual.data.map { preferences ->
-            preferences[EMPRESA_TOKEN]
+            preferences[EMPRESA_TOKEN] ?: throw NoSuchElementException("Token nao existe")
         }.first()
+
     }
 }
 

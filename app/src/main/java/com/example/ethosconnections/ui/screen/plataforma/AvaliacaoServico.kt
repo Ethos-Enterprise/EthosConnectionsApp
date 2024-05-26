@@ -42,6 +42,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
@@ -62,7 +63,8 @@ fun AvaliacaoServico(
     categoria: String,
     valorMedio: Double,
     descricao: String,
-    fkPrestadora:String
+    fkPrestadora:String,
+    empresaDataStore: EmpresaDataStore
 ) {
     Column {
         Text(stringResource(R.string.titulo_pagina_avaliacao), style = tituloPagina)

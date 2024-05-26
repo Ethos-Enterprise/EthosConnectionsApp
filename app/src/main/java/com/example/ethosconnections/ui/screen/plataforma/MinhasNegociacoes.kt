@@ -11,7 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.compose.cor_primaria
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
@@ -23,7 +25,7 @@ data class Negociacao(
 )
 
 @Composable
-fun MinhasNegociacoes() {
+fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val negociacoes = listOf(
         Negociacao(id = "1", texto = "Em andamento"),
         Negociacao(id = "2", texto = "Pendente"),
@@ -125,5 +127,5 @@ fun MinhasNegociacoes() {
 @Preview(showBackground = true)
 @Composable
 fun MinhasNegociacoesPreview() {
-    MinhasNegociacoes()
+   // MinhasNegociacoes()
 }

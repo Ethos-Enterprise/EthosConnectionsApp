@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Foto
 import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.models.Servico
@@ -54,7 +55,7 @@ import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
 @Composable
-fun Portfolio(navController: NavController) {
+fun Portfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
     val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
 
@@ -64,9 +65,10 @@ fun Portfolio(navController: NavController) {
     val fkPrestadoraAtual = remember { mutableStateOf<UUID?>(null) }
 
     LaunchedEffect(key1 = true) {
-        servicoViewModel.getServicos()
+        val token = empresaDataStore.getToken()
+        servicoViewModel.getServicos(token)
         fkPrestadoraAtual.value?.let { prestadoraId ->
-            portfolioViewModel.getPortfolio(prestadoraId)
+            portfolioViewModel.getPortfolio(prestadoraId, token)
         }
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
@@ -299,5 +301,5 @@ fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<S
 @Composable
 fun PortfolioPreview() {
     val navController = rememberNavController()
-    Portfolio(navController)
+    //Portfolio(navController)
 }

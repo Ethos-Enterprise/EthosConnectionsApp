@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
@@ -28,7 +29,7 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
-fun Formulario(navController: NavController, categoria: String) {
+fun Formulario(navController: NavController, categoria: String, empresaDataStore: EmpresaDataStore) {
 
 
     Column {

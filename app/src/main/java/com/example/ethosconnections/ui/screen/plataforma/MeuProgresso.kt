@@ -59,6 +59,7 @@ import com.example.compose.cor_primaria
 import com.example.compose.cor_secundaria
 import com.example.compose.linha_divisoria
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
@@ -78,15 +79,19 @@ import java.util.UUID
 fun MeuProgresso(
     navController: NavController,
     progressoViewModel: ProgressoViewModel,
-    metaViewModel: MetaViewModel
+    metaViewModel: MetaViewModel,
+    empresaDataStore: EmpresaDataStore
 ) {
     val progressoTotal = progressoViewModel.progressoTotal.value
     val progressoAmbiental = progressoViewModel.progressoAmbiental.value
     val progressoSocial = progressoViewModel.progressoSocial.value
     val progressoGovernamental = progressoViewModel.progressoGovernamental.value
 
+    var token = ""
     LaunchedEffect(key1 = null) {
-        metaViewModel.getAllMetas()
+        token = empresaDataStore.getToken()
+
+        metaViewModel.getAllMetas(token)
     }
 
     var mostrarDialogo by remember { mutableStateOf(false) }
@@ -214,7 +219,7 @@ fun MeuProgresso(
                                     OutlinedButtonEthos(
                                         acao = {
                                             val metaIdConvertido: UUID = meta?.id ?: UUID.randomUUID()
-                                            metaViewModel.deleteMeta(metaIdConvertido) { sucesso ->
+                                            metaViewModel.deleteMeta(metaIdConvertido, token) { sucesso ->
                                                 if (sucesso) {
                                                     mostrarDialogo = true
                                                 } else {

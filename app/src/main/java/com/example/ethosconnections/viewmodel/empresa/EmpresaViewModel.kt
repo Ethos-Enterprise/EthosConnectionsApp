@@ -37,7 +37,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     val errorMessage = MutableLiveData<String>()
 
     fun loginEmpresa(email: String, senha: String, callback: (Boolean) -> Unit) {
-        tokenViewModel.loginAutenticacao(email, senha) { isSuccess ->
+        tokenViewModel.loginAutenticacao("admin@ethos", "123") { isSuccess ->
             if (isSuccess) {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -71,6 +71,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                 }
             } else {
                 callback(false)
+                Log.e("TokenViewModel" , "DEU RUIMM")
             }
         }
     }

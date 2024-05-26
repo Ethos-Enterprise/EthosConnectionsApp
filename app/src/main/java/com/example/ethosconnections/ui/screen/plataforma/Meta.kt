@@ -22,6 +22,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Meta
+import com.example.ethosconnections.models.Token
 import com.example.ethosconnections.repositories.MetaRepository
 import com.example.ethosconnections.service.MetaService
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
@@ -55,12 +57,18 @@ import java.util.UUID
 fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val repository = remember { MetaRepository(MetaService.create()) }
     val viewModel = remember { MetaViewModel(repository) }
+
+    var token = ""
+    LaunchedEffect(key1 = null) {
+        token = empresaDataStore.getToken()
+    }
+
     Column {
         Text(
             stringResource(R.string.titulo_pagina_meta),
             style = tituloPagina,
         )
-        CadastroMeta(navController, viewModel, empresaDataStore)
+        CadastroMeta(navController, viewModel, empresaDataStore, token)
     }
 }
 
@@ -68,7 +76,8 @@ fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
 fun CadastroMeta(
     navController: NavController,
     viewModel: MetaViewModel,
-    empresaDataStore: EmpresaDataStore
+    empresaDataStore: EmpresaDataStore,
+    token:String
 ) {
 
     var pilarEsg = remember {
@@ -183,7 +192,8 @@ fun CadastroMeta(
         navController, viewModel, empresaDataStore,
         pilarEsg.value,
         descricao.value,
-        dataFimState.value
+        dataFimState.value,
+        token
     )
 }
 
@@ -195,7 +205,8 @@ fun MetaButtons(
     empresaDataStore: EmpresaDataStore,
     pilarEsg: String,
     descricao: String,
-    dataFim: String
+    dataFim: String,
+    token: String
 ) {
     val errorMessage = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
@@ -231,7 +242,7 @@ fun MetaButtons(
         ) {
             Button(
                 onClick = {
-                    viewModel.postMeta(meta) { success ->
+                    viewModel.postMeta(meta, token ) { success ->
                         if (success) {
                             val handler = Handler(Looper.getMainLooper())
                             isLoading.value = true

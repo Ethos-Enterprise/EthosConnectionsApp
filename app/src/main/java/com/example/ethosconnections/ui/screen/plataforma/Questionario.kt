@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.compose.cor_primaria
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.OutlinedButtonEthos
@@ -43,7 +44,8 @@ data class Pergunta(
 fun Questionario(
     navController: NavController,
     progressoViewModel: ProgressoViewModel,
-    categoria: String
+    categoria: String,
+    empresaDataStore: EmpresaDataStore
 ) {
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     var perguntaAtual by remember { mutableStateOf(0) }

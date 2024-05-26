@@ -28,12 +28,16 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
                         errorMessage.value = ""
                         callback(true)
                     }
+                    Log.e("TokenViewModel", "DEU BOM }")
+
                 } else {
                     val error = response.errorBody()?.string() ?: "Erro desconhecido"
                     withContext(Dispatchers.Main) {
                         errorMessage.value = error
                         callback(false)
                     }
+                    Log.e("TokenViewModel", "Excecao: $error")
+
                 }
             } catch (e: HttpException) {
                 val error = e.message ?: "Erro"
@@ -41,12 +45,16 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
                     errorMessage.value = error
                     callback(false)
                 }
+                Log.e("TokenViewModel", "Excecao: $error")
             } catch (e: Exception) {
                 val error = e.message ?: "Exception ao pegar token"
                 withContext(Dispatchers.Main) {
                     errorMessage.value = error
                     callback(false)
+
                 }
+                Log.e("TokenViewModel", "Excecao: ${e.message}")
+
             }
         }
     }

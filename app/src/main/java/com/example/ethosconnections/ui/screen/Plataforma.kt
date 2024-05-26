@@ -295,7 +295,7 @@
                         startDestination = "solucoesEsg"
                     ) {
                         composable("solucoesEsg") {
-                            SolucoesESG(componenteNavController, servicoViewModel)
+                            SolucoesESG(componenteNavController, servicoViewModel, empresaDataStore)
                         }
                         composable("avaliacaoServico/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}") { backStackEntry ->
                             val nomeServico = backStackEntry.arguments?.getString("nomeServico") ?: ""
@@ -312,14 +312,15 @@
                                 categoria,
                                 preco,
                                 descricao,
-                                fkPrestadoraServico
+                                fkPrestadoraServico,
+                                empresaDataStore
                             )
                         }
                         composable("meuProgresso") {
-                            MeuProgresso(componenteNavController, progressoViewModel, metaViewModel)
+                            MeuProgresso(componenteNavController, progressoViewModel, metaViewModel,empresaDataStore)
                         }
                         composable("portfolio") {
-                            Portfolio(componenteNavController)
+                            Portfolio(componenteNavController, empresaDataStore)
                         }
                         composable("cadastroPortfolio") {
                             CadastroPortfolio(componenteNavController, empresaDataStore)
@@ -328,12 +329,12 @@
                         composable("contrato/{nomePlano}/{preco}") { backStackEntry ->
                             val nomePlano = backStackEntry.arguments?.getString("nomePlano") ?: ""
                             val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
-                            Contrato(componenteNavController, nomePlano, preco)
+                            Contrato(componenteNavController, nomePlano, preco, empresaDataStore)
                         }
                         composable("formulario/{categoria}") { backStackEntry ->
                             val categoria =
                                 backStackEntry.arguments?.getString("categoria") ?: "AMBIENTAL"
-                            Formulario(componenteNavController, categoria)
+                            Formulario(componenteNavController, categoria, empresaDataStore)
                         }
                         composable("pagamento/{plano}") { backStackEntry ->
                             Pagamento(
@@ -357,13 +358,13 @@
                         composable("questionario/{categoria}") { backStackEntry ->
                             val categoria =
                                 backStackEntry.arguments?.getString("categoria") ?: "Ambiental"
-                            Questionario(componenteNavController, progressoViewModel, categoria)
+                            Questionario(componenteNavController, progressoViewModel, categoria,empresaDataStore)
                         }
                         composable("minhasInteracoes") {
                             MinhasInteracoes(componenteNavController,empresaDataStore, interacaoViewModel)
                         }
                         composable("minhasNegociacoes") {
-                            MinhasNegociacoes(componenteNavController)
+                            MinhasNegociacoes(componenteNavController,empresaDataStore)
                         }
                     }
                 }
