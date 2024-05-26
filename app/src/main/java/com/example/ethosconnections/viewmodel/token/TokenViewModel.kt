@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.datastore.EmpresaDataStore
+import com.example.ethosconnections.models.LoginToken
 import com.example.ethosconnections.models.Token
 import com.example.ethosconnections.repositories.TokenRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,9 +18,11 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
     val errorMessage = MutableLiveData("")
 
     fun loginAutenticacao(email: String, password: String, callback: (Boolean) -> Unit) {
+        val loginToken = LoginToken(email, password)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.loginAutenticacao(email, password)
+                val response = repository.loginAutenticacao(loginToken)
                 if (response.isSuccessful) {
                     val jwtToken = response.body()?.token ?: ""
                     empresaDataStore.saveToken(Token(jwtToken))
