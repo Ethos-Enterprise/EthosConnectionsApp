@@ -1,9 +1,11 @@
 package com.example.ethosconnections.viewmodel.meta
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Meta
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.models.Token
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.UUID
 
-class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
+class MetaViewModel(private val context: Context, private val repository: MetaRepository) : ViewModel() {
     val meta = MutableLiveData<Meta>()
     val allMetas = MutableLiveData(SnapshotStateList<Meta>())
 
@@ -23,8 +25,7 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
 
     fun getAllMetas(token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -32,7 +33,6 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 val response = repository.getAllMetas("Bearer $token")
                 if (response.isSuccessful) {
                     val metas = response.body() ?: emptyList()
-                    Log.d("MetaViewModel", "Metas retornadas: $metas")
                     allMetas.value!!.clear()
                     allMetas.value!!.addAll(metas)
                     errorMessage.postValue("")
@@ -40,19 +40,16 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error fetching all Metas")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while fetching all Metas")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }
 
     fun getMetasByFkEmpresa(fkEmpresa: UUID, token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -60,7 +57,6 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 val response = repository.getMetasByFkEmpresa(fkEmpresa, "Bearer $token")
                 if (response.isSuccessful) {
                     val metas = response.body() ?: emptyList()
-                    Log.d("MetaViewModel", "Metas retornadas: $metas")
                     allMetas.value!!.clear()
                     allMetas.value!!.addAll(metas)
                     errorMessage.postValue("")
@@ -68,11 +64,9 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error fetching all Metas")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while fetching all Metas")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }
@@ -80,8 +74,7 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
 
     fun getMetaById(id: UUID, token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -94,19 +87,16 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error loading Meta by ID")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while fetching Meta by ID")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }
 
     fun postMeta(meta: Meta,token: String, callback: (Boolean) -> Unit) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -116,23 +106,19 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
                     callback(true)
-                    Log.e("MetaViewModel", "OK: ${response.body()}")
-
                 } else {
-                    errorMessage.postValue(response.errorBody()?.string() ?: "Unknown error")
+                    errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
                     callback(false)
-                    Log.e("MetaViewModel", "ELSE: ${errorMessage.value}")
-
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error posting Meta")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
 
                 callback(false)
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while posting Meta")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
                 callback(false)
+
+                Log.e("MetaViewModel", errorMessage.value.toString())
             }
         }
     }
@@ -140,8 +126,7 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
 
     fun deleteMeta(id: UUID,token: String, callback: (Boolean) -> Unit) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
             callback(false)
         }
 
@@ -150,20 +135,16 @@ class MetaViewModel(private val repository: MetaRepository) : ViewModel() {
                 val response = repository.deleteMeta(id, "Bearer $token")
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
-                    Log.d("MetaViewModel", "Meta deleted successfully")
                     callback(true)
                 } else {
-                    errorMessage.postValue(response.errorBody()?.string() ?: "Unknown error")
-                    Log.e("MetaViewModel", "Error deleting Meta: ${errorMessage.value}")
+                    errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
                     callback(false)
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error deleting Meta")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
                 callback(false)
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while deleting Meta")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
                 callback(false)
             }
         }

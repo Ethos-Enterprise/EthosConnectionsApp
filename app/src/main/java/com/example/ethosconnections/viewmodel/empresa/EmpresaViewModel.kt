@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.EmpresaNova
@@ -32,7 +33,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
     }
 
     private val tokenViewModel: TokenViewModel by lazy {
-        TokenViewModel(TokenRepository(TokenService.create()), empresaDataStore)
+        TokenViewModel(context, TokenRepository(TokenService.create()), empresaDataStore)
     }
 
     val empresa = MutableLiveData<Empresa>()
@@ -53,20 +54,18 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                                     verificaSeEmpresaEPrestadora(it, callback)
                                 }
                             } else {
-                                errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                                errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                                 callback(false)
                             }
                         }
                     } catch (e: HttpException) {
-                        Log.e("ViewModel", "Erro na HTTP: ${e.message}")
                         withContext(Dispatchers.Main) {
-                            errorMessage.value = e.message ?: "Erro ao logar"
+                            errorMessage.value = e.message ?: context.getString(R.string.erro_http)
                             callback(false)
                         }
                     } catch (e: Exception) {
-                        Log.e("ViewModel", "Excecao: ${e.message}")
                         withContext(Dispatchers.Main) {
-                            errorMessage.value = e.message ?: "Erro ao logar"
+                            errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
                             callback(false)
                         }
                     }
@@ -97,20 +96,18 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                         this@EmpresaViewModel.empresa.value = empresa
                         callback(true)
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                         callback(false)
                     }
                 }
             } catch (e: HttpException) {
-                Log.e("EmpresaViewModel", "Erro na HTTP: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro ao verificar se é prestadora"
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_http)
                     callback(false)
                 }
             } catch (e: Exception) {
-                Log.e("EmpresaViewModel", "Excecao: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro ao verificar se é prestadora"
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
                     callback(false)
                 }
             }
@@ -128,18 +125,16 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                         empresa.value = response.body()
                         errorMessage.value = ""
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     }
                 }
             } catch (e: HttpException) {
-                Log.e("PrestadoraViewModel", "Erro na HTTP: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido "
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_desconhecido)
                 }
             } catch (e: Exception) {
-                Log.e("PrestadoraViewModel", "Excecao: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido"
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_desconhecido)
                 }
             }
         }
@@ -165,22 +160,15 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                 val response = repository.cadastrarEmpresa(empresaNova, "Bearer $token"
                 )
                 if (response.isSuccessful) {
-                    val empresaResponse = response.body()
-                    Log.e("empresaViewModel", "DEU BOM : ${empresaResponse}}")
                     callback(true)
-
                 } else {
                     errorMessage.value =
-                        response.errorBody()?.string() ?: "Erro desconhecido"
+                        response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     callback(false)
-                    Log.e("empresaViewModel", "DEU RUIM : ${errorMessage}}")
-
                 }
             } catch (e: Exception) {
                 callback(false)
-                Log.e("empresaViewModel", "DEU BOM : ${e.message}}")
-
-                errorMessage.value = e.message ?: "Erro ao cadastrar empresa"
+                errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
             }
         }
     }

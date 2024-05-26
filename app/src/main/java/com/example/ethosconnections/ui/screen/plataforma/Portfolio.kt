@@ -55,12 +55,7 @@ import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
 @Composable
-fun Portfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
-    val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
-    val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
-
-    val servicoRepository = remember { ServicoRepository(ServicoService.create()) }
-    val servicoViewModel = remember { ServicoViewModel(servicoRepository) }
+fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore) {
 
     val fkPrestadoraAtual = remember { mutableStateOf<UUID?>(null) }
 

@@ -157,4 +157,11 @@
     </string>
 
 
+    <!-- VIEW MODEL-->
+    <string name="erro_desconhecido">Erro desconhecido</string>
+    <string name="erro_http">Erro HTTP aos buscar dados</string>
+    <string name="erro_exception">Exceção ao buscar dados</string>
+    <string name="nao_encontrado">Não Encontrado</string>
+    <string name="view_model_nao_encontrado">ViewModel Nao Existe</string>
+
 </resources>

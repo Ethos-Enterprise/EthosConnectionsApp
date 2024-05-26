@@ -1,9 +1,11 @@
 package com.example.ethosconnections.viewmodel.servico
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.PrestadoraRepository
@@ -17,7 +19,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class ServicoViewModel constructor(private val repository: ServicoRepository): ViewModel(){
+class ServicoViewModel constructor(private val context: Context, private val repository: ServicoRepository): ViewModel(){
 
     private val prestadoraRepository: PrestadoraRepository by lazy {
         PrestadoraRepository(
@@ -44,7 +46,6 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
                     for (servico in servicosList) {
                         val nomeServicoAtual = getNomeEmpresaServico(servico, "Bearer $token")
                         servico.nomeEmpresa = nomeServicoAtual
-                        Log.e("ServicoViewModel", "nome: ${servico.nomeEmpresa}")
                     }
 
                     withContext(Dispatchers.Main) {
@@ -56,11 +57,9 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("ViewModel", "Erro na HTTP: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao logar")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
             } catch (e: Exception) {
-                Log.e("ViewModel", "Excecao: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao pegar servicos")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }
@@ -76,17 +75,18 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
                         response.nomeEmpresa = nomeServicoAtual
 
                     } else {
-                        errorMessage.postValue("Serviço não encontrado")
+                        errorMessage.postValue(context.getString(R.string.nao_encontrado))
                     }
                 } else {
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("servicoViewModel", "Erro na HTTP: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao buscar serviço por ID")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+                Log.e("servicoViewModel", errorMessage.toString())
             } catch (e: Exception) {
-                Log.e("servicoViewModel", "Excecao: ${e.message}")
-                errorMessage.postValue(e.message ?: "Erro ao buscar serviço por ID")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
+                Log.e("servicoViewModel", errorMessage.toString())
+
             }
         }
     }
@@ -103,19 +103,18 @@ class ServicoViewModel constructor(private val repository: ServicoRepository): V
                     if (empresaResponse.isSuccessful) {
 
                         val empresa = empresaResponse.body()
-                        empresa?.razaoSocial ?: "Empresa não encontrada"
+                        empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado)
                     } else {
-                        "Erro ao obter o nome da empresa: ${empresaResponse.message()}"
+                        "${empresaResponse.message()}"
                     }
                 } else {
-                    "Prestadora não encontrada"
+                    context.getString(R.string.nao_encontrado)
                 }
             } else {
-                "Erro ao obter a prestadora: ${response.message()}"
+                " ${response.message()}"
             }
         } catch (e: Exception) {
-            Log.e("ServicoViewModel", "Erro ao obter o nome da empresa para o serviço: ${e.message}")
-            "Erro ao obter o nome da empresa"
+            context.getString(R.string.erro_exception)
         }
     }
 }

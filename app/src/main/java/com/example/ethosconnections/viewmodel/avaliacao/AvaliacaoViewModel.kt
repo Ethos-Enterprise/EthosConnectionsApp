@@ -1,8 +1,11 @@
 package com.example.ethosconnections.viewmodel.avaliacao
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Avaliacao
 import com.example.ethosconnections.repositories.AvaliacaoRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -11,14 +14,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class AvaliacaoViewModel(private val repository: AvaliacaoRepository) : ViewModel() {
+class AvaliacaoViewModel(private val context: Context, private val repository: AvaliacaoRepository) : ViewModel() {
+
+
     val meta = MutableLiveData<Avaliacao>()
     val allAvaliacoes = MutableLiveData<List<Avaliacao>>()
     val errorMessage = MutableLiveData<String>()
     fun getAllAvaliacoes(token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.e("MetaViewModel", "Error: ${throwable.message}")
-            errorMessage.postValue(throwable.message ?: "Unknown error occurred")
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -31,11 +35,10 @@ class AvaliacaoViewModel(private val repository: AvaliacaoRepository) : ViewMode
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                Log.e("MetaViewModel", "HTTP Error: ${e.message}")
-                errorMessage.postValue(e.message ?: "Error fetching all Avaliacoes")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+
             } catch (e: Exception) {
-                Log.e("MetaViewModel", "Exception: ${e.message}")
-                errorMessage.postValue(e.message ?: "Exception while fetching all Avaliacoes")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }

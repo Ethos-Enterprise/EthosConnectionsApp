@@ -1,8 +1,10 @@
 package com.example.ethosconnections.viewmodel.token
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.LoginToken
 import com.example.ethosconnections.models.Token
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-class TokenViewModel constructor(private val repository: TokenRepository, private val empresaDataStore: EmpresaDataStore): ViewModel(){
+class TokenViewModel constructor(private val context: Context, private val repository: TokenRepository, private val empresaDataStore: EmpresaDataStore): ViewModel(){
     val token= MutableLiveData<Token>()
     val errorMessage = MutableLiveData("")
 
@@ -31,33 +33,27 @@ class TokenViewModel constructor(private val repository: TokenRepository, privat
                         errorMessage.value = ""
                         callback(true)
                     }
-                    Log.e("TokenViewModel", "DEU BOM }")
 
                 } else {
-                    val error = response.errorBody()?.string() ?: "Erro desconhecido"
+                    val error = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     withContext(Dispatchers.Main) {
                         errorMessage.value = error
                         callback(false)
                     }
-                    Log.e("TokenViewModel", "Excecao else: $error")
-
                 }
             } catch (e: HttpException) {
-                val error = e.message ?: "Erro"
+                val error = e.message ?: context.getString(R.string.erro_http)
                 withContext(Dispatchers.Main) {
                     errorMessage.value = error
                     callback(false)
                 }
-                Log.e("TokenViewModel", "http exception: $error")
             } catch (e: Exception) {
-                val error = e.message ?: "Exception ao pegar token"
+                val error = e.message ?: context.getString(R.string.erro_exception)
                 withContext(Dispatchers.Main) {
                     errorMessage.value = error
                     callback(false)
 
                 }
-                Log.e("TokenViewModel", "Excecao: ${e.message}")
-
             }
         }
     }

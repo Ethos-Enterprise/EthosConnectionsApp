@@ -121,7 +121,8 @@
         empresaViewModel: EmpresaViewModel,
         servicoViewModel: ServicoViewModel,
         metaViewModel: MetaViewModel,
-        interacaoViewModel: InteracaoViewModel
+        interacaoViewModel: InteracaoViewModel,
+        portfolioViewModel: PortfolioViewModel
     ) {
 
         val empresaDataStore = empresaViewModel.empresaDataStore
@@ -320,7 +321,7 @@
                             MeuProgresso(componenteNavController, progressoViewModel, metaViewModel,empresaDataStore)
                         }
                         composable("portfolio") {
-                            Portfolio(componenteNavController, empresaDataStore)
+                            Portfolio(componenteNavController, servicoViewModel, portfolioViewModel, empresaDataStore)
                         }
                         composable("cadastroPortfolio") {
                             CadastroPortfolio(componenteNavController, empresaDataStore)
@@ -347,13 +348,13 @@
                             MeuPerfil(componenteNavController, empresaDataStore)
                         }
                         composable("meta") {
-                            Meta(componenteNavController, empresaDataStore)
+                            Meta(componenteNavController,metaViewModel, empresaDataStore)
                         }
                         composable("meuPlano") {
                             MeuPlano(componenteNavController, empresaDataStore)
                         }
                         composable("meuPortfolio") {
-                            MeuPortfolio(componenteNavController, empresaDataStore)
+                            MeuPortfolio(componenteNavController,servicoViewModel, portfolioViewModel, empresaDataStore)
                         }
                         composable("questionario/{categoria}") { backStackEntry ->
                             val categoria =

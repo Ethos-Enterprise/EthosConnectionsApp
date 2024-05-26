@@ -59,13 +59,7 @@ import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 
 @Composable
-fun MeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
-    val portfolioRepository = remember { PortfolioRepository(PortfolioService.create()) }
-    val portfolioViewModel = remember { PortfolioViewModel(portfolioRepository) }
-
-    val servicoRepository = remember { ServicoRepository(ServicoService.create()) }
-    val servicoViewModel = remember { ServicoViewModel(servicoRepository) }
-
+fun MeuPortfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore) {
 
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos(empresaDataStore.getToken())
@@ -351,5 +345,5 @@ fun MeuPortfolioPreview() {
     val navController = rememberNavController()
     val context = LocalContext.current
     val empresaDataStore = EmpresaDataStore(context)
-    MeuPortfolio(navController, empresaDataStore)
+    //MeuPortfolio(navController, empresaDataStore)
 }

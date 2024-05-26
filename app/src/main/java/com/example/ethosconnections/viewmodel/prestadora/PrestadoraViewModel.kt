@@ -1,9 +1,11 @@
 package com.example.ethosconnections.viewmodel.prestadora
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Prestadora
 import com.example.ethosconnections.repositories.PrestadoraRepository
@@ -14,7 +16,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class PrestadoraViewModel(private val repository: PrestadoraRepository): ViewModel() {
+class PrestadoraViewModel(private val context: Context, private val repository: PrestadoraRepository): ViewModel() {
     val prestadoras = MutableLiveData(SnapshotStateList<Prestadora>())
     val prestadora = MutableLiveData<Prestadora>()
     val empresa = MutableLiveData<Prestadora>()
@@ -31,18 +33,16 @@ class PrestadoraViewModel(private val repository: PrestadoraRepository): ViewMod
                         errorMessage.value = ""
 
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     }
                 }
             } catch (e: HttpException) {
-                Log.e("PrestadoraViewModel", "Erro na HTTP: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido "
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_http)
                 }
             } catch (e: Exception) {
-                Log.e("PrestadoraViewModel", "Excecao: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido"
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
                 }
             }
         }
@@ -56,18 +56,16 @@ class PrestadoraViewModel(private val repository: PrestadoraRepository): ViewMod
                         prestadora.value = response.body()
                         errorMessage.value = ""
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: "Erro desconhecido"
+                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     }
                 }
             } catch (e: HttpException) {
-                Log.e("PrestadoraViewModel", "Erro na HTTP: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido "
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_http)
                 }
             } catch (e: Exception) {
-                Log.e("PrestadoraViewModel", "Excecao: ${e.message}")
                 withContext(Dispatchers.Main) {
-                    errorMessage.value = e.message ?: "Erro desconhecido"
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
                 }
             }
         }

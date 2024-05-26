@@ -1,16 +1,18 @@
 package com.example.ethosconnections.viewmodel.portfolio
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.ethosconnections.R
 import com.example.ethosconnections.repositories.PortfolioRepository
 
-class PortfolioViewModelFactory(private val repository: PortfolioRepository) : ViewModelProvider.Factory {
+class PortfolioViewModelFactory(private val context: Context, private val repository: PortfolioRepository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PortfolioViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return PortfolioViewModel(repository) as T
+            return PortfolioViewModel( context, repository) as T
         }
-        throw IllegalArgumentException("ViewModel Portfolio não existe")
+        throw IllegalArgumentException("Portfolio ${context.getString(R.string.view_model_nao_encontrado)}")
     }
 }

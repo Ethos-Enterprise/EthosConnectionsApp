@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Interacao
 import com.example.ethosconnections.repositories.InteracaoRepository
 import com.example.ethosconnections.repositories.PrestadoraRepository
@@ -20,6 +21,7 @@ import retrofit2.HttpException
 import java.util.UUID
 
 class InteracaoViewModel(
+    private val context: Context,
     private val repository: InteracaoRepository
 ) : ViewModel() {
 
@@ -39,19 +41,15 @@ class InteracaoViewModel(
                 val response = repository.postInteracao(status, fkServico, fkEmpresa, "Bearer $token")
 
                 if (response.isSuccessful) {
-                    val interacaoResponse = response.body()
                     callback(true)
-                    Log.e("InteracaoViewModel", "Deu bom: ${interacaoResponse}")
                 }else{
-                    errorMessage.value= response.errorBody()?.string() ?: "Erro desconhecido"
+                    errorMessage.value= response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
                     callback(false)
-                    Log.e("InteracaoViewModel", "Deu ruim: ${errorMessage}")
                 }
             }
             catch (e: Exception) {
-                errorMessage.value= e.message?: "Exception"
+                errorMessage.value= e.message?: context.getString(R.string.erro_exception)
                 callback(false)
-                Log.e("interacaoViewModel", "Deu ruim : ${errorMessage}}")
             }
         }
     }
@@ -65,12 +63,12 @@ class InteracaoViewModel(
                     val interacoesList = response.body() ?: emptyList()
 
                     for (interacao in interacoesList) {
-                        val servicoViewModel = ServicoViewModel(ServicoRepository(ServicoService.create()))
+                        val servicoViewModel = ServicoViewModel(context, ServicoRepository(ServicoService.create()))
 
                         servicoViewModel.getServicoById(interacao.fkServico, "Bearer $token")
 
-                        interacao.nomeServico = servicoViewModel.servico.value?.nomeServico ?: "NomeServico não encontrado"
-                        interacao.nomeEmpresa = servicoViewModel.servico.value?.nomeEmpresa ?: "Nome do serviço não encontrado"
+                        interacao.nomeServico = servicoViewModel.servico.value?.nomeServico ?: context.getString(R.string.nao_encontrado)
+                        interacao.nomeEmpresa = servicoViewModel.servico.value?.nomeEmpresa ?: context.getString(R.string.nao_encontrado)
                     }
                     interacoes.value!!.clear()
                     interacoes.value!!.addAll(interacoesList)
@@ -79,13 +77,9 @@ class InteracaoViewModel(
                     errorMessage.postValue(response.errorBody()?.string())
                 }
             } catch (e: HttpException) {
-                errorMessage.postValue(e.message ?: "Erro slaoq")
-
-                Log.e("interacaoViewModel", "Erro na HTTP: ${errorMessage.value}")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
             } catch (e: Exception) {
-                errorMessage.postValue(e.message ?: "exception ")
-
-                Log.e("interacaoViewModel", "Excecao: ${errorMessage.value}")
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
             }
         }
     }

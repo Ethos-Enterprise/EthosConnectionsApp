@@ -54,9 +54,7 @@ import java.util.Calendar
 import java.util.UUID
 
 @Composable
-fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
-    val repository = remember { MetaRepository(MetaService.create()) }
-    val viewModel = remember { MetaViewModel(repository) }
+fun Meta(navController: NavController,metaViewModel: MetaViewModel, empresaDataStore: EmpresaDataStore) {
 
     var token = ""
     LaunchedEffect(key1 = null) {
@@ -68,7 +66,7 @@ fun Meta(navController: NavController, empresaDataStore: EmpresaDataStore) {
             stringResource(R.string.titulo_pagina_meta),
             style = tituloPagina,
         )
-        CadastroMeta(navController, viewModel, empresaDataStore, token)
+        CadastroMeta(navController, metaViewModel, empresaDataStore, token)
     }
 }
 
