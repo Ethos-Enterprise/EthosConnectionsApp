@@ -14,3 +14,14 @@ data class Empresa(
     var assinanteNewsletter:Boolean? = null,
     var plano:String? = null
 )
+
+data class EmpresaNova(
+    val nomeEmpresa: String,
+    val cnpj: String,
+    val telefone: String,
+    val email: String,
+    val senha: String,
+    val setor: String,
+    val qtdFuncionarios: Int,
+    val assinanteNewsletter: Boolean
+)

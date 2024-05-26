@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -278,10 +279,12 @@ fun Questionario(
         )
     )
 
+    val mensagemErro = stringResource(R.string.mensagem_erro_selecionar_opcao)
+
     Column {
         FillButtonEthos(
             acao = { navController.navigate("meuProgresso") },
-            nomeAcao = "Continuar Depois"
+            nomeAcao = stringResource(R.string.botao_continuar_depois)
         )
 
         BoxEthos {
@@ -296,7 +299,7 @@ fun Questionario(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            Text("Questionário $categoria", style = tituloConteudoBranco)
+            Text("${stringResource(R.string.titulo_pagina_questionario)} $categoria" , style = tituloConteudoBranco)
             Spacer(modifier = Modifier.height(14.dp))
 
             if (perguntaAtual < perguntas.size) {
@@ -348,7 +351,7 @@ fun Questionario(
                         )
                     ) {
                         Text(
-                            text = "Anterior",
+                            text = stringResource(R.string.anterior),
                             style = letraButton
                         )
                     }
@@ -365,7 +368,7 @@ fun Questionario(
                                     mostrarDialogo = true
                                 }
                             } else {
-                                errorMsg = "Por favor, selecione uma opção antes de continuar."
+                                errorMsg = mensagemErro
                             }
                         },
                         enabled = selectedOption != null || errorMsg != null,
@@ -374,7 +377,7 @@ fun Questionario(
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
                         Text(
-                            text = "Próxima",
+                            text = stringResource(R.string.proximo),
                             style = letraButton,
                             color = Color(0xFF01A2C3)
                         )
@@ -401,8 +404,8 @@ fun Questionario(
                         Text("OK")
                     }
                 },
-                title = { Text("Questionário Concluído") },
-                text = { Text("Parabéns, você concluiu o questionário!") })
+                title = { Text("${stringResource(R.string.titulo_dialogo_questionario_concluido)}") },
+                text = { Text("${stringResource(R.string.mensagem_dialogo_questionario_concluido)}") })
 
         }
     }

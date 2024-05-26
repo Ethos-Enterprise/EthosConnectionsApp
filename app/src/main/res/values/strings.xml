@@ -3,6 +3,43 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_plataforma">Plataforma</string>
 
+    <!-- HOME   -->
+    <string name="home_icone_branco">Icone da cor branca</string>
+    <string name="home_texto_conectando_negocios">Conectando negócios, moldando o futuro</string>
+    <string name="home_fazer_login">Fazer Login</string>
+    <string name="home_nao_tem_conta">Não tem uma conta?</string>
+    <string name="home_cadastrar_empresa">Cadastrar Empresa</string>
+
+    <!-- LOGIN -->
+    <string name="login_sucesso">Login feito com sucesso</string>
+    <string name="login_faca_login">Faça Login na Ethos</string>
+    <string name="login_email">Email</string>
+    <string name="login_senha">Senha</string>
+    <string name="login_usuario_senha_incorretos">Usuário ou senha incorretos</string>
+    <string name="login_entrar">Entrar</string>
+    <string name="login_esqueci_senha">Esqueci minha senha</string>
+    <string name="login_ou">OU</string>
+    <string name="login_nao_cadastrado">Ainda não é cadastrado?</string>
+    <string name="login_criar_conta">Criar Conta</string>
+
+    <!-- CADASTRO -->
+    <string name="cadastro_titulo">Cadastro de Empresa</string>
+    <string name="cadastro_cadastrar">Cadastrar</string>
+    <string name="cadastro_input_nome_empresa">Nome da Empresa</string>
+    <string name="cadastro_input_cnpj">CNPJ</string>
+    <string name="cadastro_input_cep">CEP</string>
+    <string name="cadastro_input_telefone">Telefone da Empresa</string>
+    <string name="cadastro_input_email">Email Corporativo</string>
+    <string name="cadastro_input_senha">Senha</string>
+    <string name="cadastro_select_atuacao">Área de Atuação</string>
+    <string name="cadastro_select_funcionarios">N° Funcionários</string>
+    <string name="cadastro_input_confirmar_senha">Confirmar Senha</string>
+    <string name="cadastro_aceitar_termo">Concordo com os termos de uso e política de privacidade.</string>
+    <string name="cadastro_aceitar_notificacao">Quero receber notificações via e-mail.</string>
+
+    <string name="proximo">Próximo</string>
+    <string name="anterior">Anterior</string>
+
     <!-- Meta -->
     <string name="titulo_pagina_meta">Meta</string>
     <string name="subtitulo_pagina_meta">Defina sua meta</string>
@@ -98,4 +135,26 @@
     <string name="formulario_ambiental_meu_progresso">Este formulário ESG avalia o impacto ambiental para promover práticas sustentáveis e responsabilidade ambiental.</string>
     <string name="formulario_social_meu_progresso">Este formulário ESG avalia o impacto social visa quantificar práticas sociais responsáveis e identificar melhorias.</string>
     <string name="formulario_governamental_meu_progresso">Este formulário ESG analisa a governança corporativa visando fortalecer a integridade e responsabilidade empresarial.</string>
+
+    <!-- Questionário -->
+    <string name="titulo_pagina_questionario">Questionário</string>
+    <string name="botao_continuar_depois">Continuar Depois</string>
+    <string name="mensagem_erro_selecionar_opcao">Por favor, selecione uma opção antes de continuar.</string>
+    <string name="titulo_dialogo_questionario_concluido">Questionário Concluído</string>
+    <string name="mensagem_dialogo_questionario_concluido">Parabéns, você concluiu o questionário!</string>
+
+    <!--   FORMULÁRO-->
+    <string name="continuar_depois">Continuar Depois</string>
+    <string name="iniciar_questionario">Iniciar Questionário</string>
+    <string name="titulo_ambiental">Questionário Ambiental</string>
+    <string name="titulo_social">Questionário Social</string>
+    <string name="titulo_governamental">Questionário Governamental</string>
+    <string name="titulo_geral">Questionário Geral</string>
+    <string name="descricao_formulario">
+        Sabemos que a sustentabilidade ambiental é uma preocupação cada vez mais relevante para empresas comprometidas com práticas responsáveis. Este formulário tem como objetivo ajudá-lo a avaliar e melhorar suas iniciativas ambientais.\n\n
+        Sua participação é fundamental para entendermos sua pegada ambiental e recomendar as soluções ESG mais adequadas às suas necessidades. Ao responder a estas perguntas, você estará dando um passo importante em direção a um mundo mais sustentável e ético.\n\n
+        Juntos, podemos criar um impacto positivo na saúde do planeta e no sucesso do seu negócio. Vamos começar a avaliar suas práticas e a definir metas para um futuro mais verde!
+    </string>
+
+
 </resources>

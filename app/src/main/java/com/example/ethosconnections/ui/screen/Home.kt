@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,13 +60,13 @@ fun Home(navController: NavController) {
                     .width(220.dp)
                     .padding(bottom = 4.dp),
                 painter = painterResource(id = R.drawable.logo_branco),
-                contentDescription = "Icone da cor branca",
+                contentDescription = stringResource(R.string.home_icone_branco)
 
                 )
             Spacer(modifier = Modifier.height(150.dp))
 
             Text(
-                text = "Conectando negócios, moldando o futuro",
+                text = stringResource(R.string.home_texto_conectando_negocios),
                 style = corLetra,
                 modifier = Modifier.width(300.dp),
                 fontSize = 23.sp,
@@ -78,7 +79,7 @@ fun Home(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 onClick = { navController.navigate("login") }) {
-                Text(text = "Fazer Login", style = letraButton)
+                Text(text = stringResource(R.string.home_fazer_login), style = letraButton)
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -87,7 +88,7 @@ fun Home(navController: NavController) {
                 horizontalArrangement = Arrangement.Center
             ){
                 Text(
-                    text = "Não tem uma conta?",
+                    text = stringResource(R.string.home_nao_tem_conta),
                     style = corLetra,
                     fontSize = 13.5.sp,
                     )
@@ -95,7 +96,8 @@ fun Home(navController: NavController) {
                 TextButton(
                     onClick = { navController.navigate("cadastro") }) {
                     Text(
-                        text = "Cadastrar Empresa")
+                        text = stringResource(R.string.home_cadastrar_empresa)
+                    )
                 }
             }
 

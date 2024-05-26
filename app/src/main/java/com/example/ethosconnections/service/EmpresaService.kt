@@ -2,6 +2,7 @@ package com.example.ethosconnections.service
 
 import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.api.Api
+import com.example.ethosconnections.models.EmpresaNova
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -33,14 +34,7 @@ interface EmpresaService {
 
     @POST("v1.0/empresas")
     suspend fun cadastrarEmpresa(
-        nomeEmpresa: String,
-        cnpj: String,
-        telefone: String,
-        email: String,
-        senha: String,
-        setor: String,
-        qtdFuncionarios: Int,
-        assinanteNewsletter: Boolean,
+        @Body empresaNova: EmpresaNova,
         @Header("Authorization") token: String
     ): Response<Empresa>
 

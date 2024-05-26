@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -20,13 +21,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
-import com.example.ethosconnections.ui.screen.Plataforma
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.screen.plataforma.components.FillButtonEthos
-import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.letraPadraoExtraLigth
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
-import com.example.ethosconnections.ui.theme.tituloPagina
 
 @Composable
 fun Formulario(navController: NavController, categoria: String, empresaDataStore: EmpresaDataStore) {
@@ -34,7 +32,7 @@ fun Formulario(navController: NavController, categoria: String, empresaDataStore
 
     Column {
 
-    FillButtonEthos(acao = { navController.navigate("meuProgresso") }, nomeAcao = "Continuar Depois")
+    FillButtonEthos(acao = { navController.navigate("meuProgresso") }, nomeAcao = stringResource(R.string.continuar_depois))
 
     BoxEthos {
         Image(
@@ -49,25 +47,21 @@ fun Formulario(navController: NavController, categoria: String, empresaDataStore
         Spacer(modifier = Modifier.height(14.dp))
 
         var titulo = when (categoria) {
-            "Ambiental" -> "Questionário Ambiental"
-            "Social" -> "Questionário Social"
-            "Governamental" -> "Questionário Governamental"
-            else -> "Questionário Geral"
+            "Ambiental" -> stringResource(R.string.titulo_ambiental)
+            "Social" -> stringResource(R.string.titulo_social)
+            "Governamental" -> stringResource(R.string.titulo_governamental)
+            else -> stringResource(R.string.titulo_geral)
         }
 
         Text(text = titulo, style = tituloConteudoBranco)
 
         Text(
-            text = "Sabemos que a sustentabilidade ambiental é uma preocupação cada vez mais relevante para empresas comprometidas com práticas responsáveis. Este formulário tem como objetivo ajudá-lo a avaliar e melhorar suas iniciativas ambientais.\n" +
-                    "\n" +
-                    "Sua participação é fundamental para entendermos sua pegada ambiental e recomendar as soluções ESG mais adequadas às suas necessidades. Ao responder a estas perguntas, você estará dando um passo importante em direção a um mundo mais sustentável e ético.\n" +
-                    "\n" +
-                    "Juntos, podemos criar um impacto positivo na saúde do planeta e no sucesso do seu negócio. Vamos começar a avaliar suas práticas e a definir metas para um futuro mais verde!",
+            text = stringResource(R.string.descricao_formulario),
             style = letraPadraoExtraLigth
         )
 
         FillButtonEthos(acao = { navController.navigate("questionario/${categoria}")
-        }, nomeAcao = "Iniciar Questionário")
+        }, nomeAcao = stringResource(R.string.iniciar_questionario))
     }
 }
 }

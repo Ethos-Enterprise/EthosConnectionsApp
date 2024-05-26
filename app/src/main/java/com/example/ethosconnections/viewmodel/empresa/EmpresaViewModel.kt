@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Empresa
+import com.example.ethosconnections.models.EmpresaNova
+import com.example.ethosconnections.models.LoginToken
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.PrestadoraRepository
 import com.example.ethosconnections.repositories.TokenRepository
@@ -154,11 +156,13 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
         assinanteNewsletter: Boolean,
         callback: (Boolean) -> Unit
     ) {
+
+
+        val empresaNova = EmpresaNova(nomeEmpresa,cnpj, telefone, email, senha, setor, qtdFuncionarios, assinanteNewsletter)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val token = empresaDataStore.getToken()
-                val response = repository.cadastrarEmpresa(
-                    nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter, "Bearer $token"
+                val response = repository.cadastrarEmpresa(empresaNova, "Bearer $token"
                 )
                 if (response.isSuccessful) {
                     val empresaResponse = response.body()

@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
@@ -106,7 +107,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
             ) {
                 CircularProgressIndicator()
                 Spacer(modifier = Modifier.height(20.dp))
-                Text(text = "Login feito com sucesso", style = tituloConteudoBranco)
+                Text(text = stringResource(R.string.login_sucesso), style = tituloConteudoBranco)
             }
 
         }
@@ -135,7 +136,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
             Spacer(modifier = Modifier.height(22.dp))
 
             Text(
-                text = "Cadastro de Empresa",
+                text = stringResource(R.string.cadastro_titulo),
                 style = textoTop
             )
             if (errorMessage.value.isNotEmpty()) {
@@ -181,7 +182,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                         .padding(end = 8.dp)
                 ) {
                     Text(
-                        text = "Anterior",
+                        text = stringResource(R.string.anterior),
                         style = letraButton,
                         color = if (etapaAtual.value > 1) Color(0xFF01A2C3) else Color.Gray,
                     )
@@ -219,7 +220,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = if (etapaAtual.value < totalEtapa) "Próximo" else "Cadastrar",
+                        text = if (etapaAtual.value < totalEtapa) stringResource(R.string.proximo) else stringResource(R.string.cadastro_cadastrar),
                         style = letraButton
                     )
                 }
@@ -235,7 +236,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
     TextField(
         value = nomeEmpresa.value,
         onValueChange = { nomeEmpresa.value = it },
-        label = { Text("Nome da Empresa") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_nome_empresa)) },
         modifier = Modifier.fillMaxWidth(),
     )
 
@@ -244,7 +245,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
     TextField(
         value = cnpj.value,
         onValueChange = { cnpj.value = it },
-        label = { Text("CNPJ") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_cnpj)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
         KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -315,7 +316,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = if (selectedOption.value.isEmpty()) "Área de Atuação" else selectedOption.value,
+                    text = if (selectedOption.value.isEmpty()) stringResource(R.string.cadastro_select_atuacao) else selectedOption.value,
                     color = Color.White,
                     style = letraPadrao
                 )
@@ -365,7 +366,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
             ) {
                 Text(
                     style = letraPadrao,
-                    text = if (selectedOption2.value.isEmpty()) "Nº Funcionários" else selectedOption2.value,
+                    text = if (selectedOption2.value.isEmpty()) stringResource(R.string.cadastro_select_funcionarios) else selectedOption2.value,
                     modifier = Modifier
                         .fillMaxWidth(),
                     color = Color.White,
@@ -407,7 +408,7 @@ fun EtapaDois(
     TextField(
         value = cep.value,
         onValueChange = { cep.value = it },
-        label = { Text("CEP") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_cep)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
         KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -418,7 +419,7 @@ fun EtapaDois(
     TextField(
         value = telefone.value,
         onValueChange = { telefone.value = it },
-        label = { Text("Telefone da Empresa") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_telefone)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
         KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -429,7 +430,7 @@ fun EtapaDois(
     TextField(
         value = email.value,
         onValueChange = { email.value = it },
-        label = { Text("Email Corporativo") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_email)) },
         modifier = Modifier.fillMaxWidth(),
     )
 
@@ -445,7 +446,7 @@ fun EtapaTres(
     TextField(
         value = senha.value,
         onValueChange = { senha.value = it },
-        label = { Text("Senha") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_senha)) },
         modifier = Modifier.fillMaxWidth(),
         visualTransformation = PasswordVisualTransformation()
     )
@@ -455,7 +456,7 @@ fun EtapaTres(
     TextField(
         value = confirmacaoSenha.value,
         onValueChange = { confirmacaoSenha.value = it },
-        label = { Text("Confirmar Senha") },
+        label = { Text(text = stringResource(id = R.string.cadastro_input_confirmar_senha)) },
         modifier = Modifier.fillMaxWidth(),
         visualTransformation = PasswordVisualTransformation()
     )
@@ -482,7 +483,7 @@ fun EtapaTres(
         )
 
         Text(
-            text = "Concordo com os termos de uso e política de privacidade.",
+            text = stringResource(id = R.string.cadastro_aceitar_termo),
             modifier = Modifier
                 .clickable { checkedTermos.value = !checkedTermos.value }
                 .padding(start = 8.dp),
@@ -509,7 +510,7 @@ fun EtapaTres(
         )
 
         Text(
-            text = "Quero receber notificações via e-mail.",
+            text = stringResource(id = R.string.cadastro_aceitar_notificacao),
             modifier = Modifier
                 .clickable { checkedNotificacao.value = !checkedNotificacao.value }
                 .padding(start = 8.dp),

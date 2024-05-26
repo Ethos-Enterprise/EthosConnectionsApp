@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +63,8 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
         val isLoading = remember { mutableStateOf(false) }
         val errorMessage = remember { mutableStateOf("") }
 
+        val usuarioSenhaIncorretos = stringResource(R.string.login_usuario_senha_incorretos)
+
         if (isLoading.value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -73,7 +76,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                 ) {
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Login feito com sucesso", style = tituloConteudoBranco)
+                    Text(text = stringResource(R.string.login_sucesso), style = tituloConteudoBranco)
                 }
 
             }
@@ -101,7 +104,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                 Spacer(modifier = Modifier.height(22.dp))
 
                 Text(
-                    text = "Faça Login na Ethos",
+                    text = stringResource(R.string.login_faca_login),
                     style = textoTop
                 )
                 Spacer(modifier = Modifier.height(22.dp))
@@ -121,7 +124,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                 TextField(
                     value = email.value,
                     onValueChange = { email.value = it },
-                    label = { Text("Email") },
+                    label = { Text(stringResource(R.string.login_email)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -130,7 +133,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                 TextField(
                     value = senha.value,
                     onValueChange = { senha.value = it },
-                    label = { Text("Senha") },
+                    label = { Text(stringResource(R.string.login_senha)) },
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation()
                 )
@@ -149,20 +152,20 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                                 navController.navigate("plataforma")
                                 },2000)
                             } else {
-                                errorMessage.value = "Usuário ou senha incorretos"
+                                errorMessage.value = usuarioSenhaIncorretos
                             }
                         }
                     }
                 ) {
                     Text(
-                        text = "Entrar",
+                        text = stringResource(R.string.login_entrar),
                         style = letraButton
                     )
                 }
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Text(
-                    text = "Esqueci minha senha",
+                    text = stringResource(R.string.login_esqueci_senha),
                     style = letraPadrao, textAlign = TextAlign.Left,
                     modifier = Modifier.clickable { }
                 )
@@ -182,7 +185,7 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     )
                     Spacer(modifier = Modifier.width(10.dp))
 
-                    Text(text = "OU", style = letraPadrao)
+                    Text(text = stringResource(R.string.login_ou), style = letraPadrao)
 
                     Spacer(modifier = Modifier.width(10.dp))
 
@@ -200,14 +203,14 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Ainda não é cadastrado?",
+                        text = stringResource(R.string.login_nao_cadastrado),
                         style = letraPadrao
                     )
 
                     TextButton(
                         onClick = { navController.navigate("cadastro") }) {
                         Text(
-                            text = "Criar Conta",
+                            text = stringResource(R.string.login_criar_conta),
                             modifier = Modifier.wrapContentSize(),
                             style = letraClicavel
                         )

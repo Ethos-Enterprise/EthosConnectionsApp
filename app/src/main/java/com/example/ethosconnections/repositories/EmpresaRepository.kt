@@ -1,6 +1,7 @@
 package com.example.ethosconnections.repositories
 
 import com.example.ethosconnections.models.Empresa
+import com.example.ethosconnections.models.EmpresaNova
 import com.example.ethosconnections.service.EmpresaService
 import retrofit2.Response
 import retrofit2.http.POST
@@ -14,14 +15,7 @@ class EmpresaRepository constructor(private val service:EmpresaService) {
 
 
     suspend fun cadastrarEmpresa(
-        nomeEmpresa: String,
-        cnpj: String,
-        telefone: String,
-        email: String,
-        senha: String,
-        setor: String,
-        qtdFuncionarios: Int,
-        assinanteNewsletter: Boolean,
+        empresaNova: EmpresaNova,
         token: String
-    ) = service.cadastrarEmpresa(nomeEmpresa,cnpj,telefone,email,senha,setor,qtdFuncionarios,assinanteNewsletter,token)
+    ) = service.cadastrarEmpresa(empresaNova ,token)
 }

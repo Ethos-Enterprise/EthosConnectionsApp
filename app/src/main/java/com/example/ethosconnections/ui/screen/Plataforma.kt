@@ -148,7 +148,7 @@
 
                 else -> listOf(
                     NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-    //                NavigationItem(titulo = "Minhas Negociações", rota = "meuPortfolio"),
+                    NavigationItem(titulo = "Minhas Negociações", rota = "minhasNegociacoes"),
                     NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
                     NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
                     NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
