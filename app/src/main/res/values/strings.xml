@@ -164,4 +164,23 @@
     <string name="nao_encontrado">Não Encontrado</string>
     <string name="view_model_nao_encontrado">ViewModel Nao Existe</string>
 
+
+    <!-- Meu perfil -->
+    <string name="titulo_minha_conta">Minha Conta</string>
+    <string name="titulo_meu_perfil">Meu perfil</string>
+    <string name="titulo_minhas_informacoes">Minhas informações\n</string>
+    <string name="endereco_contatos">Endereço e contatos\n</string>
+
+    <!-- Minhas Negociações -->
+    <string name="titulo_Minhas_Nego">Minhas Negociações\n</string>
+    <string name="status_negociacoes">Status das Negociações\n</string>
+    <string name="controle_Negociacoes">Controle de Negociações\n</string>
+    <!-- Meu Plano -->
+    <string name="plano_atual">Plano atual</string>
+    <string name="meu_plano">Meu Plano\n</string>
+    <string name="outros_planos">Outros Planos\n</string>
+    <string name="nome_plano">Nome do plano:\n</string>
+    <string name="Preco">Preço:\n</string>
+
+
 </resources>

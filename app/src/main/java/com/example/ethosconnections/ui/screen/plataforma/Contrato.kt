@@ -62,7 +62,9 @@ fun Contrato(navController: NavController,
 
                 Column {
                     Row {
-                        Text(text = "Nome do Plano:", style = tituloConteudoBranco)
+                        Text(
+                            stringResource(R.string.nome_plano),
+                            style = tituloConteudoBranco)
                         Spacer(modifier = Modifier.width(14.dp))
 
                         Box(
@@ -80,7 +82,9 @@ fun Contrato(navController: NavController,
                         }
                     }
                     Row {
-                        Text(text = "Preço: ", style = tituloConteudoBranco)
+                        Text(
+                            stringResource(R.string.Preco),
+                            style = tituloConteudoBranco)
                         Spacer(modifier = Modifier.width(14.dp))
 
                         Box(
@@ -101,7 +105,8 @@ fun Contrato(navController: NavController,
 
                 Column {
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(stringResource(R.string.txt_termos_contrato), style = tituloPagina)
+                    Text(stringResource(R.string.txt_termos_contrato),
+                        style = tituloPagina)
                     Spacer(modifier = Modifier.height(14.dp))
                 }
 

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -81,19 +82,25 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val outrosPlanos = todosPlanos.filter { it.nome != "Plano ${planoAtualNome.toString()}" }
 
     Column {
-        Text(text = "Meu Plano", style = tituloPagina)
+        Text(
+            stringResource(R.string.meu_plano),
+            style = tituloPagina)
         Spacer(modifier = Modifier.height(5.dp))
 
         BoxEthos {
 
-            Text(text = "Plano Atual", style = tituloPagina)
+            Text(
+                stringResource(R.string.plano_atual),
+                style = tituloPagina)
             planoAtual?.let {
                 PlanoCaixa(plano = it, planoAtual = true, onClick = {
                 })
             }
 
             Spacer(modifier = Modifier.height(5.dp))
-            Text(text = "Outros Planos", style = tituloPagina)
+            Text(
+                stringResource(R.string.outros_planos),
+                style = tituloPagina)
             Spacer(modifier = Modifier.height(5.dp))
 
             outrosPlanos.forEach { plano ->
