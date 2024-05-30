@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 
@@ -65,14 +67,20 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     Column {
-        Text(text = "Minha conta", style = tituloPagina)
+        Text(
+            stringResource(R.string.titulo_minha_conta),
+            style = tituloPagina)
 
         BoxEthos{
             Column {
-                Text(text = "Meu Perfil", style = tituloConteudoAzul)
+                Text(
+                    stringResource(R.string.titulo_meu_perfil),
+                    style = tituloConteudoAzul)
                 Divider(modifier = Modifier.padding(bottom = 10.dp))
 
-                Text(text = "Minhas informações", style = tituloConteudoBranco)
+                Text(
+                    stringResource(R.string.titulo_minhas_informacoes)
+                    , style = tituloConteudoBranco)
 
                 // Seção de informações do usuário
                 Column(
@@ -100,7 +108,9 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                     )
 
                 }
-                Text(text = "Endereço e contatos", style = tituloConteudoBranco)
+                Text(
+                    stringResource(R.string.endereco_contatos),
+                    style = tituloConteudoBranco)
 
                 // Seção de endereço e contatos
                 Column(

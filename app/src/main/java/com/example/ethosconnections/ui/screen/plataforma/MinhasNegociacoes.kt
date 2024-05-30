@@ -10,11 +10,13 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.compose.cor_primaria
+import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraPadrao
@@ -59,13 +61,13 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
 
     Column(modifier = Modifier.padding(2.dp)) {
         Text(
-            text = "Minhas Negociações",
+            stringResource(R.string.titulo_Minhas_Nego),
             style = tituloConteudoBranco,
             modifier = Modifier.padding(8.dp)
         )
         BoxEthos {
             Text(
-                text = "Status das Negociações",
+                stringResource(R.string.status_negociacoes),
                 style = tituloConteudoAzul,
                 modifier = Modifier.padding(2.dp)
             )
@@ -95,13 +97,11 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
         }
 
         Spacer(modifier = Modifier.height(10.dp))
-
         Text(
-            text = "Controle de Negociações",
+            stringResource(R.string.controle_Negociacoes),
             style = tituloConteudoBranco,
             modifier = Modifier.padding(2.dp)
         )
-
         BoxEthos {
             Column(modifier = Modifier.padding(1.dp)) {
                 // Títulos das colunas

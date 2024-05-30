@@ -92,7 +92,6 @@ fun Contrato(navController: NavController,
                                 ), // Adiciona uma borda branca
                             contentAlignment = Alignment.Center
                         )  {
-                            // Conteúdo dentro do retângulo
                             Text(text = "${preco ?: ""}", style = tituloConteudoBranco)
                         }
                     }
@@ -100,7 +99,8 @@ fun Contrato(navController: NavController,
 
                 Column {
                     Spacer(modifier = Modifier.height(14.dp))
-                    Text(stringResource(R.string.txt_termos_contrato), style = tituloPagina)
+                    Text(stringResource(R.string.txt_termos_contrato),
+                        style = tituloPagina)
                     Spacer(modifier = Modifier.height(14.dp))
                 }
 
