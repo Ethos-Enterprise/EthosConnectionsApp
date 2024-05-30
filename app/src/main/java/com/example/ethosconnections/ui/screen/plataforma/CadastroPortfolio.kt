@@ -231,7 +231,7 @@ fun buttons(navController: NavController) {
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
-                    text = "Salvar",
+                    text = stringResource(R.string.txt_button_salvar),
                     style = letraButton
                 )
             }

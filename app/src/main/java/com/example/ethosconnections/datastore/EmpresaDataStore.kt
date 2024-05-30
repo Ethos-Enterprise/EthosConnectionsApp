@@ -25,8 +25,7 @@ class EmpresaDataStore(private val context: Context) {
         private val EMPRESA_EMAIL = stringPreferencesKey("empresa_email")
         private val EMPRESA_SETOR = stringPreferencesKey("empresa_setor")
         private val EMPRESA_QTD_FUNCIONARIOS = intPreferencesKey("empresa_qtd_funcionarios")
-        private val EMPRESA_ASSINANTE_NEWSLETTER =
-            booleanPreferencesKey("empresa_assinante_newsletter")
+        private val EMPRESA_ASSINANTE_NEWSLETTER = booleanPreferencesKey("empresa_assinante_newsletter")
         private val EMPRESA_PLANO = stringPreferencesKey("empresa_plano")
         private val EMPRESA_TOKEN = stringPreferencesKey("empresa_token")
         private val EMPRESA_ID_PRESTADORA = stringPreferencesKey("empresa_id_prestadora")
@@ -108,7 +107,6 @@ class EmpresaDataStore(private val context: Context) {
             preferences[EMPRESA_PLANO] = novoPlano
         }
     }
-
 
     suspend fun getToken(): String {
         return context.usuarioAtual.data.map { preferences ->

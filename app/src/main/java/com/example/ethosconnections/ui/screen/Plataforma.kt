@@ -53,6 +53,7 @@
     import androidx.compose.ui.platform.LocalContext
     import androidx.compose.ui.platform.LocalLifecycleOwner
     import androidx.compose.ui.res.painterResource
+    import androidx.compose.ui.res.stringResource
     import androidx.compose.ui.tooling.preview.Preview
     import androidx.compose.ui.unit.dp
     import androidx.datastore.core.DataStore
@@ -184,11 +185,7 @@
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
                         text = "Olá ${
-                            empresaDataStore.getRazaoSocialEmpresaFlow()
-                                .collectAsState(initial = null).value ?: "sem razao social"
-                        } | ${
-                            empresaDataStore.getPlanoFlow()
-                                .collectAsState(initial = null).value ?: "plano free"
+                            empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: stringResource(R.string.txt_empresa_n_a)
                         }",
                         style = tituloMenu,
                         modifier = Modifier.padding(start = 25.dp, top = 10.dp)

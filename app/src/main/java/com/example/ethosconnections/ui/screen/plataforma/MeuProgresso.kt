@@ -91,8 +91,6 @@ fun MeuProgresso(
     var token = ""
     LaunchedEffect(key1 = null) {
         token = empresaDataStore.getToken()
-
-
         metaViewModel.getAllMetas(token)
     }
 
@@ -117,15 +115,15 @@ fun MeuProgresso(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 CircularProgress(
-                    nomeGrafico = "Ambiental",
+                    nomeGrafico = stringResource(R.string.txt_area_e),
                     progress = progressoAmbiental.toFloat() / 100f
                 )
                 CircularProgress(
-                    nomeGrafico = "Social",
+                    nomeGrafico = stringResource(R.string.txt_area_s),
                     progress = progressoSocial.toFloat() / 100f
                 )
                 CircularProgress(
-                    nomeGrafico = "Governamental",
+                    nomeGrafico = stringResource(R.string.txt_area_g),
                     progress = progressoGovernamental.toFloat() / 100f
                 )
             }
@@ -136,17 +134,17 @@ fun MeuProgresso(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
                 ) {
-                Text(text = "Minha Meta", style = tituloConteudoAzul)
+                Text(text = stringResource(R.string.minha_meta), style = tituloConteudoAzul)
                 Box(
                     modifier = Modifier
                         .width(100.dp)
                         .height(25.dp)
-                        .clickable {navController.navigate("meta")  }
+                        .clickable { navController.navigate("meta") }
                         .background(cor_primaria, shape = RoundedCornerShape(5.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Criar Meta",
+                        text = stringResource(R.string.criar_meta),
                         style = letraButton
                     )
                 }
@@ -200,7 +198,7 @@ fun MeuProgresso(
                         ) {
                             Column {
                                 Text(
-                                    text = "Pilar ${meta.pilarEsg.toString()}",
+                                    text = "${stringResource(R.string.txt_pilar)} ${meta.pilarEsg.toString()}",
                                     style = tituloConteudoBranco
                                 )
                                 Text(text = meta.descricao.toString(), style = letraDescricao)
@@ -209,7 +207,7 @@ fun MeuProgresso(
                                     verticalAlignment = Alignment.CenterVertically
 
                                 ){
-                                    Text(text = "Data Limite: ", style = tituloConteudoBranco)
+                                    Text(text = stringResource(R.string.data_limite), style = tituloConteudoBranco)
                                     Text(text =  meta.dataFim.toString(), style = letraDescricao)
                                 }
                                 Spacer(modifier = Modifier.height(5.dp))
@@ -224,16 +222,14 @@ fun MeuProgresso(
                                             metaViewModel.deleteMeta(metaIdConvertido, token) { sucesso ->
                                                 if (sucesso) {
                                                     mostrarDialogo = true
-                                                } else {
-                                                    Log.e("ErroDeletarMeta", "Erro ao deletar a meta")
                                                 }
                                             }
                                         },
-                                        nomeAcao = "Excluir Meta"
+                                        nomeAcao = stringResource(R.string.excluir_meta)
                                     )
                                     FillButtonEthos(
                                         acao = { /*TODO*/ },
-                                        nomeAcao = "Ver Serviços"
+                                        nomeAcao = stringResource(R.string.ver_servicos)
                                     )
                                 }
                             }
@@ -248,22 +244,22 @@ fun MeuProgresso(
             Text(stringResource(R.string.titulo_formulario_meu_progresso), style = tituloConteudoAzul)
             Divider(modifier = Modifier.padding(bottom = 10.dp))
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_ambiental,
-                categoria = "Ambiental",
-                nomeServico = "Ambiental",
+                categoria = stringResource(R.string.txt_area_e),
+                nomeServico = stringResource(R.string.txt_area_e),
                 nomeEmpresa = stringResource(R.string.formulario_ambiental_meu_progresso),
                 onClick = { navController.navigate("formulario/Ambiental") }
             )
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_social,
-                categoria = "Social",
-                nomeServico = "Social",
+                categoria = stringResource(R.string.txt_area_s),
+                nomeServico = stringResource(R.string.txt_area_s),
                 nomeEmpresa = stringResource(R.string.formulario_social_meu_progresso),
                 onClick = { navController.navigate("formulario/Social") }
             )
 
             CardFormulario(fotoEmpresa = R.mipmap.card_formulario_governamental,
-                categoria = "Governamental",
-                nomeServico = "Governamental",
+                categoria = stringResource(R.string.txt_area_g),
+                nomeServico = stringResource(R.string.txt_area_g),
                 nomeEmpresa = stringResource(R.string.formulario_governamental_meu_progresso),
                 onClick = { navController.navigate("formulario/Governamental") }
             )
@@ -278,11 +274,11 @@ fun MeuProgresso(
 
                     mostrarDialogo = false
                 }) {
-                    Text("OK")
+                    Text(stringResource(R.string.txt_button_ok))
                 }
             },
-            title = { Text("Meta Excluída") },
-            text = { Text("Sua meta foi excluída com sucesso!") })
+            title = { Text(stringResource(R.string.meta_excluida))},
+            text = { Text(stringResource(R.string.meta_excluida_sucesso))})
 
     }
 }
@@ -326,7 +322,7 @@ fun CardFormulario(
                 ) {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Não Iniciado",
+                        text = stringResource(R.string.nao_iniciado),
                         style = letraPadrao.copy(color = Color.Black),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
@@ -353,7 +349,7 @@ fun CardFormulario(
                             ) {
 
                                 Text(
-                                    text = "Área de Impacto",
+                                    text = stringResource(R.string.area_de_impacto),
                                     style = letraPadrao,
                                     modifier = Modifier.padding(bottom = 5.dp)
                                 )
@@ -368,7 +364,7 @@ fun CardFormulario(
 
                         Column {
                             Text(
-                                text = "Pontuação",
+                                text = stringResource(R.string.pontuacao),
                                 style = letraPadrao,
                                 modifier = Modifier.padding(bottom = 5.dp)
                             )

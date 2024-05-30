@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,13 +60,9 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
             stringResource(R.string.titulo_pagina_pagamento),
             style = tituloPagina
         )
-        // Estado para armazenar o número do Pix
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
 
         LaunchedEffect(key1 = true) {
-            Log.e("PAGAMENTOO", "entrei pra mudarr: ${plano}")
-
-            Log.d("NavControllerLog", "NavController: $navController, Backstack: ${navController.graph}")
 
             delay(5000)
             val planoFormatado = plano.replace("Plano ", "")
@@ -108,12 +105,12 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
             var exibirBox1 by remember { mutableStateOf(true) }
 
             Row {
-                Text(text = "QR Code  ", style = tituloConteudoBranco.copy(
+                Text(text = stringResource(R.string.txt_qr_code_pagamento), style = tituloConteudoBranco.copy(
                     background = if (exibirBox1) Color.Gray else Color.Transparent
                 ), modifier = Modifier
                     .clickable { exibirBox1 = true }
                     .padding(end = 8.dp))
-                Text(text = "Pix copia e cola  ", style = tituloConteudoBranco.copy(
+                Text(text = stringResource(R.string.txt_pix_copia_e_cola_pagamento), style = tituloConteudoBranco.copy(
                     background = if (!exibirBox1) Color.Gray else Color.Transparent
                 ), modifier = Modifier.clickable { exibirBox1 = false })
             }
@@ -144,7 +141,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 .size(150.dp)
                                 .align(Alignment.CenterHorizontally),
                             painter = painterResource(id = R.mipmap.qrcode),
-                            contentDescription = "QR CODE"
+                            contentDescription = stringResource(R.string.txt_qr_code_pagamento)
                         )
 
 
@@ -159,18 +156,19 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "Matrix", style = tituloConteudoBranco
+                                    text = empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: stringResource(R.string.txt_empresa_n_a
+                                    ), style = tituloConteudoBranco
                                 )
                             }
-                            Spacer(modifier = Modifier.height(2.dp))
 
+                            Spacer(modifier = Modifier.height(2.dp))
                             Row {
                                 Text(
                                     stringResource(R.string.txt_recebedor_pagamento), style = tituloConteudoBrancoNegrito
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = " Ethos Connections cia.", style = tituloConteudoBranco
+                                    text = stringResource(R.string.txt_nome_social_ethos), style = tituloConteudoBranco
                                 )
                             }
                             Spacer(modifier = Modifier.height(2.dp))
@@ -241,11 +239,8 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                             Text(
                                 stringResource(R.string.txt_pix_pagamento),
                                 style = tituloConteudoBrancoNegrito
-
                             )
 
-
-                            // Campo cinza com o número gerado
                             Text(
                                 text = codigoPix,
                                 style = tituloConteudoPreto,
@@ -260,13 +255,12 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            // Botão para copiar o número do Pix
                             Button(
                                 onClick = {
                                     copyToClipboard(context, codigoPix)
                                     Toast.makeText(
                                         context,
-                                        "Código Pix copiado!",
+                                        context.getString(R.string.txt_pix_copiado_pagamento),
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }, modifier = Modifier
@@ -279,16 +273,13 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                             ) {
                                 Text(
-                                    text = "Copiar código pix",
+                                    text = stringResource(R.string.txt_pix_copiar_pagamento),
                                     style = letraButton
                                 )
                             }
                         }
 
-
-
                         Spacer(modifier = Modifier.height(30.dp))
-
                         Column {
 
                             Row {
@@ -298,7 +289,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "Matrix", style = tituloConteudoBranco
+                                    text = empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: stringResource(R.string.txt_empresa_n_a), style = tituloConteudoBranco
                                 )
                             }
                             Spacer(modifier = Modifier.height(2.dp))
@@ -309,7 +300,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = " Ethos Connections cia.", style = tituloConteudoBranco
+                                    text = stringResource(R.string.txt_nome_social_ethos), style = tituloConteudoBranco
                                 )
                             }
                             Spacer(modifier = Modifier.height(2.dp))
@@ -360,9 +351,9 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
         Spacer(modifier = Modifier.height(40.dp))
         Rodape(
             acaoBotaoEsquerda = {},
-            nomeBotaoEsquerda = "Concluir",
+            nomeBotaoEsquerda = stringResource(R.string.txt_button_concluir),
             acaoBotaoDireita = {},
-            nomeBotaoDireita = "Cancelar"
+            nomeBotaoDireita = stringResource(R.string.txt_button_cancelar)
         )
 
     }
@@ -371,7 +362,6 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
 
 
 fun gerarCodigoPix(): String {
-    // Lógica para gerar o número do Pix aqui
     return (10000000..99999999).random().toString()
 }
 

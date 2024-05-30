@@ -37,9 +37,6 @@
     <string name="cadastro_aceitar_termo">Concordo com os termos de uso e política de privacidade.</string>
     <string name="cadastro_aceitar_notificacao">Quero receber notificações via e-mail.</string>
 
-    <string name="proximo">Próximo</string>
-    <string name="anterior">Anterior</string>
-
     <!-- Meta -->
     <string name="titulo_pagina_meta">Meta</string>
     <string name="subtitulo_pagina_meta">Defina sua meta</string>
@@ -124,6 +121,11 @@
     <string name="txt_vencimento_pagamento">Vencimento:</string>
     <string name="txt_valor_pagamento">Valor:</string>
     <string name="txt_pix_pagamento">Código Pix:</string>
+    <string name="txt_qr_code_pagamento">QR CODE</string>
+    <string name="txt_pix_copia_e_cola_pagamento">Pix copia e cola</string>
+    <string name="txt_pix_copiar_pagamento">Copiar código pix</string>
+    <string name="txt_pix_copiado_pagamento">Código Pix copiado</string>
+    <string name="txt_nome_social_ethos">Ethos Connections CIA</string>
 
     <!-- Avaliacao Servico -->
     <string name="titulo_pagina_avaliacao">Avaliações do serviço</string>
@@ -160,6 +162,16 @@
     <string name="formulario_ambiental_meu_progresso">Este formulário ESG avalia o impacto ambiental para promover práticas sustentáveis e responsabilidade ambiental.</string>
     <string name="formulario_social_meu_progresso">Este formulário ESG avalia o impacto social visa quantificar práticas sociais responsáveis e identificar melhorias.</string>
     <string name="formulario_governamental_meu_progresso">Este formulário ESG analisa a governança corporativa visando fortalecer a integridade e responsabilidade empresarial.</string>
+    <string name="data_limite">Data Limite: </string>
+    <string name="minha_meta">Minha Meta</string>
+    <string name="criar_meta">Criar Meta</string>
+    <string name="excluir_meta">Excluir Meta</string>
+    <string name="ver_servicos">Ver Serviços</string>
+    <string name="nao_iniciado">Não Iniciado</string>
+    <string name="area_de_impacto">Área de Impacto</string>
+    <string name="pontuacao">Pontuação</string>
+    <string name="meta_excluida">Meta Excluída</string>
+    <string name="meta_excluida_sucesso">Sua meta foi excluída com sucesso!</string>
 
     <!-- Questionário -->
     <string name="titulo_pagina_questionario">Questionário</string>
@@ -225,9 +237,21 @@
     <string name="nao_encontrado">Não Encontrado</string>
     <string name="view_model_nao_encontrado">ViewModel Nao Existe</string>
 
+
+    <!-- AREAS ESG-->
+    <string name="txt_pilar">Pilar</string>
+    <string name="txt_area_e">Ambiental</string>
+    <string name="txt_area_s">Social</string>
+    <string name="txt_area_g">Governamental</string>
+
     <!--    TEXTO DE BUTTONS-->
     <string name="txt_button_cancelar">Cancelar</string>
+    <string name="txt_button_concluir">Concluir</string>
     <string name="txt_button_confirmar">Confirmar</string>
     <string name="txt_button_salvar">Salvar</string>
     <string name="txt_button_editar">Editar</string>
+    <string name="txt_button_ok">Ok</string>
+    <string name="proximo">Próximo</string>
+    <string name="anterior">Anterior</string>
+
 </resources>
