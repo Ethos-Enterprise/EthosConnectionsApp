@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -114,15 +115,16 @@ fun CadastroMeta(
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
-                    .clickable { pilarEsg.value = "Ambiental" }
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { pilarEsg.value = "Ambiental" }
                 ) {
                     RadioButton(
                         selected = pilarEsg.value == "Ambiental",
                         onClick = { }
                     )
                     Text(
-                        text = "Pilar Ambiental",
+                        text = stringResource(R.string.nome_pilar_e),
                         style = tituloConteudoBranco,
                         modifier = Modifier
                             .padding(top = 12.dp)
@@ -130,7 +132,8 @@ fun CadastroMeta(
                 }
 
                 Row(
-                    modifier = Modifier.clickable { pilarEsg.value = "Social" }
+                    modifier = Modifier
+                        .clickable { pilarEsg.value = "Social" }
                         .fillMaxWidth()
                 ) {
                     RadioButton(
@@ -138,7 +141,7 @@ fun CadastroMeta(
                         onClick = { }
                     )
                     Text(
-                        text = "Pilar Social",
+                        text = stringResource(R.string.nome_pilar_s),
                         style = tituloConteudoBranco,
                         modifier = Modifier
                             .padding(top = 12.dp)
@@ -146,7 +149,8 @@ fun CadastroMeta(
                 }
 
                 Row(
-                    modifier = Modifier.clickable { pilarEsg.value = "Governamental" }
+                    modifier = Modifier
+                        .clickable { pilarEsg.value = "Governamental" }
                         .fillMaxWidth()
                 ) {
                     RadioButton(
@@ -154,7 +158,7 @@ fun CadastroMeta(
                         onClick = { }
                     )
                     Text(
-                        text = "Pilar Governamental",
+                        text = stringResource(R.string.nome_pilar_g),
                         style = tituloConteudoBranco,
                         modifier = Modifier
                             .padding(top = 12.dp)
@@ -206,6 +210,7 @@ fun MetaButtons(
     dataFim: String,
     token: String
 ) {
+    val contextMeta = LocalContext.current
     val errorMessage = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
@@ -248,7 +253,7 @@ fun MetaButtons(
                                 navController.navigate("meuProgresso")
                             }, 2000)
                         } else {
-                            errorMessage.value = "Erro ao cadastrar a meta"
+                            errorMessage.value = contextMeta.getString(R.string.msg_erro_cadastro_meta)
                         }
                     }
                 },
@@ -256,7 +261,7 @@ fun MetaButtons(
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
-                    text = "Salvar",
+                    text = stringResource(R.string.txt_button_salvar),
                     style = letraButton
                 )
             }
@@ -270,7 +275,7 @@ fun MetaButtons(
                 border = BorderStroke(2.dp, Color(0xFF01A2C3)),
             ) {
                 Text(
-                    text = "Cancelar",
+                    text = stringResource(R.string.txt_button_cancelar),
                     style = tituloConteudoAzul
                 )
             }
@@ -292,13 +297,15 @@ fun ValidarData(dataFim: String, onDateChange: (String) -> Unit) {
             onValueChange = { newValue ->
                 onDateChange(newValue.take(10))
             },
-            label = { Text("dd-mm-aaaa") },
+            label = {
+                Text(stringResource(R.string.placeholder_data))
+                    },
             modifier = Modifier
                 .background(color = Color(0xFF1B1B1B))
         )
         if (!validarData(dataFim) && dataFim.isNotBlank()) {
             Text(
-                text = "Insira uma data válida",
+                text = stringResource(R.string.msg_erro_data_valida),
                 color = Color.Red,
                 modifier = Modifier.padding(start = 16.dp)
             )

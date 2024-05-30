@@ -245,7 +245,7 @@ fun buttons(navController: NavController) {
                 border = BorderStroke(2.dp, Color(0xFF01A2C3)),
             ) {
                 Text(
-                    text = "Cancelar",
+                    text = stringResource(R.string.txt_button_cancelar),
                     style = letraButton,
                     color = Color(0xFF01A2C3)
                 )

@@ -34,7 +34,7 @@ fun Rodape(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color) // Adicionando retângulo por trás dos botões
+            .background(color)
     ) {
         Row(
             modifier = Modifier

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -80,7 +81,10 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background(if (categoria == "ENVIRONMENTAL") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
+                            .background(
+                                if (categoria == "ENVIRONMENTAL") cor_primaria else cor_secundaria,
+                                RoundedCornerShape(topStart = 8.dp)
+                            )
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
                     )
@@ -90,7 +94,10 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background( if (categoria == "SOCIAL") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
+                            .background(
+                                if (categoria == "SOCIAL") cor_primaria else cor_secundaria,
+                                RoundedCornerShape(topStart = 8.dp)
+                            )
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 
@@ -101,7 +108,10 @@ fun ServicoEthos(
                         style = letraPadrao.copy(color = Color.White),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .background( if (categoria == "GOVERNANCE") cor_primaria else cor_secundaria, RoundedCornerShape(topStart = 8.dp))
+                            .background(
+                                if (categoria == "GOVERNANCE") cor_primaria else cor_secundaria,
+                                RoundedCornerShape(topStart = 8.dp)
+                            )
                             .padding(start = 5.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                             .width(9.dp)
 
@@ -130,7 +140,7 @@ fun ServicoEthos(
                         contentPadding = PaddingValues(0.dp),
                     ) {
                         Text(
-                            text = "Saiba Mais",
+                            text = stringResource(R.string.saiba_mais_servico) ,
                             style = tituloConteudoAzul,
                             fontSize = 13.sp
                         )

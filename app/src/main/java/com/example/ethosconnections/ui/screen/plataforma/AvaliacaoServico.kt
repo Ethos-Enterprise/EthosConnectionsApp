@@ -102,7 +102,7 @@ fun AvaliacaoServico(
                         )
 
                         Text(
-                            text = "Certificada desde 2018",
+                            text = stringResource(R.string.txt_anos_certificada), //colocar ano certificação
                             style = tituloConteudoCinza,
                             fontSize = 11.sp,
                         )
@@ -118,7 +118,7 @@ fun AvaliacaoServico(
                         modifier = Modifier.size(width = 140.dp, height = 35.dp)
                     ) {
                         Text(
-                            text = "Ver Portfólio",
+                            text = stringResource(R.string.txt_ver_portfolio),
                             style = letraButton,
                             color = Color(0xFF01A2C3)
                         )
@@ -246,7 +246,7 @@ fun AvaliacaoServico(
 
                                             OutlinedButtonEthos(
                                                 acao = { showDialog = false },
-                                                nomeAcao = "Cancelar"
+                                                nomeAcao = stringResource(R.string.txt_button_cancelar)
                                             )
                                             Spacer(modifier = Modifier.width(5.dp))
                                             FillButtonEthos(
@@ -257,7 +257,7 @@ fun AvaliacaoServico(
                                                         }
                                                     }
                                                 },
-                                                nomeAcao = "Confirmar"
+                                                nomeAcao = stringResource(R.string.txt_button_confirmar)
                                             )
                                         }
 
@@ -282,7 +282,7 @@ fun AvaliacaoServico(
 
                         ) {
                             Text(
-                                text = "Solicitar Contato",
+                                text = stringResource(R.string.txt_solicitar_contato),
                                 style = letraButton
                             )
                         }
@@ -303,7 +303,7 @@ fun AvaliacaoServico(
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "Favoritar",
+                                    text = stringResource(R.string.txt_favoritar),
                                     style = tituloConteudoBranco,
                                     fontSize = 17.sp
                                 )

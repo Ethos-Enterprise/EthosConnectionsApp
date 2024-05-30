@@ -62,30 +62,29 @@ fun Contrato(navController: NavController,
 
                 Column {
                     Row {
-                        Text(text = "Nome do Plano:", style = tituloConteudoBranco)
+                        Text(text = stringResource(R.string.txt_nome_do_plano), style = tituloConteudoBranco)
                         Spacer(modifier = Modifier.width(14.dp))
 
                         Box(
                             modifier = Modifier
-                                .size(600.dp, 20.dp) // Ajuste o tamanho conforme necessário
+                                .size(600.dp, 20.dp)
                                 .border(
                                     width = 1.dp,
                                     color = Color.White,
                                     shape = RoundedCornerShape(4.dp)
-                                ), // Adiciona uma borda branca
+                                ),
                             contentAlignment = Alignment.Center
                         )  {
-                            // Conteúdo dentro do retângulo
                             Text(text = "${nomePlano ?: ""}", style = tituloConteudoBranco)
                         }
                     }
                     Row {
-                        Text(text = "Preço: ", style = tituloConteudoBranco)
+                        Text(text = stringResource(R.string.txt_preco), style = tituloConteudoBranco)
                         Spacer(modifier = Modifier.width(14.dp))
 
                         Box(
                             modifier = Modifier
-                                .size(600.dp, 20.dp) // Ajuste o tamanho conforme necessário
+                                .size(600.dp, 20.dp)
                                 .border(
                                     width = 1.dp,
                                     color = Color.White,
@@ -166,9 +165,9 @@ fun Contrato(navController: NavController,
         }
         Rodape(
             acaoBotaoEsquerda = { navController.navigate("pagamento/$nomePlano") },
-            nomeBotaoEsquerda = "Adquirir plano",
+            nomeBotaoEsquerda = stringResource(R.string.txt_button_adquirir_plano),
             acaoBotaoDireita = {},
-            nomeBotaoDireita = "Cancelar"
+            nomeBotaoDireita = stringResource(R.string.txt_button_cancelar)
         )
 
 

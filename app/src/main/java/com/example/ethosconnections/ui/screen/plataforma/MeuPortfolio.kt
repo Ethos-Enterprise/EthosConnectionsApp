@@ -141,11 +141,11 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
                     Column {
 
                     Text(
-                        text = empresa?.razaoSocial ?: "N/A",
+                        text = empresa?.razaoSocial ?: stringResource(R.string.txt_empresa_n_a),
                         style = tituloConteudoBranco
                     )
                     Text(
-                        text = portfolio?.linkWebsiteEmpresa ?: "www.website.com",
+                        text = portfolio?.linkWebsiteEmpresa ?: stringResource(R.string.txt_url_site),
                         style = letraClicavel,
                         fontSize = 12.sp
                     )
@@ -164,7 +164,7 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
 
                     ) {
                         Text(
-                            text = "Editar",
+                            text = stringResource(R.string.txt_button_editar),
                             style = letraButton,
                             fontSize = 12.sp
                         )
@@ -207,7 +207,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
                     modifier = Modifier.padding(start = 15.dp, top = 7.dp)
                 ) {
                     Text(
-                        text = portfolio?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
+                        text = portfolio?.descricaoEmpresa ?: stringResource(R.string.txt_descricao_empresa),
                         style = corLetra
                     )
                 }
@@ -224,7 +224,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
 
             Text(
 //                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
-                text = portfolio?.sobreEmpresa?: "Descrição sobre a Empresa",
+                text = portfolio?.sobreEmpresa?: stringResource(R.string.txt_sobre_empresa),
                 style = letraDescricao,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -246,22 +246,22 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
                 ) {
                     Column {
                         Text(
-                            text = "Área de Atuação",
+                            text = stringResource(R.string.txt_area_atuacao),
                             style = letraPadrao
                         )
                         Text(
-                            text =  empresa?.setor ?: "N/A",
+                            text =  empresa?.setor ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Telefone Corporativo",
+                            text = stringResource(R.string.txt_telefone),
                             style = letraPadrao
                         )
                         Text(
-                            text = empresa?.telefone ?: "N/A",
+                            text = empresa?.telefone ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }
@@ -271,22 +271,22 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
                 ) {
                     Column {
                         Text(
-                            text = "Email Corporativo",
+                            text = stringResource(R.string.txt_email_portfolio),
                             style = letraPadrao
                         )
                         Text(
-                            text = empresa?.email ?: "N/A",
+                            text = empresa?.email ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Tamanho da Empresa",
+                            text = stringResource(R.string.txt_qtd_funcionario_portfolio),
                             style = letraPadrao
                         )
                         Text(
-                            text = "60 - 80 funcionários",
+                            text = stringResource(R.string.txt_qtd_funcionario),
                             style = corLetra
                         )
                     }
@@ -295,11 +295,11 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
             }
             Column {
                 Text(
-                    text = "Endereço",
+                    text = stringResource(R.string.txt_endereco_portfolio),
                     style = letraPadrao
                 )
                 Text(
-                    text = "Rua Haddock Lobo, 595 - São Paulo - SP",
+                    text = stringResource(R.string.txt_endereco_fake),
                     style = corLetra
                 )
             }
@@ -334,7 +334,7 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
                 .fillMaxWidth()
         ) {
             GridServicos(servicos, navController)
-            Text(text = "Nenhum serviço cadastrado", style = tituloConteudoBranco)
+            Text(text = stringResource(R.string.txt_sem_servicos), style = tituloConteudoBranco)
         }
     }
 }

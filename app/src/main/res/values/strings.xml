@@ -46,6 +46,12 @@
     <string name="opcoes_pilares_esg_meta">Em qual dos 3 pilares do ESG sua empresa busca melhorar?</string>
     <string name="descricao_meta">Descreva a sua meta ou deixe uma observação</string>
     <string name="data_limite_meta">Data Limite</string>
+    <string name="nome_pilar_e">Pilar Ambiental</string>
+    <string name="nome_pilar_s">Pilar Social</string>
+    <string name="nome_pilar_g">Pilar Governamental</string>
+    <string name="msg_erro_cadastro_meta">Erro ao cadastrar a meta</string>
+    <string name="msg_erro_data_valida">Insira uma data válida</string>
+    <string name="placeholder_data">dd-mm-aaaa</string>
 
     <!-- Portfolio -->
     <string name="titulo_pagina_portfolio">Portfólio</string>
@@ -65,6 +71,15 @@
     <string name="subtitulo_dados_gerais_meu_portfolio">Dados Gerais</string>
     <string name="subtitulo_certificados_meu_portfolio">Certificados</string>
     <string name="titulo_todos_servicos_meu_portfolio">Todos os serviços</string>
+    <string name="txt_empresa_n_a">N/A</string>
+    <string name="txt_url_site">www.website.com</string>
+    <string name="txt_descricao_empresa">Serviços e consultoria de TI | Empresa certificada desde 2018</string>
+    <string name="txt_sobre_empresa">Descrição sobre a Empresa</string>
+    <string name="txt_area_atuacao">Área de Atuação</string>
+    <string name="txt_telefone">Telefone Corporativo</string>
+    <string name="txt_qtd_funcionario">60 - 80 funcionários</string>
+    <string name="txt_endereco_fake">Rua Haddock Lobo, 595 - São Paulo - SP</string>
+    <string name="txt_sem_servicos">Nenhum serviço cadastrado</string>
 
     <!-- Cadastro Portfolio -->
     <string name="subtitulo_pagina_cadastro_portfolio">Dados Gerais</string>
@@ -78,6 +93,9 @@
 
     <!-- Contrato -->
     <string name="titulo_pagina_contrato">Aquisição de Plano</string>
+    <string name="txt_nome_do_plano">Nome do Plano: </string>
+    <string name="txt_preco">Preço</string>
+
     <string name="txt_aquisicao_plano_contrato">Leia atentamente as informações para a aquisição do plano:</string>
     <string name="txt_termos_contrato">Termos e Condições</string>
     <string name="topico_1_contrato">1. Descrição do Plano</string>
@@ -94,6 +112,8 @@
     <string name="txt_topico_6_contrato">    A Ethos protegerá os dados do Cliente de acordo com as leis de privacidade aplicáveis. Consulte a Política de Privacidade da Ethos para obter mais informações.</string>
     <string name="topico_7_contrato">7. Disposições Gerais</string>
     <string name="txt_topico_7_contrato">    Estes Termos e Condições constituem o acordo.</string>
+    <string name="txt_button_adquirir_plano">Adquirir Plano</string>
+
 
     <!-- Pagamento -->
     <string name="titulo_pagina_pagamento">Realizar Pagamento Pix</string>
@@ -119,6 +139,12 @@
     <string name="txt_empresa_avaliacao">Empresa:</string>
     <string name="txt_servico_avaliacao">Serviço:</string>
     <string name="txt_preco_avaliacao">Preço Médio:</string>
+    <string name="txt_anos_certificada">Certificada desde </string>
+    <string name="txt_ver_portfolio">Ver Portfólio </string>
+    <string name="txt_favoritar">Favoritar</string>
+    <string name="txt_solicitar_contato">Solicitar Contato</string>
+    <string name="saiba_mais_servico">Saiba Mais</string>
+
 
     <!-- Soluções ESG -->
     <string name="titulo_pagina_solucoes_esg">Soluções ESG</string>
@@ -163,5 +189,10 @@
     <string name="erro_exception">Exceção ao buscar dados</string>
     <string name="nao_encontrado">Não Encontrado</string>
     <string name="view_model_nao_encontrado">ViewModel Nao Existe</string>
+
+    <string name="txt_button_cancelar">Cancelar</string>
+    <string name="txt_button_confirmar">Confirmar</string>
+    <string name="txt_button_salvar">Salvar</string>
+    <string name="txt_button_editar">Editar</string>
 
 </resources>

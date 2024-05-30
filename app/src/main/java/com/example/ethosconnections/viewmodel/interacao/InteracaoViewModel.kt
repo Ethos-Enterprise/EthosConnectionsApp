@@ -84,9 +84,7 @@ class InteracaoViewModel(
                     val servico = withContext(Dispatchers.IO) {
                         servicoViewModel.getServicoById(interacao.fkServico, token)
                         servicoViewModel.servico.value
-
                     }
-
                     interacao.nomeServico = servico?.nomeServico ?: context.getString(R.string.nao_encontrado)
                     interacao.nomeEmpresa = context.getString(R.string.nao_encontrado)
                 }
