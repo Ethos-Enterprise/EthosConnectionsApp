@@ -3,6 +3,17 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_plataforma">Plataforma</string>
 
+    <!-- PLATAFORMA -->
+    <string name="plataforma_menu_solucoes">Soluções ESG</string>
+    <string name="plataforma_menu_meu_perfil">Meu Perfil</string>
+    <string name="plataforma_menu_minhas_interacoes">Minhas Interações</string>
+    <string name="plataforma_menu_meu_plano">Meu Plano</string>
+    <string name="plataforma_menu_meu_progresso">Meu Progresso</string>
+    <string name="plataforma_menu_minhas_negociacoes">Minhas Negociações</string>
+    <string name="plataforma_menu_meu_portfolio">Meu Portfolio</string>
+    <string name="plataforma_menu_sair">Sair</string>
+
+
     <!-- HOME   -->
     <string name="home_icone_branco">Icone da cor branca</string>
     <string name="home_texto_conectando_negocios">Conectando negócios, moldando o futuro</string>
@@ -151,6 +162,10 @@
     <string name="titulo_pagina_solucoes_esg">Soluções ESG</string>
     <string name="subtitulo_filtro_solucoes_esg">Categorias ESG</string>
     <string name="placeholder_busca_solucoes_esg">Buscas soluções</string>
+    <string name="txt_exibindo_todas_solucoes_esg">Exibindo todas as soluções</string>
+    <string name="txt_limpar_filtros_solucoes_esg">Limpar filtros</string>
+    <string name="txt_nenhum_resultado_solucoes_esg">Nenhum resultado encontrado</string>
+    <string name="txt_exibindo_resultado_solucoes_esg">Exibindo resultados</string>
 
     <!-- Meu progresso -->
     <string name="titulo_pagina_meu_progresso">Meu progresso</string>
@@ -237,6 +252,11 @@
     <string name="nao_encontrado">Não Encontrado</string>
     <string name="view_model_nao_encontrado">ViewModel Nao Existe</string>
 
+    <!--  PLANO  -->
+    <string name="txt_plano">Plano</string>
+    <string name="txt_plano_free">Free</string>
+    <string name="txt_plano_analytics">Analytics</string>
+    <string name="txt_plano_provider">Provider</string>
 
     <!-- AREAS ESG-->
     <string name="txt_pilar">Pilar</string>

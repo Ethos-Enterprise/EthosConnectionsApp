@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -65,13 +66,15 @@ import java.util.UUID
 @Composable
 fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel, empresaDataStore: EmpresaDataStore) {
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = true) {
         servicoViewModel.getServicos(empresaDataStore.getToken())
     }
 
     var servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
-    var filtroAplicado = remember { mutableStateOf("Exibindo todas as soluções") }
+    var filtroAplicado = remember { mutableStateOf(R.string.txt_exibindo_todas_solucoes_esg).toString()}
     var pesquisa = remember { mutableStateOf("") }
     var servicosFiltrados = remember { mutableStateOf<SnapshotStateList<Servico>?>(null) }
     var cardSelecionado = remember { mutableStateOf(-1) }
@@ -80,9 +83,9 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
     val filtrarServicos: (List<Servico>, (Servico) -> Boolean, String, String) -> Unit = { servicosList, filtro, mensagemVazia, mensagemResultado ->
         val listaFiltrados = servicosList.filter(filtro)
         if (listaFiltrados.isEmpty()) {
-            filtroAplicado.value = mensagemVazia
+            filtroAplicado = mensagemVazia
         } else {
-            filtroAplicado.value = mensagemResultado
+            filtroAplicado = mensagemResultado
         }
         servicosFiltrados.value = SnapshotStateList<Servico>().apply { addAll(listaFiltrados) }
     }
@@ -111,14 +114,14 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
             }
         } else {
             servicosFiltrados.value = null
-            filtroAplicado.value = "Exibindo todas as soluções"
+            filtroAplicado = context.getString(R.string.txt_exibindo_todas_solucoes_esg)
         }
     }
 
     val limparFiltros: () -> Unit = {
         servicosFiltrados.value = null
         cardSelecionado.value = -1
-        filtroAplicado.value = "Exibindo todas as soluções"
+        filtroAplicado =  context.getString(R.string.txt_exibindo_todas_solucoes_esg)
     }
 
     Column {
@@ -135,7 +138,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 CategoriaCard(
                     imagemCard = R.mipmap.environmental,
                     contentDescription = "Categoria Ambiental",
-                    buttonText = "Environmental",
+                    buttonText = stringResource(R.string.txt_area_e),
                     onClick = { filtrarServicosPorAreaEsg("ENVIRONMENTAL") },
                     cardSelecionado = cardSelecionado.value == 0,
                     setSelectedCard = { selected ->
@@ -147,7 +150,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 CategoriaCard(
                     imagemCard = R.mipmap.social,
                     contentDescription = "Categoria Social",
-                    buttonText = "Social",
+                    buttonText = stringResource(R.string.txt_area_s),
                     onClick = { filtrarServicosPorAreaEsg("SOCIAL") },
                     cardSelecionado = cardSelecionado.value == 1,
                     setSelectedCard = { selected ->
@@ -159,7 +162,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
                 CategoriaCard(
                     imagemCard = R.mipmap.governance,
                     contentDescription = "Categoria Governance",
-                    buttonText = "Governance",
+                    buttonText = stringResource(R.string.txt_area_g),
                     onClick = { filtrarServicosPorAreaEsg("GOVERNANCE") },
                     cardSelecionado = cardSelecionado.value == 2,
                     setSelectedCard = { selected ->
@@ -217,17 +220,17 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Text(text = filtroAplicado.value, style = letraPadrao)
+            Text(text = filtroAplicado, style = letraPadrao)
             Box( modifier = Modifier
                 .clickable { limparFiltros() }
             ){
                 Row {
 
-                Text(text = "Limpar Filtro", style = letraPadrao)
+                Text(text = stringResource(R.string.txt_limpar_filtros_solucoes_esg), style = letraPadrao)
                     Spacer(modifier = Modifier.width(13.dp))
                 Icon(
                     imageVector = Icons.Default.Clear,
-                    contentDescription = "Limpar Filtros",
+                    contentDescription = stringResource(R.string.txt_limpar_filtros_solucoes_esg),
                     tint = Color.White,
                 )
             }
@@ -251,18 +254,14 @@ fun CategoriaCard(
     setSelectedCard: (Boolean) -> Unit
 ) {
 
-    val shadowColor = Color(0xFFDDDDDD)
-
     Card(
         modifier = Modifier
             .height(110.dp)
             .width(110.dp)
             .clickable {
-                Log.d("CategoriaCard", "onClick chamado")
                 setSelectedCard(!cardSelecionado)
                 onClick()
             }
-//            .shadow(elevation = if (cardSelecionado) 4.dp else 0.dp, shape = RoundedCornerShape(5.dp))
             .border(
                 width = 2.dp,
                 color = if (cardSelecionado) Color.White else Color.Transparent,

@@ -134,26 +134,26 @@
         val items =
             when (empresaDataStore.getPlanoFlow().collectAsState(initial = null).value ?: "Free") {
                 "Free" -> listOf(
-                    NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-                    NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-                    NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
-                    NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_solucoes), rota = "solucoesEsg"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_perfil), rota = "meuPerfil"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_minhas_interacoes), rota = "minhasInteracoes"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_plano), rota = "meuPlano"),
                 )
 
                 "Analytics" -> listOf(
-                    NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-                    NavigationItem(titulo = "Meu Progresso", rota = "meuProgresso"),
-                    NavigationItem(titulo = "Meu Perfil", rota = "meuPerfil"),
-                    NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
-                    NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_solucoes), rota = "solucoesEsg"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_progresso), rota = "meuProgresso"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_perfil), rota = "meuPerfil"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_minhas_interacoes), rota = "minhasInteracoes"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_plano), rota = "meuPlano"),
                 )
 
                 else -> listOf(
-                    NavigationItem(titulo = "Soluções ESG", rota = "solucoesEsg"),
-                    NavigationItem(titulo = "Minhas Negociações", rota = "minhasNegociacoes"),
-                    NavigationItem(titulo = "Meu Portfolio", rota = "meuPortfolio"),
-                    NavigationItem(titulo = "Minhas Interações", rota = "minhasInteracoes"),
-                    NavigationItem(titulo = "Meu Plano", rota = "meuPlano"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_solucoes), rota = "solucoesEsg"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_minhas_negociacoes), rota = "minhasNegociacoes"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_portfolio), rota = "meuPortfolio"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_minhas_interacoes), rota = "minhasInteracoes"),
+                    NavigationItem(titulo = stringResource(R.string.plataforma_menu_meu_plano), rota = "meuPlano"),
                 )
             }
         val componenteNavController = rememberNavController()
@@ -178,8 +178,6 @@
                         modifier = Modifier
                             .fillMaxHeight(0.23f)
                             .fillMaxWidth(1f)
-    //                        .clip(RoundedCornerShape(500.dp))
-    //                    contentScale = ContentScale.Crop
                     )
 
                     Spacer(modifier = Modifier.height(14.dp))
@@ -195,7 +193,6 @@
 
                     items.forEachIndexed { index, item ->
                         NavigationDrawerItem(
-
                             label = {
                                 Text(
                                     text = item.titulo,
@@ -226,7 +223,7 @@
                     NavigationDrawerItem(
                         label = {
                             Text(
-                                text = "Sair",
+                                text = stringResource(R.string.plataforma_menu_sair),
                                 style = letraMenu,
                                 modifier = Modifier.padding(start = 17.dp)
                             )
@@ -292,7 +289,6 @@
 
                     IconButton(
                         onClick = {
-
                         }) {
                         Icon(
                             modifier = Modifier.fillMaxSize(),

@@ -61,14 +61,14 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
             style = tituloPagina
         )
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
+        val context = LocalContext.current
 
         LaunchedEffect(key1 = true) {
-
             delay(5000)
-            val planoFormatado = plano.replace("Plano ", "")
+            val planoFormatado = plano.replace( context.getString(R.string.txt_plano), "")
             empresaDataStore.mudarPlano(planoFormatado)
 
-            if (planoFormatado == "Analytics") {
+            if (planoFormatado == context.getString(R.string.txt_plano_analytics)) {
                 navController.navigate("meuProgresso")
             }else{
                 navController.navigate("meuPortfolio")
@@ -367,7 +367,7 @@ fun gerarCodigoPix(): String {
 
 fun copyToClipboard(context: Context, text: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("Código Pix", text)
+    val clip = ClipData.newPlainText(context.getString(R.string.txt_pix_pagamento), text)
     clipboard.setPrimaryClip(clip)
 }
 

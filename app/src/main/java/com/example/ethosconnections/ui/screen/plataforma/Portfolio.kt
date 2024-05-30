@@ -167,7 +167,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                     modifier = Modifier.padding(start = 15.dp, top = 5.dp)
                 ) {
                     Text(
-                        text = portfolioAtual?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018 ",
+                        text = portfolioAtual?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018",
                         style = corLetra
                     )
                 }
@@ -182,8 +182,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
             Divider(modifier = Modifier.padding(bottom = 10.dp))
 
             Text(
-                //text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
-                text = portfolioAtual?.sobreEmpresa ?: "Descrição sobre a Empresa",
+                text = portfolioAtual?.sobreEmpresa ?: stringResource(R.string.txt_sobre_empresa),
                 style = corLetra,
                 modifier = Modifier
                     .fillMaxWidth()
