@@ -1,5 +1,6 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,18 +22,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
+import com.example.ethosconnections.ui.screen.plataforma.components.Rodape
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 
 data class Plano(
     val nome: String,
@@ -43,54 +48,57 @@ data class Plano(
     val preco: Double
 )
 
-fun getPlanos(): List<Plano> {
+fun getPlanos(context: Context): List<Plano> {
+
+
     return listOf(
         Plano(
-            nome = "Plano Free",
-            descricao = "Ideal para buscar serviços para sua empresa.",
-            beneficios = listOf("Acesso a portfolios de empresas", "Filtros de busca de serviços", "Intermediação de contato"),
-            desPreço = "GRATUITO",
-            tipoPlano = "Plano Padrão",
-            preco = 0.0
-
+            context.getString(R.string.titulo_Plano_Free),
+            context.getString(R.string.descricao_plano_free),
+            listOf(context.getString(R.string.beneficios_plano_free)),
+            context.getString(R.string.descricao_preco_plano_free),
+            context.getString(R.string.tipo_plano),
+            context.getString(R.string.preco_plano_free).toDouble()
         ),
         Plano(
-            nome = "Plano Analytics",
-            descricao = "Ideal para analisar o crescimento ESG na sua empresa.",
-            beneficios = listOf("Benefícios do Plano Free", "Acesso ao formulário ESG", "Gráficos de crescimento ESG"),
-            desPreço = "R$29,90/mês",
-            tipoPlano = "Plano Anual",
-            preco = 29.90
+            context.getString(R.string.titulo_Plano_Analytics),
+            context.getString(R.string.descricao_plano_Analytics),
+            listOf(context.getString(R.string.beneficios_plano_Analytics)),
+            context.getString(R.string.descricao_preco_plano_Analytics),
+            context.getString(R.string.tipo_plano_Analytics),
+            context.getString(R.string.preco_plano_Analytics).toDouble()
         ),
         Plano(
-            nome = "Plano Provider",
-            descricao = "Permite a criação de um portfolio na plataforma.",
-            beneficios = listOf("Benefícios do Plano Free", "Criação de Portfolio", "Intermediação entre empresas"),
-            desPreço = "R$49,90/mês",
-            tipoPlano = "Plano Anual",
-            preco = 49.90
+            context.getString(R.string.titulo_plano_Provider),
+            context.getString(R.string.plano_provider_descricao),
+            listOf(context.getString(R.string.beneficios_provider)),
+            context.getString(R.string.descricao_preco_provider),
+            context.getString(R.string.tipo_plano_provider),
+            context.getString(R.string.preco_plano_Provider).toDouble()
         )
     )
+
 }
 @Composable
 fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
 
+
     val planoAtualNome = empresaDataStore.getPlanoFlow().collectAsState(initial = "Free").value
-    val todosPlanos = getPlanos()
+    val todosPlanos = getPlanos(LocalContext.current)
 
     val planoAtual = todosPlanos.find { it.nome.contains(planoAtualNome.toString())}
     val outrosPlanos = todosPlanos.filter { it.nome != "Plano ${planoAtualNome.toString()}" }
 
     Column {
         Text(
-            stringResource(R.string.meu_plano),
+            stringResource(R.string.titulo_meu_plano),
             style = tituloPagina)
         Spacer(modifier = Modifier.height(5.dp))
 
         BoxEthos {
 
             Text(
-                stringResource(R.string.plano_atual),
+                stringResource(R.string.titulo_plano_atual),
                 style = tituloPagina)
             planoAtual?.let {
                 PlanoCaixa(plano = it, planoAtual = true, onClick = {
@@ -99,7 +107,7 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
 
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                stringResource(R.string.outros_planos),
+                stringResource(R.string.titulo_outros_plano),
                 style = tituloPagina)
             Spacer(modifier = Modifier.height(5.dp))
 

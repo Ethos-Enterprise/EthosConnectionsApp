@@ -94,6 +94,8 @@
     <string name="txt_topico_6_contrato">    A Ethos protegerá os dados do Cliente de acordo com as leis de privacidade aplicáveis. Consulte a Política de Privacidade da Ethos para obter mais informações.</string>
     <string name="topico_7_contrato">7. Disposições Gerais</string>
     <string name="txt_topico_7_contrato">    Estes Termos e Condições constituem o acordo.</string>
+    <string name="nome_plano">Nome do plano:\n</string>
+    <string name="Preco">Preço:\n</string>
 
     <!-- Pagamento -->
     <string name="titulo_pagina_pagamento">Realizar Pagamento Pix</string>
@@ -175,12 +177,35 @@
     <string name="titulo_Minhas_Nego">Minhas Negociações\n</string>
     <string name="status_negociacoes">Status das Negociações\n</string>
     <string name="controle_Negociacoes">Controle de Negociações\n</string>
+
+
     <!-- Meu Plano -->
-    <string name="plano_atual">Plano atual</string>
-    <string name="meu_plano">Meu Plano\n</string>
-    <string name="outros_planos">Outros Planos\n</string>
-    <string name="nome_plano">Nome do plano:\n</string>
-    <string name="Preco">Preço:\n</string>
+    <string name="titulo_meu_plano">Meu plano\n</string>
+    <string name="titulo_plano_atual">Plano Atual</string>
+    <string name="titulo_outros_plano">Outros planos\n</string>
+    <string name="nome_meu_plano">Plano Free\n</string>
+    <string name="titulo_Plano_Free">Plano Free\n</string>
+    <string name="descricao_plano_free">\"Ideal para buscar serviços para sua empresa.\",\n</string>
+    <string name="beneficios_plano_free">\"Acesso a portfolios de empresas\", \"Filtros de busca de serviços\", \"Intermediação de contato\"</string>
+    <string name="descricao_preco_plano_free">GRATUITO</string>
+    <string name="tipo_plano">Plano padrão\n</string>
+    <string name="preco_plano_free">0,0\n</string>
+    <string name="titulo_Plano_Analytics">Plano Analytics\n</string>
+    <string name="descricao_plano_Analytics">\"Ideal para analisar o crescimento ESG na sua empresa.\"</string>
+    <string name="beneficios_plano_Analytics">\"Benefícios do Plano Free\", \"Acesso ao formulário ESG\", \"Gráficos de crescimento ESG\"</string>
+    <string name="tipo_plano_Analytics">Plano ANual</string>
+    <string name="descricao_preco_plano_Analytics">R$29,90/mês</string>
+    <string name="preco_plano_Analytics">29.90\n</string>
+    <string name="titulo_Plano_Provider">Plano Provider\n</string>
+    <string name="descricao_plano_Provider">\"Permite a criação de um portfolio na plataforma.\"</string>
+    <string name="titulo_plano_Provider">Plano Provider\n</string>
+    <string name="plano_provider_descricao">\"Permite a criação de um portfolio na plataforma.\",\n</string>
+    <string name="beneficios_provider">\"Benefícios do Plano Free\", \"Criação de Portfolio\", \"Intermediação entre empresas\"</string>
+    <string name="descricao_preco_provider">\"R$49,90/mês\"</string>
+    <string name="tipo_plano_provider">Plano Anual\n</string>
+    <string name="preco_plano_Provider">49.90\n</string>
+
+
 
 
 </resources>
