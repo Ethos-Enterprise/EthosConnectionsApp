@@ -2,11 +2,16 @@ package com.example.ethosconnections.service
 
 import com.example.ethosconnections.api.Api
 import com.example.ethosconnections.models.Interacao
+import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.UUID
 
 interface InteracaoService {
@@ -19,9 +24,7 @@ interface InteracaoService {
 
     @POST("v1.0/interacoes")
     suspend fun postInteracao(
-        status: String,
-        fkServico: UUID,
-        fkEmpresa: UUID,
+        @Body interacaoRequest: InteracaoViewModel.InteracaoRequest,
         @Header("Authorization") token: String
     ): Response<Interacao>
 
@@ -36,5 +39,4 @@ interface InteracaoService {
         @Path("fkPrestadora") fkPrestadora: UUID,
         @Header("Authorization") token: String
     ): Response<List<Interacao>>
-
 }

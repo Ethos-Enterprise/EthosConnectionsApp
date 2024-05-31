@@ -317,7 +317,7 @@
                         composable("solucoesEsg") {
                             SolucoesESG(componenteNavController, servicoViewModel, empresaDataStore)
                         }
-                        composable("avaliacaoServico/{id}/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}") { backStackEntry ->
+                        composable("avaliacaoServico/{id}/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}/{idEmpresa}") { backStackEntry ->
                             val id = UUID.fromString(backStackEntry.arguments?.getString("id") ?: "")
                             val nomeServico = backStackEntry.arguments?.getString("nomeServico") ?: ""
                             val nomeEmpresa = backStackEntry.arguments?.getString("nomeEmpresa") ?: ""
@@ -325,6 +325,7 @@
                             val preco = backStackEntry.arguments?.getString("preco")?.toDouble() ?: 0.0
                             val descricao = backStackEntry.arguments?.getString("descricao") ?: ""
                             val fkPrestadoraServico = UUID.fromString(backStackEntry.arguments?.getString("fkPrestadoraServico") ?: "")
+                            val idEmpresa = UUID.fromString(backStackEntry.arguments?.getString("idEmpresa") ?: "")
                             AvaliacaoServico(
                                 componenteNavController,
                                 id,
@@ -334,6 +335,7 @@
                                 preco,
                                 descricao,
                                 fkPrestadoraServico,
+                                idEmpresa,
                                 empresaDataStore,
                                 interacaoViewModel
                             )
@@ -341,9 +343,11 @@
                         composable("meuProgresso") {
                             MeuProgresso(componenteNavController, progressoViewModel, metaViewModel,empresaDataStore)
                         }
-                        composable("portfolio/{fkPrestadora}") { backStackEntry ->
+                        composable("portfolio/{fkPrestadora}/{idEmpresa}") { backStackEntry ->
                             val fkPrestadora = UUID.fromString(backStackEntry.arguments?.getString("fkPrestadora") ?: "")
-                            Portfolio(componenteNavController, servicoViewModel, portfolioViewModel, empresaDataStore, fkPrestadora)
+                            val idEmpresa = UUID.fromString(backStackEntry.arguments?.getString("idEmpresa") ?: "")
+
+                            Portfolio(componenteNavController, servicoViewModel, portfolioViewModel,empresaViewModel, empresaDataStore, fkPrestadora, idEmpresa)
                         }
                         composable("cadastroPortfolio") {
                             CadastroPortfolio(componenteNavController, empresaDataStore)

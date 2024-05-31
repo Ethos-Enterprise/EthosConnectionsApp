@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import java.util.*
 
 class EmpresaDataStore(private val context: Context) {
-    private val appContext = context.applicationContext
 
     private val Context.usuarioAtual: DataStore<Preferences> by preferencesDataStore("usuarioEmpresa")
 
@@ -60,7 +59,7 @@ class EmpresaDataStore(private val context: Context) {
             val assinanteNewsletter = preferences[EMPRESA_ASSINANTE_NEWSLETTER]
             val plano = preferences[EMPRESA_PLANO]
             val idPrestadoraString = preferences[EMPRESA_ID_PRESTADORA]
-            val idPrestadora = idPrestadoraString?.let { UUID.fromString(it) }
+            val idPrestadora = if (!idPrestadoraString.isNullOrEmpty()) UUID.fromString(idPrestadoraString) else null
 
             if (idString != null && razaoSocial != null && cnpj != null && telefone != null && email != null &&
                 setor != null && qtdFuncionarios != null && assinanteNewsletter != null && plano != null

@@ -115,27 +115,33 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
         }
     }
 
-    fun getPrestadoraPorId(id: UUID) {
+    suspend fun getEmpresaById(id: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val token = empresaDataStore.getToken()
                 val response = repository.getEmpresaPorId(id,"Bearer $token")
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         empresa.value = response.body()
                         errorMessage.value = ""
+                        Log.e("nome deu bom" ,  empresa.value.toString())
+
                     } else {
                         errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
+                        Log.e("deu ruim" ,  errorMessage.value.toString())
                     }
                 }
             } catch (e: HttpException) {
                 withContext(Dispatchers.Main) {
                     errorMessage.value = e.message ?: context.getString(R.string.erro_desconhecido)
+                    Log.e("deu ruim" ,  errorMessage.value.toString())
+
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     errorMessage.value = e.message ?: context.getString(R.string.erro_desconhecido)
+                    Log.e("deu ruim" ,  errorMessage.value.toString())
+
                 }
             }
         }

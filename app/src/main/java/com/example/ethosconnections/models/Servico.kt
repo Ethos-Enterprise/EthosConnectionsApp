@@ -9,5 +9,6 @@ data class Servico(
     var valor: Double,
     var areaAtuacaoEsg: String,
     var fkPrestadoraServico: UUID,
+    var idEmpresa: UUID ,
     var nomeEmpresa:String
 )

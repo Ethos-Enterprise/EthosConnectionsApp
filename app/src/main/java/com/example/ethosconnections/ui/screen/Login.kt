@@ -152,7 +152,11 @@ fun Login(navController: NavController, viewModel: EmpresaViewModel) {
                                 navController.navigate("plataforma")
                                 },2000)
                             } else {
-                                errorMessage.value = viewModel.errorMessage.value.toString()
+                                if(viewModel.errorMessage.value.toString().contains("Email ou senha inválido")) {
+                                    errorMessage.value = usuarioSenhaIncorretos
+                                }else{
+                                    errorMessage.value = viewModel.errorMessage.value.toString()
+                                }
                             }
                         }
                     }

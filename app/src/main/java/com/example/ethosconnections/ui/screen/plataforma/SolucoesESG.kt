@@ -74,7 +74,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
 
     var servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
-    var filtroAplicado = remember { mutableStateOf(R.string.txt_exibindo_todas_solucoes_esg).toString()}
+    var filtroAplicado = remember { mutableStateOf(context.getString(R.string.txt_exibindo_todas_solucoes_esg))}
     var pesquisa = remember { mutableStateOf("") }
     var servicosFiltrados = remember { mutableStateOf<SnapshotStateList<Servico>?>(null) }
     var cardSelecionado = remember { mutableStateOf(-1) }
@@ -83,9 +83,9 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
     val filtrarServicos: (List<Servico>, (Servico) -> Boolean, String, String) -> Unit = { servicosList, filtro, mensagemVazia, mensagemResultado ->
         val listaFiltrados = servicosList.filter(filtro)
         if (listaFiltrados.isEmpty()) {
-            filtroAplicado = mensagemVazia
+            filtroAplicado.value = mensagemVazia
         } else {
-            filtroAplicado = mensagemResultado
+            filtroAplicado.value = mensagemResultado
         }
         servicosFiltrados.value = SnapshotStateList<Servico>().apply { addAll(listaFiltrados) }
     }
@@ -114,14 +114,14 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
             }
         } else {
             servicosFiltrados.value = null
-            filtroAplicado = context.getString(R.string.txt_exibindo_todas_solucoes_esg)
+            filtroAplicado.value = context.getString(R.string.txt_exibindo_todas_solucoes_esg)
         }
     }
 
     val limparFiltros: () -> Unit = {
         servicosFiltrados.value = null
         cardSelecionado.value = -1
-        filtroAplicado =  context.getString(R.string.txt_exibindo_todas_solucoes_esg)
+        filtroAplicado.value =  context.getString(R.string.txt_exibindo_todas_solucoes_esg)
     }
 
     Column {
@@ -220,7 +220,7 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Text(text = filtroAplicado, style = letraPadrao)
+            Text(text = filtroAplicado.value, style = letraPadrao)
             Box( modifier = Modifier
                 .clickable { limparFiltros() }
             ){
@@ -311,14 +311,15 @@ fun GridServicos(servicos: SnapshotStateList<Servico>, navController: NavControl
                         fotoEmpresa = R.mipmap.governance,
                         categoria = servico.areaAtuacaoEsg,
                         nomeServico = servico.nomeServico,
-                        nomeEmpresa = servico.nomeEmpresa ?: "Não especificado",
+                        nomeEmpresa = servico.nomeEmpresa ,
                         descricao = servico.descricao,
                         valor = servico.valor,
                         id = servico.id,
                         fkPrestadora = servico.fkPrestadoraServico,
+                        idEmpresa = servico.idEmpresa,
                         onClick = {
                             navController.navigate(
-                                "avaliacaoServico/${servico.id}/${servico.nomeServico}/${servico.nomeEmpresa ?: ""}/${servico.areaAtuacaoEsg}/${servico.valor}/${servico.descricao}/${servico.fkPrestadoraServico}"
+                                "avaliacaoServico/${servico.id}/${servico.nomeServico}/${servico.nomeEmpresa}/${servico.areaAtuacaoEsg}/${servico.valor}/${servico.descricao}/${servico.fkPrestadoraServico}/${servico.idEmpresa}"
                             )
                         }
                     )

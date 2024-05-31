@@ -6,6 +6,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Interacao
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.InteracaoRepository
@@ -24,7 +25,8 @@ import java.util.UUID
 
 class InteracaoViewModel(
     private val context: Context,
-    private val repository: InteracaoRepository
+    private val repository: InteracaoRepository,
+    private val empresaDataStore: EmpresaDataStore
 ) : ViewModel() {
 
     private val servicoRepository: ServicoRepository by lazy {
@@ -39,6 +41,12 @@ class InteracaoViewModel(
         )
     }
 
+    data class InteracaoRequest(
+        val status: String,
+        val fkServico: UUID,
+        val fkEmpresa: UUID
+    )
+
     val interacao = MutableLiveData<Interacao>()
     val interacoes = MutableLiveData(SnapshotStateList<Interacao>())
     val errorMessage = MutableLiveData<String>()
@@ -52,23 +60,33 @@ class InteracaoViewModel(
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response =
-                    repository.postInteracao(status, fkServico, fkEmpresa, "Bearer $token")
+                val interacaoRequest = InteracaoRequest(status, fkServico, fkEmpresa)
 
-                if (response.isSuccessful) {
-                    callback(true)
-                } else {
-                    errorMessage.value = response.errorBody()?.string()
-                        ?: context.getString(R.string.erro_desconhecido)
-                    callback(false)
+                val response = repository.postInteracao(interacaoRequest, "Bearer $token")
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        interacao.postValue(response.body())
+                        callback(true)
+                        Log.e("interacopost", interacao.value.toString())
+                    } else {
+                        errorMessage.value = response.errorBody()?.string()
+                            ?: context.getString(R.string.erro_desconhecido)
+                        callback(false)
+                        Log.e("interacopost", errorMessage.value.toString())
+
+                    }
                 }
             } catch (e: Exception) {
-                errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
-                callback(false)
-
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
+                    callback(false)
+                    Log.e("interacopost", errorMessage.value.toString())
+                }
             }
         }
     }
+
 
     suspend fun getInteracoesByFkEmpresa(fkEmpresa: UUID, token: String) {
         try {
@@ -79,7 +97,7 @@ class InteracaoViewModel(
 
                 for (interacao in interacoesList) {
                     val servicoViewModel =
-                        ServicoViewModel(context, ServicoRepository(ServicoService.create()))
+                        ServicoViewModel(context, ServicoRepository(ServicoService.create()), empresaDataStore )
 
                     val servico = withContext(Dispatchers.IO) {
                         servicoViewModel.getServicoById(interacao.fkServico, token)

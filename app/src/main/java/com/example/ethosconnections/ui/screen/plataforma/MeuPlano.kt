@@ -55,7 +55,7 @@ fun getPlanos(context: Context): List<Plano> {
         Plano(
             context.getString(R.string.titulo_Plano_Free),
             context.getString(R.string.descricao_plano_free),
-            listOf(context.getString(R.string.beneficios_plano_free)),
+            context.getString(R.string.beneficios_plano_free).split(","),
             context.getString(R.string.descricao_preco_plano_free),
             context.getString(R.string.tipo_plano),
             context.getString(R.string.preco_plano_free).toDouble()
@@ -63,7 +63,7 @@ fun getPlanos(context: Context): List<Plano> {
         Plano(
             context.getString(R.string.titulo_Plano_Analytics),
             context.getString(R.string.descricao_plano_Analytics),
-            listOf(context.getString(R.string.beneficios_plano_Analytics)),
+            context.getString(R.string.beneficios_plano_Analytics).split(","),
             context.getString(R.string.descricao_preco_plano_Analytics),
             context.getString(R.string.tipo_plano_Analytics),
             context.getString(R.string.preco_plano_Analytics).toDouble()
@@ -71,7 +71,7 @@ fun getPlanos(context: Context): List<Plano> {
         Plano(
             context.getString(R.string.titulo_plano_Provider),
             context.getString(R.string.plano_provider_descricao),
-            listOf(context.getString(R.string.beneficios_provider)),
+            context.getString(R.string.beneficios_provider).split(","),
             context.getString(R.string.descricao_preco_provider),
             context.getString(R.string.tipo_plano_provider),
             context.getString(R.string.preco_plano_Provider).toDouble()
@@ -159,7 +159,6 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
                 contentDescription = "Sinal de check"
             )
             Text(text = plano.beneficios[0], style = tituloConteudoBranco)
-
         }
 
         Row(
@@ -214,8 +213,6 @@ fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
             )
         }
     }
-
-
 }
 
 

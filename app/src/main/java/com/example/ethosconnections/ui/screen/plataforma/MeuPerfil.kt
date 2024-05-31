@@ -64,7 +64,7 @@ fun obterUsuario(): Usuario {
 @Composable
 fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
     val usuario = obterUsuario()
-    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
+    val empresa = empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     Column {
         Text(
@@ -92,19 +92,19 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                 ) {
                     CampoValor(
                         nomeCampo = "Nome da empresa:",
-                        valorCampo = empresa?.razaoSocial ?: "N/A"
+                        valorCampo = empresa.value?.razaoSocial ?: "N/A"
                     )
                     CampoValor(
                         nomeCampo = "CNPJ:",
-                        valorCampo = empresa?.cnpj ?: "N/A"
+                        valorCampo = empresa.value?.cnpj ?: "N/A"
                     )
                     CampoValor(
                         nomeCampo = "Área de atuação:",
-                        valorCampo = empresa?.setor ?: "N/A"
+                        valorCampo = empresa.value?.setor ?: "N/A"
                     )
                     CampoValor(
                         nomeCampo = "Tamanho da Empresa:",
-                        valorCampo = "${empresa?.qtdFuncionarios ?: "N/A"}"
+                        valorCampo = "${empresa.value?.qtdFuncionarios ?: "N/A"}"
                     )
 
                 }
@@ -139,12 +139,12 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                         )
                         CampoValor(
                             nomeCampo = "Telefone Corporativo:",
-                            valorCampo = empresa?.telefone ?: "N/A"
+                            valorCampo = empresa.value?.telefone ?: "N/A"
 
                         )
                         CampoValor(
                             nomeCampo = "Email Corporativo:",
-                            valorCampo = empresa?.email?: "N/A",
+                            valorCampo = empresa.value?.email?: "N/A",
                         )
                     }
 

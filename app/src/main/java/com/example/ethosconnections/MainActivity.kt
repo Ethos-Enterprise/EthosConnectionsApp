@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
         ).get(EmpresaViewModel::class.java)
         val servicoViewModel = ViewModelProvider(
             this,
-            ServicoViewModelFactory(this, ServicoRepository(ServicoService.create()))
+            ServicoViewModelFactory(this, ServicoRepository(ServicoService.create()), empresaDataStore)
         ).get(ServicoViewModel::class.java)
         val portfolioViewModel = ViewModelProvider(
             this,
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
         ).get(MetaViewModel::class.java)
         val interacaoViewModel = ViewModelProvider(
             this,
-            InteracaoViewModelFactory(this, InteracaoRepository(InteracaoService.create()))
+            InteracaoViewModelFactory(this, InteracaoRepository(InteracaoService.create()) , empresaDataStore)
         ).get(InteracaoViewModel::class.java)
         val tokenViewModel = ViewModelProvider(
             this,

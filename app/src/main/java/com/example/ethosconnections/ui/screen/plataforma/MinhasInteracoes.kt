@@ -60,9 +60,9 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
     LaunchedEffect(key1 = empresa) {
         empresa?.let {
             val token = empresaDataStore.getToken()
-            val idPrestadora = it.idPrestadora
-            if (idPrestadora != null) {
-                interacaoViewModel.getInteracoesByFkEmpresa(idPrestadora, token)
+            val idEmpresa = it.id
+            if (idEmpresa != null) {
+                interacaoViewModel.getInteracoesByFkEmpresa(idEmpresa, token)
             }
         }
     }

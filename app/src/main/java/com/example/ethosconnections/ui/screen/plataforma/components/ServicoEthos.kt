@@ -47,6 +47,7 @@ fun ServicoEthos(
     valor:Double,
     id:UUID,
     fkPrestadora:UUID,
+    idEmpresa:UUID,
     onClick: () -> Unit
 ) {
     Card(

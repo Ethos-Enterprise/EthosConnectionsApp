@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
+import com.example.ethosconnections.models.Empresa
 import com.example.ethosconnections.models.Foto
 import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.models.Servico
@@ -50,12 +51,13 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import java.util.UUID
 
 @Composable
-fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore, fkPrestadora: UUID,
+fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel,empresaViewModel: EmpresaViewModel, empresaDataStore: EmpresaDataStore, fkPrestadora: UUID, idEmpresa: UUID,
 ) {
 
     val fkPrestadoraAtual = remember {mutableStateOf(fkPrestadora)}
@@ -65,10 +67,12 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
         servicoViewModel.getServicos(token)
         fkPrestadoraAtual.value.let { prestadoraId ->
             portfolioViewModel.getPortfolio(prestadoraId, token)
+            empresaViewModel.getEmpresaById(idEmpresa, token)
         }
     }
     val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
     val portfolioAtual = remember { portfolioViewModel.portfolio }.observeAsState()
+    val empresaAtual = remember { empresaViewModel.empresa }.observeAsState()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -77,7 +81,7 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
             stringResource(R.string.titulo_pagina_portfolio),
             style = tituloPagina,
         )
-        BoxDadosGerais(navController = navController, portfolioAtual = portfolioAtual.value, fkPrestadoraAtual = fkPrestadoraAtual.value, portfolioViewModel)
+        BoxDadosGerais(navController = navController, portfolioAtual = portfolioAtual.value, empresaAtual = empresaAtual.value, fkPrestadoraAtual = fkPrestadoraAtual.value, portfolioViewModel)
         Column(
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -94,7 +98,7 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
 
 
 @Composable
-fun BoxPortfolio(navController: NavController, viewModel: PortfolioViewModel) {
+fun BoxPortfolio(navController: NavController, portfolioAtual: Portfolio?, empresaAtual: Empresa?) {
     val fotoPerfil = remember { mutableStateOf(Foto("", 90, 100)) }
     val fotoCapa = remember { mutableStateOf(Foto("", 110, 500)) }
 
@@ -136,11 +140,11 @@ fun BoxPortfolio(navController: NavController, viewModel: PortfolioViewModel) {
                     )
             ) {
                 Text(
-                    text = "Empresa D",
+                    text = empresaAtual?.razaoSocial ?: stringResource(R.string.txt_empresa_n_a),
                     style = tituloConteudoBranco
                 )
                 Text(
-                    text = "www.empresaD.com",
+                    text = portfolioAtual?.linkWebsiteEmpresa ?: stringResource(R.string.txt_empresa_n_a),
                     style = letraClicavel
                 )
             }
@@ -150,7 +154,7 @@ fun BoxPortfolio(navController: NavController, viewModel: PortfolioViewModel) {
 
 
 @Composable
-fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkPrestadoraAtual: UUID?, portfolioViewModel: PortfolioViewModel) {
+fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, empresaAtual: Empresa?, fkPrestadoraAtual: UUID?, portfolioViewModel: PortfolioViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -162,12 +166,12 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                 .padding(start = 0.dp, top = 0.dp, bottom = 15.dp)
         ) {
             Column {
-                BoxPortfolio(navController, portfolioViewModel)
+                BoxPortfolio(navController, portfolioAtual, empresaAtual)
                 Column(
                     modifier = Modifier.padding(start = 15.dp, top = 5.dp)
                 ) {
                     Text(
-                        text = portfolioAtual?.descricaoEmpresa ?: "Serviços e consultoria de TI | Empresa certificada desde 2018",
+                        text = portfolioAtual?.descricaoEmpresa ?: stringResource(R.string.txt_empresa_n_a),
                         style = corLetra
                     )
                 }
@@ -207,7 +211,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                             style = letraPadrao
                         )
                         Text(
-                            text = "Tecnologia da Informação",
+                            text = empresaAtual?.setor ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }
@@ -218,7 +222,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                             style = letraPadrao
                         )
                         Text(
-                            text = "(11) 2345-6789",
+                            text = empresaAtual?.telefone ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }
@@ -232,7 +236,7 @@ fun BoxDadosGerais(navController: NavController, portfolioAtual: Portfolio?, fkP
                             style = letraPadrao
                         )
                         Text(
-                            text = "email@email.com",
+                            text = empresaAtual?.email ?: stringResource(R.string.txt_empresa_n_a),
                             style = corLetra
                         )
                     }

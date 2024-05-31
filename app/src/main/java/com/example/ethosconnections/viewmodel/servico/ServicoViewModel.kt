@@ -6,20 +6,26 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.models.Servico
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.PrestadoraRepository
 import com.example.ethosconnections.repositories.ServicoRepository
+import com.example.ethosconnections.repositories.TokenRepository
 import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.service.PrestadoraService
+import com.example.ethosconnections.service.TokenService
+import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
+import com.example.ethosconnections.viewmodel.token.TokenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class ServicoViewModel constructor(private val context: Context, private val repository: ServicoRepository): ViewModel(){
+class ServicoViewModel constructor(private val context: Context, private val repository: ServicoRepository, val empresaDataStore: EmpresaDataStore): ViewModel(){
 
     private val prestadoraRepository: PrestadoraRepository by lazy {
         PrestadoraRepository(
@@ -27,12 +33,9 @@ class ServicoViewModel constructor(private val context: Context, private val rep
         )
     }
 
-    private val empresaRepository: EmpresaRepository by lazy {
-        EmpresaRepository(
-            EmpresaService.create()
-        )
+    private val empresaViewModel: EmpresaViewModel by lazy {
+        EmpresaViewModel(context, EmpresaRepository(EmpresaService.create()), empresaDataStore)
     }
-
     val servicos = MutableLiveData(SnapshotStateList<Servico>())
     val servico = MutableLiveData<Servico>()
     val errorMessage = MutableLiveData("")
@@ -44,8 +47,10 @@ class ServicoViewModel constructor(private val context: Context, private val rep
                 if (response.isSuccessful) {
                     val servicosList = response.body() ?: emptyList()
                     for (servico in servicosList) {
-                        val nomeServicoAtual = getNomeEmpresaServico(servico, token)
-                        servico.nomeEmpresa = nomeServicoAtual
+                            val nomeServicoAtual = getNomeEmpresaServico(servico, token)
+                            servico.nomeEmpresa = nomeServicoAtual
+                            servico.idEmpresa = empresaViewModel.empresa.value?.id ?: UUID.randomUUID()
+
                     }
 
                     withContext(Dispatchers.Main) {
@@ -97,24 +102,22 @@ class ServicoViewModel constructor(private val context: Context, private val rep
                 val prestadora = response.body()
 
                 if (prestadora != null) {
-
-                    val empresaResponse = empresaRepository.getEmpresaPorId(prestadora!!.fkEmpresa!!, "Bearer $token")
-                    if (empresaResponse.isSuccessful) {
-
-                        val empresa = empresaResponse.body()
-                        empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado)
-                    } else {
-
-                        "${empresaResponse.message()}"
+                    var empresaResponse = empresaViewModel.getEmpresaById(prestadora.fkEmpresa!!, token)
+                    delay(1000)
+                    var nomeEmpresa = ""
+                    if(empresaViewModel.empresa.value?.razaoSocial.toString() != null) {
+                         nomeEmpresa = empresaViewModel.empresa.value?.razaoSocial.toString()
                     }
+                    nomeEmpresa
                 } else {
                     context.getString(R.string.nao_encontrado)
                 }
             } else {
-                " ${response.message()}"
+                context.getString(R.string.nao_encontrado)
             }
         } catch (e: Exception) {
             context.getString(R.string.erro_exception)
         }
     }
+
 }
