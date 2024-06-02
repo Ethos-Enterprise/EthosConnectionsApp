@@ -154,28 +154,35 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
         email: String,
         senha: String,
         setor: String,
-        qtdFuncionarios: Int,
+        qtdFuncionarios: String,
         assinanteNewsletter: Boolean,
         callback: (Boolean) -> Unit
     ) {
-
-
-        val empresaNova = EmpresaNova(nomeEmpresa,cnpj, telefone, email, senha, setor, qtdFuncionarios, assinanteNewsletter)
+        // Fazer conversão para int
+        val empresaNova = EmpresaNova(nomeEmpresa, cnpj, telefone, email, senha, setor, 2, assinanteNewsletter)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val token = empresaDataStore.getToken()
-                val response = repository.cadastrarEmpresa(empresaNova, "Bearer $token"
-                )
-                if (response.isSuccessful) {
-                    callback(true)
-                } else {
-                    errorMessage.value =
-                        response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
-                    callback(false)
+                val response = repository.cadastrarEmpresa(empresaNova, "Bearer $token")
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        callback(true)
+                        Log.e("deu bom" ,  response.toString())
+
+                    } else {
+                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
+                        callback(false)
+                        Log.e("ELSE" ,  errorMessage.value.toString())
+
+                    }
                 }
             } catch (e: Exception) {
-                callback(false)
-                errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
+                    callback(false)
+                    Log.e("EXCEPTION" ,  errorMessage.value.toString())
+
+                }
             }
         }
     }

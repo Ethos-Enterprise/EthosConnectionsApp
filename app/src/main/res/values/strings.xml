@@ -34,6 +34,7 @@
     <string name="login_criar_conta">Criar Conta</string>
 
     <!-- CADASTRO -->
+    <string name="cadastro_sucesso">Cadastro feito com sucesso</string>
     <string name="cadastro_titulo">Cadastro de Empresa</string>
     <string name="cadastro_cadastrar">Cadastrar</string>
     <string name="cadastro_input_nome_empresa">Nome da Empresa</string>

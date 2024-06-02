@@ -18,7 +18,7 @@ data class Empresa(
 )
 
 data class EmpresaNova(
-    val nomeEmpresa: String,
+    val razaoSocial: String,
     val cnpj: String,
     val telefone: String,
     val email: String,

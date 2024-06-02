@@ -59,42 +59,15 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
     val isLoading = remember { mutableStateOf(false) }
     val errorMessage = remember { mutableStateOf("") }
 
-
-    var nomeEmpresa = remember {
-        mutableStateOf("")
-    }
-
-    var cnpj = remember {
-        mutableStateOf("")
-    }
-
-    var cep = remember {
-        mutableStateOf("")
-    }
-
-    var telefone = remember {
-        mutableStateOf("")
-    }
-
-    var email = remember {
-        mutableStateOf("")
-    }
-
-    var senha = remember {
-        mutableStateOf("")
-    }
-
-    var confirmacaoSenha = remember {
-        mutableStateOf("")
-    }
-
-    var areaAtuacao = remember {
-        mutableStateOf(TextFieldValue())
-    }
-
-    val nFuncionarios = remember {
-        mutableStateOf(TextFieldValue())
-    }
+    var nomeEmpresa = remember {mutableStateOf("")}
+    var cnpj = remember {mutableStateOf("")}
+    var cep = remember {mutableStateOf("")}
+    var telefone = remember {mutableStateOf("")}
+    var email = remember {mutableStateOf("")}
+    var senha = remember {mutableStateOf("")}
+    var confirmacaoSenha = remember {mutableStateOf("")}
+    var areaAtuacao = remember { mutableStateOf("")}
+    val nFuncionarios = remember {mutableStateOf("")}
 
     if (isLoading.value) {
         Box(
@@ -107,7 +80,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
             ) {
                 CircularProgressIndicator()
                 Spacer(modifier = Modifier.height(20.dp))
-                Text(text = stringResource(R.string.login_sucesso), style = tituloConteudoBranco)
+                Text(text = stringResource(R.string.cadastro_sucesso), style = tituloConteudoBranco)
             }
 
         }
@@ -148,7 +121,6 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(14.dp))
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -190,30 +162,50 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
 
                 Button(
                     onClick = {
-                        if (etapaAtual.value < totalEtapa) {
-                            if (etapaAtual.value == totalEtapa - 1) {
-                                empresaViewModel.cadastrarEmpresa(
-                                    nomeEmpresa.value,
-                                    cnpj.value,
-                                    telefone.value,
-                                    email.value,
-                                    senha.value,
-                                    setor = "TECNOLOGIA",
-                                    qtdFuncionarios = 100,
-                                    assinanteNewsletter = true
-                                ) { success ->
-                                    if (success) {
-                                        val handler = Handler(Looper.getMainLooper())
-                                        isLoading.value = true
-                                        handler.postDelayed({
-                                            navController.navigate("login")
-                                        }, 2000)
-                                    } else {
-                                        errorMessage.value = "Erro ao cadastrar empresa"
-                                    }
+                        when (etapaAtual.value) {
+                            1 -> {
+                                if (validarEtapaUm(nomeEmpresa.value, cnpj.value, areaAtuacao.value.toString(), nFuncionarios.value.toString())) {
+                                    etapaAtual.value++
+                                    errorMessage.value = ""
+                                } else {
+                                    errorMessage.value = "Por favor, preencha todos os campos."
                                 }
                             }
-                            etapaAtual.value++
+                            2 -> {
+                                if (validarEtapaDois(cep.value, telefone.value, email.value)) {
+                                    etapaAtual.value++
+                                    errorMessage.value = ""
+                                } else {
+                                    errorMessage.value = "Por favor, preencha todos os campos."
+                                }
+                            }
+                            3 -> {
+                                if (validarEtapaTres(senha.value, confirmacaoSenha.value)) {
+                                    empresaViewModel.cadastrarEmpresa(
+                                        nomeEmpresa.value,
+                                        cnpj.value,
+                                        telefone.value,
+                                        email.value,
+                                        senha.value,
+                                        areaAtuacao.value.toString(),
+                                        nFuncionarios.value.toString(),
+                                        assinanteNewsletter = true
+                                    ) { success ->
+                                        if (success) {
+                                            val handler = Handler(Looper.getMainLooper())
+                                            isLoading.value = true
+                                            handler.postDelayed({
+                                                navController.navigate("login")
+                                            }, 4000)
+                                        } else {
+                                            errorMessage.value = empresaViewModel.errorMessage.value.toString()
+                                        }
+                                    }
+                                    errorMessage.value = ""
+                                } else {
+                                    errorMessage.value = "Por favor, preencha todos os campos."
+                                }
+                            }
                         }
                     },
                     shape = RoundedCornerShape(5.dp),
@@ -224,6 +216,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                         style = letraButton
                     )
                 }
+
             }
         }
     }
@@ -231,7 +224,6 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
 
 @Composable
 fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
-
 
     TextField(
         value = nomeEmpresa.value,
@@ -244,7 +236,10 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
 
     TextField(
         value = cnpj.value,
-        onValueChange = { cnpj.value = it },
+        onValueChange = {
+            if (it.length <= 14) {
+            cnpj.value = it
+        } },
         label = { Text(text = stringResource(id = R.string.cadastro_input_cnpj)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
@@ -418,7 +413,10 @@ fun EtapaDois(
 
     TextField(
         value = telefone.value,
-        onValueChange = { telefone.value = it },
+        onValueChange = {
+            if (it.length <= 11) {
+            telefone.value = it
+        } },
         label = { Text(text = stringResource(id = R.string.cadastro_input_telefone)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
@@ -521,6 +519,7 @@ fun EtapaTres(
 }
 
 
+
 @Composable
 fun ProgressBar(etapaAtual: Int, totalEtapa: Int) {
     val corAtiva = Color(0xFF01A2C3)
@@ -611,6 +610,18 @@ fun CircleNumber(
             modifier = Modifier.align(Alignment.Center)
         )
     }
+}
+
+fun validarEtapaUm(nomeEmpresa: String, cnpj: String, areaAtuacao: String, nFuncionarios: String): Boolean {
+    return nomeEmpresa.isNotBlank() && cnpj.isNotBlank() && areaAtuacao.isNotBlank() && nFuncionarios.isNotBlank()
+}
+
+fun validarEtapaDois(cep: String, telefone: String, email: String): Boolean {
+    return cep.isNotBlank() && telefone.isNotBlank() && email.isNotBlank()
+}
+
+fun validarEtapaTres(senha: String, confirmacaoSenha: String): Boolean {
+    return senha.isNotBlank() && confirmacaoSenha.isNotBlank() && senha == confirmacaoSenha
 }
 
 @Preview(showBackground = true)
