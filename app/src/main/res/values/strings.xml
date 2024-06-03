@@ -81,7 +81,7 @@
     <string name="subtitulo_certificados_meu_portfolio">Certificados</string>
     <string name="titulo_todos_servicos_meu_portfolio">Todos os serviços</string>
     <string name="txt_empresa_n_a">N/A</string>
-    <string name="txt_url_site">www.website.com</string>
+    <string name="txt_url_site">url do site</string>
     <string name="txt_descricao_empresa">Serviços e consultoria de TI | Empresa certificada desde 2018</string>
     <string name="txt_sobre_empresa">Descrição sobre a Empresa</string>
     <string name="txt_area_atuacao">Área de Atuação</string>

@@ -363,10 +363,11 @@
                                 backStackEntry.arguments?.getString("categoria") ?: "AMBIENTAL"
                             Formulario(componenteNavController, categoria, empresaDataStore)
                         }
-                        composable("pagamento/{plano}") { backStackEntry ->
+                        composable("pagamento/{plano}/{preco}") { backStackEntry ->
                             Pagamento(
                                 componenteNavController,
                                 plano = backStackEntry.arguments?.getString("plano") ?: "",
+                                preco = backStackEntry.arguments?.getDouble("preco") ?: 0.0,
                                 empresaDataStore = empresaDataStore
                             )
                         }

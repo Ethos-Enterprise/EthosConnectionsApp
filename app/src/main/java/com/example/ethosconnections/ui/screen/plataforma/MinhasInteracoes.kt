@@ -117,12 +117,12 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                     Column {
                         Row(modifier = Modifier.padding(end = 8.dp)) {
                             Text(text = "Em andamento: ", style = tituloConteudoBrancoNegrito)
-                            Text(text = "1 Empresa", style = tituloConteudoBranco, )
+                            Text(text = interacoes.value.size.toString() , style = tituloConteudoBranco, )
                         }
 
                         Row() {
                             Text(text = "Finalizado: ", style = tituloConteudoBrancoNegrito)
-                            Text(text = "1 Empresa", style = tituloConteudoBranco)
+                            Text(text = "0 Empresas", style = tituloConteudoBranco)
                         }
                     }
                 }

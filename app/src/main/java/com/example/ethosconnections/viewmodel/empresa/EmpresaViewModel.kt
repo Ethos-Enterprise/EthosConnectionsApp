@@ -170,7 +170,7 @@ class EmpresaViewModel(private val context: Context, private val repository: Emp
                         Log.e("deu bom" ,  response.toString())
 
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
+                        errorMessage.value = response.errorBody().toString() ?: context.getString(R.string.erro_desconhecido)
                         callback(false)
                         Log.e("ELSE" ,  errorMessage.value.toString())
 

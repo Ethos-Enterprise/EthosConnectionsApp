@@ -106,12 +106,17 @@ class MetaViewModel(private val context: Context, private val repository: MetaRe
                 if (response.isSuccessful) {
                     errorMessage.postValue("")
                     callback(true)
+                    Log.e("MetaViewModel", response.message())
+
                 } else {
                     errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
                     callback(false)
+                    Log.e("MetaViewModel", errorMessage.value.toString())
+
                 }
             } catch (e: HttpException) {
                 errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+                Log.e("MetaViewModel", errorMessage.value.toString())
 
                 callback(false)
             } catch (e: Exception) {

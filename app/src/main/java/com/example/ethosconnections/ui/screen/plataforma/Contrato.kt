@@ -75,7 +75,7 @@ fun Contrato(navController: NavController,
                                 ),
                             contentAlignment = Alignment.Center
                         )  {
-                            Text(text = "${nomePlano ?: ""}", style = tituloConteudoBranco)
+                            Text(text = "${nomePlano ?: stringResource(id = R.string.nao_encontrado)}", style = tituloConteudoBranco)
                         }
                     }
                     Row {
@@ -92,7 +92,7 @@ fun Contrato(navController: NavController,
                                 ), // Adiciona uma borda branca
                             contentAlignment = Alignment.Center
                         )  {
-                            Text(text = "${preco ?: ""}", style = tituloConteudoBranco)
+                            Text(text = "${preco ?: stringResource(id = R.string.nao_encontrado)}", style = tituloConteudoBranco)
                         }
                     }
                 }
@@ -164,7 +164,7 @@ fun Contrato(navController: NavController,
 
         }
         Rodape(
-            acaoBotaoEsquerda = { navController.navigate("pagamento/$nomePlano") },
+            acaoBotaoEsquerda = { navController.navigate("pagamento/$nomePlano/$preco") },
             nomeBotaoEsquerda = stringResource(R.string.txt_button_adquirir_plano),
             acaoBotaoDireita = {},
             nomeBotaoDireita = stringResource(R.string.txt_button_cancelar)

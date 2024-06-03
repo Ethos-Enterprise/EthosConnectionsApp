@@ -52,7 +52,7 @@ import com.example.ethosconnections.ui.theme.tituloPagina
 import kotlinx.coroutines.delay
 
 @Composable
-fun Pagamento(navController: NavController, plano: String, empresaDataStore: EmpresaDataStore) {
+fun Pagamento(navController: NavController, plano: String,preco: Double, empresaDataStore: EmpresaDataStore) {
 
     Column {
 
@@ -63,12 +63,12 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
         val context = LocalContext.current
 
+        var planoFormatado = plano.replace( context.getString(R.string.txt_plano), "").trim()
         LaunchedEffect(key1 = true) {
             delay(5000)
-            val planoFormatado = plano.replace( context.getString(R.string.txt_plano), "")
             empresaDataStore.mudarPlano(planoFormatado)
 
-            if (planoFormatado == context.getString(R.string.txt_plano_analytics)) {
+            if (planoFormatado.contains(context.getString(R.string.txt_plano_analytics))) {
                 navController.navigate("meuProgresso")
             }else{
                 navController.navigate("meuPortfolio")
@@ -179,7 +179,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
+                                    text ="${planoFormatado}", style = tituloConteudoBranco
                                 )
                             }
                             Spacer(modifier = Modifier.height(2.dp))
@@ -201,7 +201,7 @@ fun Pagamento(navController: NavController, plano: String, empresaDataStore: Emp
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
+                                    text = "${preco}" , style = tituloConteudoBranco
                                 )
                             }
                             Spacer(modifier = Modifier.height(10.dp))

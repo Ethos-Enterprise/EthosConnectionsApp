@@ -67,7 +67,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
     var senha = remember {mutableStateOf("")}
     var confirmacaoSenha = remember {mutableStateOf("")}
     var areaAtuacao = remember { mutableStateOf("")}
-    val nFuncionarios = remember {mutableStateOf("")}
+    var nFuncionarios = remember {mutableStateOf("")}
 
     if (isLoading.value) {
         Box(
@@ -130,7 +130,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
             Spacer(modifier = Modifier.height(16.dp))
 
             when (etapaAtual.value) {
-                1 -> EtapaUm(nomeEmpresa, cnpj)
+                1 -> EtapaUm(nomeEmpresa, cnpj, areaAtuacao, nFuncionarios)
                 2 -> EtapaDois(cep, telefone, email)
                 3 -> EtapaTres(senha, confirmacaoSenha)
             }
@@ -164,23 +164,19 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                     onClick = {
                         when (etapaAtual.value) {
                             1 -> {
-                                if (validarEtapaUm(nomeEmpresa.value, cnpj.value, areaAtuacao.value.toString(), nFuncionarios.value.toString())) {
+                                validarEtapaUm(nomeEmpresa.value, cnpj.value, areaAtuacao.value, nFuncionarios.value)?.let { errorMessage.value = it } ?: run {
                                     etapaAtual.value++
                                     errorMessage.value = ""
-                                } else {
-                                    errorMessage.value = "Por favor, preencha todos os campos."
                                 }
                             }
                             2 -> {
-                                if (validarEtapaDois(cep.value, telefone.value, email.value)) {
+                                validarEtapaDois(cep.value, telefone.value, email.value)?.let { errorMessage.value = it } ?: run {
                                     etapaAtual.value++
                                     errorMessage.value = ""
-                                } else {
-                                    errorMessage.value = "Por favor, preencha todos os campos."
                                 }
                             }
                             3 -> {
-                                if (validarEtapaTres(senha.value, confirmacaoSenha.value)) {
+                                validarEtapaTres(senha.value, confirmacaoSenha.value)?.let { errorMessage.value = it } ?: run {
                                     empresaViewModel.cadastrarEmpresa(
                                         nomeEmpresa.value,
                                         cnpj.value,
@@ -202,8 +198,6 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
                                         }
                                     }
                                     errorMessage.value = ""
-                                } else {
-                                    errorMessage.value = "Por favor, preencha todos os campos."
                                 }
                             }
                         }
@@ -223,7 +217,7 @@ fun Cadastro(navController: NavController, empresaViewModel: EmpresaViewModel) {
 }
 
 @Composable
-fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
+fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>, areaAtuacao: MutableState<String>, nFuncionarios: MutableState<String>) {
 
     TextField(
         value = nomeEmpresa.value,
@@ -331,6 +325,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
                         onClick = {
                             selectedOption.value = option
                             expanded.value = false
+                            areaAtuacao.value = option
                         },
                     )
                     Divider()
@@ -381,6 +376,7 @@ fun EtapaUm(nomeEmpresa: MutableState<String>, cnpj: MutableState<String>) {
                         onClick = {
                             selectedOption2.value = option
                             expanded2.value = false
+                            nFuncionarios.value = option
                         })
                     Divider()
                 }
@@ -402,7 +398,11 @@ fun EtapaDois(
 
     TextField(
         value = cep.value,
-        onValueChange = { cep.value = it },
+        onValueChange = {
+            if (it.length <= 8) {
+                cep.value = it
+            }
+        },
         label = { Text(text = stringResource(id = R.string.cadastro_input_cep)) },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions =
@@ -612,18 +612,80 @@ fun CircleNumber(
     }
 }
 
-fun validarEtapaUm(nomeEmpresa: String, cnpj: String, areaAtuacao: String, nFuncionarios: String): Boolean {
-    return nomeEmpresa.isNotBlank() && cnpj.isNotBlank() && areaAtuacao.isNotBlank() && nFuncionarios.isNotBlank()
+fun validarEtapaUm(nomeEmpresa: String, cnpj: String, areaAtuacao: String, nFuncionarios: String): String? {
+    if (nomeEmpresa.isBlank()) {
+        return "Digite o nome da empresa"
+    }
+    if (cnpj.isBlank()) {
+        return "Preencha o CNPJ da empresa."
+    }
+    if (!cnpjValido(cnpj)) {
+        return "Insira um CNPJ válido."
+    }
+    if (areaAtuacao.isBlank()) {
+        return "Preencha a área de atuação da empresa."
+    }
+    if (nFuncionarios.isBlank()) {
+        return "Preencha o número de funcionários da empresa."
+    }
+    return null
+}
+fun validarEtapaDois(cep: String, telefone: String, email: String): String? {
+    if (cep.isBlank()) {
+        return "Por favor, preencha o CEP."
+    }
+    if (telefone.isBlank()) {
+        return "Por favor, preencha o número de telefone."
+    }
+    if (!telefoneValido(telefone).first) {
+        return "Por favor, insira um número de telefone válido."
+    }
+    if (email.isBlank()) {
+        return "Por favor, preencha o e-mail."
+    }
+    if (!emailValido(email).first) {
+        return "Por favor, insira um e-mail válido."
+    }
+    return null // Sem erros
 }
 
-fun validarEtapaDois(cep: String, telefone: String, email: String): Boolean {
-    return cep.isNotBlank() && telefone.isNotBlank() && email.isNotBlank()
+fun validarEtapaTres(senha: String, confirmacaoSenha: String): String? {
+    if (senha.isBlank()) {
+        return "Por favor, preencha a senha."
+    }
+    if (confirmacaoSenha.isBlank()) {
+        return "Por favor, confirme a senha."
+    }
+    if (senha != confirmacaoSenha) {
+        return "As senhas não coincidem."
+    }
+    return null
 }
 
-fun validarEtapaTres(senha: String, confirmacaoSenha: String): Boolean {
-    return senha.isNotBlank() && confirmacaoSenha.isNotBlank() && senha == confirmacaoSenha
+fun cnpjValido(cnpj: String): Boolean {
+    val cnpjLimpo = cnpj.replace("[^\\d]".toRegex(), "")
+
+    if (cnpjLimpo.length != 14) {
+        return false
+    }
+    return true
 }
 
+fun telefoneValido(telefone: String): Pair<Boolean, String> {
+    val telefoneLimpo = telefone.replace("[^\\d]".toRegex(), "")
+    if (telefoneLimpo.length != 11) {
+        return Pair(false, "Número de telefone inválido. Deve conter 10 ou 11 dígitos.")
+    }
+    return Pair(true, "")
+}
+
+fun emailValido(email: String): Pair<Boolean, String> {
+    val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+    if (!email.matches(emailRegex.toRegex())) {
+        return Pair(false, "Endereço de e-mail inválido.")
+    }
+    return Pair(true, "")
+}
 @Preview(showBackground = true)
 @Composable
 fun CadastroPreview() {

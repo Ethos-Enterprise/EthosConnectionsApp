@@ -24,6 +24,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -62,6 +64,10 @@ import com.example.ethosconnections.ui.theme.tituloFormularioCard
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 @Composable
@@ -75,11 +81,19 @@ fun MeuProgresso(
     val progressoAmbiental = progressoViewModel.progressoAmbiental.value
     val progressoSocial = progressoViewModel.progressoSocial.value
     val progressoGovernamental = progressoViewModel.progressoGovernamental.value
+    val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
-    var token = ""
-    LaunchedEffect(key1 = null) {
-        token = empresaDataStore.getToken()
-        metaViewModel.getAllMetas(token)
+    var token: String? = null
+
+    LaunchedEffect(key1 = empresa) {
+        empresa?.let {
+            val retrievedToken = empresaDataStore.getToken()
+            token = retrievedToken
+            val idEmpresa = it.id
+            if (idEmpresa != null) {
+                metaViewModel.getAllMetas( token.toString())
+            }
+        }
     }
 
     var mostrarDialogo by remember { mutableStateOf(false) }
@@ -141,12 +155,13 @@ fun MeuProgresso(
             Spacer(modifier = Modifier.height(5.dp))
             Divider(modifier = Modifier.padding(bottom = 10.dp))
             val metas = metaViewModel.allMetas.value
-
+            val idEmpresaAtual = empresa?.id
+            val filteredMetas = metas?.filter { it.fkEmpresa == idEmpresaAtual }
 
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                if (metas.isNullOrEmpty()) {
+                if (filteredMetas.isNullOrEmpty()) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -174,7 +189,7 @@ fun MeuProgresso(
                         }
                     }
                 } else {
-                    metas.forEach { meta ->
+                    filteredMetas.forEach { meta ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -189,6 +204,9 @@ fun MeuProgresso(
                                     text = "${stringResource(R.string.txt_pilar)} ${meta.pilarEsg.toString()}",
                                     style = tituloConteudoBranco
                                 )
+                                
+                                Text(text = "${meta.fkEmpresa}"
+                                , style = letraPadrao)
                                 Text(text = meta.descricao.toString(), style = letraDescricao)
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -206,10 +224,13 @@ fun MeuProgresso(
                                 ) {
                                     OutlinedButtonEthos(
                                         acao = {
-                                            val metaIdConvertido: UUID = meta?.id ?: UUID.randomUUID()
-                                            metaViewModel.deleteMeta(metaIdConvertido, token) { sucesso ->
-                                                if (sucesso) {
-                                                    mostrarDialogo = true
+                                            val metaIdConvertido: UUID = meta.id ?: UUID.randomUUID()
+                                            CoroutineScope(Dispatchers.Main).launch {
+                                                val token = empresaDataStore.getToken()
+                                                metaViewModel.deleteMeta(metaIdConvertido, token) { sucesso ->
+                                                    if (sucesso) {
+                                                        mostrarDialogo = true
+                                                    }
                                                 }
                                             }
                                         },
@@ -220,9 +241,11 @@ fun MeuProgresso(
                                         nomeAcao = stringResource(R.string.ver_servicos)
                                     )
                                 }
-                            }
+
                         }
                         Spacer(modifier = Modifier.height(4.dp))
+                    }
+
                     }
                 }
             }
