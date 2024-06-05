@@ -275,4 +275,21 @@
     <string name="proximo">Próximo</string>
     <string name="anterior">Anterior</string>
 
+    <!--    Minhas interações -->
+    <string name="Categorias_de_interacoes">Categoria de interações\n</string>
+    <string name="titulo_minhas_interacoes">Minhas interações\n</string>
+    <string name="empresas_contratadas">Empresas Contatadas</string>
+    <string name="status_finalizado">Finalizado\n</string>
+    <string name="quant_empresas">0 Empresas\n</string>
+    <string name="historico_curtidas">Histórico de Curtidas</string>
+    <string name="total">Total:</string>
+    <string name="quant_empresas2">2 Empresas\n</string>
+    <string name="treinamento_responsabilidade">Treinamento de Responsabilidade Social Corporativa (RSC)\n\n</string>
+    <string name="deloitte">Deloitte\n</string>
+    <string name="saiba_mais">Saiba mais\n</string>
+    <string name="Remover">Remover\n</string>
+    <string name="gestao_portfolio">Gestão de portfólios de investimentos\n\n</string>
+    <string name="Ernest_young"><![CDATA[Ernest & Young\n]]></string>
+    <string name="contato">Contato</string>
+
 </resources>

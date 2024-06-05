@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,12 +76,16 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
     var cardSelecionadoInteracao by remember { mutableStateOf(0) }
 
     Column {
-        Text(text = "Minhas interações", style = tituloPagina)
+        Text(
+            stringResource(R.string.titulo_minhas_interacoes),
+            style = tituloPagina)
 
 
         BoxEthos {
             Column {
-                Text(text = "Categorias de interações", style = tituloConteudoBranco)
+                Text(
+                    stringResource(R.string.Categorias_de_interacoes),
+                    style = tituloConteudoBranco)
                 Spacer(modifier = Modifier.height(17.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -111,7 +116,9 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
             Column{
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "Empresas Contatadas", style = tituloConteudoBranco)
+                Text(
+                    stringResource(R.string.empresas_contratadas),
+                    style = tituloConteudoBranco)
                 BoxEthos{
 
                     Column {
@@ -121,8 +128,12 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         }
 
                         Row() {
-                            Text(text = "Finalizado: ", style = tituloConteudoBrancoNegrito)
-                            Text(text = "0 Empresas", style = tituloConteudoBranco)
+                            Text(
+                                stringResource(R.string.status_finalizado),
+                                style = tituloConteudoBrancoNegrito)
+                            Text(
+                                stringResource(R.string.quant_empresas),
+                                style = tituloConteudoBranco)
                         }
                     }
                 }
@@ -187,12 +198,18 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
             Column {
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "Histórico de Curtidas", style = tituloConteudoBranco)
+                Text(
+                    stringResource(R.string.historico_curtidas),
+                    style = tituloConteudoBranco)
 
                 BoxEthos{
                     Row(modifier = Modifier.padding(end = 8.dp)) {
-                        Text(text = "Total: ", style = tituloConteudoBrancoNegrito)
-                        Text(text = "2 Empresas", style = tituloConteudoBranco, )
+                        Text(
+                            stringResource(R.string.total),
+                            style = tituloConteudoBrancoNegrito)
+                        Text(
+                            stringResource(R.string.quant_empresas2),
+                            style = tituloConteudoBranco, )
                     }
                 }
 
@@ -207,16 +224,16 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         )
                         Column(modifier = Modifier.padding(bottom = 8.dp)) {
                             Text(
-                                text = "Treinamento de Responsabilidade Social Corporativa (RSC)",
+                                stringResource(R.string.treinamento_responsabilidade),
                                 style = tituloConteudoAzul
                             )
                             Text(
-                                text = "Deloitte",
+                                stringResource(R.string.deloitte),
                                 style = tituloConteudoBranco,
                                 fontSize = 12.sp
                             )
                             Text(
-                                text = "Saiba mais",
+                                stringResource(R.string.saiba_mais),
                                 style = letraClicavel,
                                 fontSize = 12.sp,
                                 textDecoration = TextDecoration.Underline
@@ -239,7 +256,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                             border = BorderStroke(1.dp, Color(0xFF01A2C3)),
                         ) {
                             Text(
-                                text = "Remover",
+                                stringResource(R.string.Remover),
                                 style = letraButton,
                                 color = Color(0xFF01A2C3)
                             )
@@ -276,16 +293,16 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                         )
                         Column(modifier = Modifier.padding(bottom = 8.dp)) {
                             Text(
-                                text = "Gestão de portfólios de investimentos",
+                                stringResource(R.string.gestao_portfolio),
                                 style = tituloConteudoAzul
                             )
                             Text(
-                                text = "Ernest & Young",
+                                stringResource(R.string.Ernest_young),
                                 style = tituloConteudoBranco,
                                 fontSize = 12.sp
                             )
                             Text(
-                                text = "Saiba mais",
+                                stringResource(R.string.saiba_mais),
                                 style = letraClicavel,
                                 fontSize = 12.sp,
                                 textDecoration = TextDecoration.Underline
@@ -308,7 +325,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                             border = BorderStroke(1.dp, Color(0xFF01A2C3)),
                         ) {
                             Text(
-                                text = "Remover",
+                                stringResource(R.string.Remover),
                                 style = letraButton,
                                 color = Color(0xFF01A2C3)
                             )
@@ -326,7 +343,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                             shape = RoundedCornerShape(3.dp)
                         ) {
                             Text(
-                                text = "Contato",
+                                stringResource(R.string.contato),
                                 style = letraButton
                             )
                         }
