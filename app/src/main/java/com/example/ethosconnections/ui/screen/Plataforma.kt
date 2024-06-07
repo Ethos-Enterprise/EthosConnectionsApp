@@ -2,7 +2,6 @@
 
     import MeuPerfil
     import androidx.compose.foundation.Image
-    import androidx.compose.foundation.background
     import androidx.compose.foundation.layout.Arrangement
     import androidx.compose.foundation.layout.Box
     import androidx.compose.foundation.layout.Column
@@ -15,19 +14,11 @@
     import androidx.compose.foundation.layout.padding
     import androidx.compose.foundation.layout.width
     import androidx.compose.foundation.rememberScrollState
-    import androidx.compose.foundation.shape.RoundedCornerShape
     import androidx.compose.foundation.verticalScroll
     import androidx.compose.material.icons.Icons
-    import androidx.compose.material.icons.filled.Info
     import androidx.compose.material.icons.filled.Menu
-    import androidx.compose.material.icons.filled.Person
-    import androidx.compose.material.icons.outlined.Info
     import androidx.compose.material.icons.outlined.Notifications
-    import androidx.compose.material.icons.outlined.Person
-    import androidx.compose.material3.Divider
-    import androidx.compose.material3.DrawerDefaults
     import androidx.compose.material3.DrawerValue
-    import androidx.compose.material3.ExperimentalMaterial3Api
     import androidx.compose.material3.Icon
     import androidx.compose.material3.IconButton
     import androidx.compose.material3.ModalDrawerSheet
@@ -45,42 +36,24 @@
     import androidx.compose.runtime.saveable.rememberSaveable
     import androidx.compose.ui.Alignment
     import androidx.compose.ui.Modifier
-    import androidx.compose.ui.draw.clip
     import androidx.compose.ui.graphics.Color
-    import androidx.compose.ui.graphics.Shape
-    import androidx.compose.ui.graphics.vector.ImageVector
-    import androidx.compose.ui.layout.ContentScale
-    import androidx.compose.ui.platform.LocalContext
-    import androidx.compose.ui.platform.LocalLifecycleOwner
     import androidx.compose.ui.res.painterResource
     import androidx.compose.ui.res.stringResource
     import androidx.compose.ui.tooling.preview.Preview
     import androidx.compose.ui.unit.dp
-    import androidx.datastore.core.DataStore
-    import androidx.datastore.preferences.core.Preferences
-    import androidx.datastore.preferences.preferencesDataStore
-    import androidx.lifecycle.ViewModelProvider
     import androidx.lifecycle.viewmodel.compose.viewModel
     import androidx.navigation.NavController
     import androidx.navigation.compose.NavHost
     import androidx.navigation.compose.composable
     import androidx.navigation.compose.rememberNavController
     import com.example.compose.AppTheme
-    import com.example.compose.cinza_caixas_claras
     import com.example.compose.cor_primaria
-    import com.example.compose.cor_secundaria
-    import com.example.compose.linha_divisoria
-    import com.example.compose.preto_acizentado
     import com.example.compose.preto_azulado
     import com.example.ethosconnections.R
     import com.example.ethosconnections.datastore.EmpresaDataStore
-    import com.example.ethosconnections.models.Empresa
     import com.example.ethosconnections.repositories.EmpresaRepository
-    import com.example.ethosconnections.repositories.ServicoRepository
     import com.example.ethosconnections.service.EmpresaService
-    import com.example.ethosconnections.service.ServicoService
     import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
-    import com.example.ethosconnections.ui.screen.plataforma.CadastroPortfolio
     import com.example.ethosconnections.ui.screen.plataforma.Contrato
     import com.example.ethosconnections.ui.screen.plataforma.Formulario
     import com.example.ethosconnections.ui.screen.plataforma.Meta
@@ -93,20 +66,17 @@
     import com.example.ethosconnections.ui.screen.plataforma.Portfolio
     import com.example.ethosconnections.ui.screen.plataforma.Questionario
     import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
-    import com.example.ethosconnections.ui.theme.letraButton
-    import com.example.ethosconnections.ui.theme.letraClicavel
+    import com.example.ethosconnections.ui.screen.plataforma.editar.EditarEmpresa
+    import com.example.ethosconnections.ui.screen.plataforma.editar.EditarPortfolio
+    import com.example.ethosconnections.ui.screen.plataforma.editar.EditarServico
     import com.example.ethosconnections.ui.theme.letraMenu
-    import com.example.ethosconnections.ui.theme.letraPadrao
-    import com.example.ethosconnections.ui.theme.tituloConteudoBranco
     import com.example.ethosconnections.ui.theme.tituloMenu
     import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
-    import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModelFactory
     import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
     import com.example.ethosconnections.viewmodel.meta.MetaViewModel
     import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
     import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
     import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
-    import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
     import kotlinx.coroutines.launch
     import java.util.UUID
 
@@ -349,8 +319,16 @@
 
                             Portfolio(componenteNavController, servicoViewModel, portfolioViewModel,empresaViewModel, empresaDataStore, fkPrestadora, idEmpresa)
                         }
-                        composable("cadastroPortfolio") {
-                            CadastroPortfolio(componenteNavController, empresaDataStore)
+                        composable("editarEmpresa") {
+                            EditarEmpresa(componenteNavController, empresaDataStore)
+                        }
+
+                        composable("editarPortfolio") {
+                            EditarPortfolio(componenteNavController ,empresaViewModel ,empresaDataStore)
+                        }
+
+                        composable("editarServico") {
+                            EditarServico(componenteNavController ,servicoViewModel ,empresaDataStore)
                         }
 
                         composable("contrato/{nomePlano}/{preco}") { backStackEntry ->

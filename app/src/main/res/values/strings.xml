@@ -292,4 +292,12 @@
     <string name="Ernest_young"><![CDATA[Ernest & Young\n]]></string>
     <string name="contato">Contato</string>
 
+    <!--EditarPortfolio-->
+    <string name="editar_portfolio_titulo">Dados Complementares</string>
+    <string name="editar_portfolio_label_descricao_empresa">Descrição Breve</string>
+    <string name="editar_portfolio_label_sobre_empresa">Sobre a Empresa</string>
+    <string name="editar_portfolio_label_url_empresa">Link Website</string>
+    <string name="editar_portfolio_label_data_certificada_empresa">Empresa Certificada desde</string>
+
+
 </resources>

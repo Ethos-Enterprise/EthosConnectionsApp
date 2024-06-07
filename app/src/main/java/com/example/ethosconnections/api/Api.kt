@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Api {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.15.2:8081")
+//            .baseUrl("http://192.168.215.37:8081")
+            .baseUrl("https://ethos-connections.ddns.net/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

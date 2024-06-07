@@ -154,7 +154,7 @@ fun BoxMeuPortfolio(navController: NavController, empresaDataStore: EmpresaDataS
                     Spacer(modifier = Modifier.width(13.dp))
 
                     Button(
-                        onClick = { navController.navigate("cadastroPortfolio") },
+                        onClick = { navController.navigate("editarPortfolio") },
                         modifier = Modifier
                             .wrapContentWidth()
                             .background(Color(0xFF1B1F23))

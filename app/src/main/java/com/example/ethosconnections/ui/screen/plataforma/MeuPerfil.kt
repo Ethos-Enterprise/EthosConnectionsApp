@@ -156,7 +156,7 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
 
         // Aqui está o Rodape adicionado no final da tela
         Rodape(
-            acaoBotaoEsquerda = { },
+            acaoBotaoEsquerda = {navController.navigate("editarEmpresa") },
             nomeBotaoEsquerda = "Editar Dados",
             acaoBotaoDireita = {},
             nomeBotaoDireita = "Salvar",

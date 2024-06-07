@@ -57,7 +57,6 @@ import java.util.UUID
 fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataStore, interacaoViewModel: InteracaoViewModel ) {
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
-
     LaunchedEffect(key1 = empresa) {
         empresa?.let {
             val token = empresaDataStore.getToken()
@@ -79,7 +78,6 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
         Text(
             stringResource(R.string.titulo_minhas_interacoes),
             style = tituloPagina)
-
 
         BoxEthos {
             Column {

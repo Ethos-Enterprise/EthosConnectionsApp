@@ -1,4 +1,4 @@
-package com.example.ethosconnections.ui.screen.plataforma
+package com.example.ethosconnections.ui.screen.plataforma.editar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -28,7 +28,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ethosconnections.R
@@ -37,14 +36,9 @@ import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
-import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
-import com.example.ethosconnections.models.Portfolio
-import com.example.ethosconnections.repositories.PortfolioRepository
-import com.example.ethosconnections.service.PortfolioService
-import java.util.UUID
 
 @Composable
-fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDataStore) {
+fun EditarEmpresa(navController: NavController, empresaDataStore: EmpresaDataStore) {
     val empresa by empresaDataStore.getEmpresaFlow().collectAsState(initial = null)
 
     var nomeEmpresa = remember { mutableStateOf(TextFieldValue("")) }
@@ -185,25 +179,6 @@ fun CadastroPortfolio(navController: NavController, empresaDataStore: EmpresaDat
 @Composable
 fun buttons(navController: NavController) {
 
-    var errorMessage = remember { mutableStateOf("") }
-
-    var id = remember { mutableStateOf("") }
-
-    // Dados da Empresa para edição do Portfolio
-    var nomeEmpresa = remember { mutableStateOf(TextFieldValue()) }
-
-    var cnpj = remember { mutableStateOf(TextFieldValue()) }
-
-    var email = remember { mutableStateOf(TextFieldValue()) }
-
-    var telefone = remember { mutableStateOf(TextFieldValue()) }
-
-    var cep = remember { mutableStateOf(TextFieldValue()) }
-
-    var areaAtuacao = remember { mutableStateOf(TextFieldValue()) }
-
-    var quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue()) }
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -256,7 +231,7 @@ fun buttons(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun CadastroPortfolioPreview() {
+fun EditarEmpresaPreview() {
     val navController = rememberNavController()
     //CadastroPortfolio(navController)
 }
