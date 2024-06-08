@@ -50,7 +50,6 @@ data class Plano(
 
 fun getPlanos(context: Context): List<Plano> {
 
-
     return listOf(
         Plano(
             context.getString(R.string.titulo_Plano_Free),

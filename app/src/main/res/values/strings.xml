@@ -272,7 +272,7 @@
     <string name="txt_button_concluir">Concluir</string>
     <string name="txt_button_confirmar">Confirmar</string>
     <string name="txt_button_salvar">Salvar</string>
-    <string name="txt_button_editar">Editar</string>
+    <string name="txt_button_editar">Editar Dados</string>
     <string name="txt_button_ok">Ok</string>
     <string name="proximo">Próximo</string>
     <string name="anterior">Anterior</string>
@@ -306,6 +306,7 @@
     <string name="editar_portfolio_label_url_empresa">Link Website</string>
     <string name="editar_portfolio_label_data_certificada_empresa">Empresa Certificada desde</string>
 
+    <string name="editar_meu_portfolio_titulo">Editar Meu Portfolio</string>
 
 
 </resources>

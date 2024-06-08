@@ -70,9 +70,11 @@ fun Pagamento(navController: NavController, plano: String,preco: Double, empresa
 
             if (planoFormatado.contains(context.getString(R.string.txt_plano_analytics))) {
                 navController.navigate("meuProgresso")
-            }else{
+            } else if (planoFormatado.contains(context.getString(R.string.txt_plano_provider))){
                 navController.navigate("meuPortfolio")
-            }
+            }else {
+            navController.navigate("solucoesEsg")
+        }
         }
 
         BoxEthos {
@@ -333,7 +335,7 @@ fun Pagamento(navController: NavController, plano: String,preco: Double, empresa
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
+                                    text = "${preco}" , style = tituloConteudoBranco
                                 )
                             }
 

@@ -191,6 +191,22 @@ fun buttons(navController: NavController) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
+            OutlinedButton(
+                onClick = { navController.navigate("portfolio") },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 10.dp),
+                shape = RoundedCornerShape(5.dp),
+                border = BorderStroke(2.dp, Color(0xFF01A2C3)),
+            ) {
+                Text(
+                    text = stringResource(R.string.txt_button_cancelar),
+                    style = letraButton,
+                    color = Color(0xFF01A2C3)
+                )
+            }
+
             Button(
                 onClick = {
                     navController.navigate("portfolio")
@@ -208,21 +224,6 @@ fun buttons(navController: NavController) {
                 Text(
                     text = stringResource(R.string.txt_button_salvar),
                     style = letraButton
-                )
-            }
-
-            OutlinedButton(
-                onClick = { navController.navigate("portfolio") },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 10.dp),
-                shape = RoundedCornerShape(5.dp),
-                border = BorderStroke(2.dp, Color(0xFF01A2C3)),
-            ) {
-                Text(
-                    text = stringResource(R.string.txt_button_cancelar),
-                    style = letraButton,
-                    color = Color(0xFF01A2C3)
                 )
             }
         }

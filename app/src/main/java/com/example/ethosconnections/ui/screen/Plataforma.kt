@@ -55,6 +55,7 @@
     import com.example.ethosconnections.service.EmpresaService
     import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
     import com.example.ethosconnections.ui.screen.plataforma.Contrato
+    import com.example.ethosconnections.ui.screen.plataforma.EditarMeuPortfolio
     import com.example.ethosconnections.ui.screen.plataforma.Formulario
     import com.example.ethosconnections.ui.screen.plataforma.Meta
     import com.example.ethosconnections.ui.screen.plataforma.MeuPlano
@@ -66,6 +67,8 @@
     import com.example.ethosconnections.ui.screen.plataforma.Portfolio
     import com.example.ethosconnections.ui.screen.plataforma.Questionario
     import com.example.ethosconnections.ui.screen.plataforma.SolucoesESG
+    import com.example.ethosconnections.ui.screen.plataforma.cadastrar.CadastrarDadosComplementares
+    import com.example.ethosconnections.ui.screen.plataforma.cadastrar.CadastrarServico
     import com.example.ethosconnections.ui.screen.plataforma.editar.EditarEmpresa
     import com.example.ethosconnections.ui.screen.plataforma.editar.EditarPortfolio
     import com.example.ethosconnections.ui.screen.plataforma.editar.EditarServico
@@ -327,8 +330,22 @@
                             EditarPortfolio(componenteNavController ,empresaViewModel ,empresaDataStore)
                         }
 
-                        composable("editarServico") {
+                        composable("editarServicos") {
                             EditarServico(componenteNavController ,servicoViewModel ,empresaDataStore)
+                        }
+
+
+                        composable("cadastrarServico") {
+                            CadastrarServico()
+                        }
+
+                        composable("cadastrarDadosComplementares") {
+                            CadastrarDadosComplementares()
+                        }
+
+
+                        composable("editarMeuPortfolio") {
+                            EditarMeuPortfolio(componenteNavController , portfolioViewModel)
                         }
 
                         composable("contrato/{nomePlano}/{preco}") { backStackEntry ->
