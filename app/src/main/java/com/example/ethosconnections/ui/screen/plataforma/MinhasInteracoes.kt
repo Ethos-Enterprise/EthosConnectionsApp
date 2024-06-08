@@ -121,7 +121,9 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
 
                     Column {
                         Row(modifier = Modifier.padding(end = 8.dp)) {
-                            Text(text = "Em andamento: ", style = tituloConteudoBrancoNegrito)
+                            Text(
+                                stringResource(R.string.em_andamento),
+                                style = tituloConteudoBrancoNegrito)
                             Text(text = interacoes.value.size.toString() , style = tituloConteudoBranco, )
                         }
 
@@ -153,12 +155,12 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                                         style = tituloConteudoAzul
                                     )
                                     Text(
-                                        text = "Serviço de interesse: ${interacao.nomeServico}",
+                                        stringResource(R.string.servico_interesse) +" ${interacao.nomeServico}",
                                         style = tituloConteudoBranco,
                                         fontSize = 12.sp
                                     )
                                     Text(
-                                        text = "Status do contato: ${interacao.status}",
+                                        stringResource(R.string.status_contato)  +" ${interacao.nomeServico}",
                                         style = tituloConteudoBrancoNegrito,
                                         fontSize = 12.sp
                                     )
@@ -181,7 +183,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                                     shape = RoundedCornerShape(3.dp)
                                 ) {
                                     Text(
-                                        text = "Avaliar Serviço",
+                                        stringResource(R.string.avaliar_serviço),
                                         style = letraButton
                                     )
                                 }
@@ -272,7 +274,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                             shape = RoundedCornerShape(3.dp)
                         ) {
                             Text(
-                                text = "Contato",
+                                stringResource(R.string.contato),
                                 style = letraButton
                             )
                         }

@@ -219,6 +219,8 @@
     <string name="titulo_Minhas_Nego">Minhas Negociações\n</string>
     <string name="status_negociacoes">Status das Negociações\n</string>
     <string name="controle_Negociacoes">Controle de Negociações\n</string>
+    <string name="em_andamento">Em andamento:</string>
+    <string name="titulo">titulo\n</string>
 
     <!-- Meu Plano -->
     <string name="titulo_meu_plano">Meu plano\n</string>
@@ -291,6 +293,11 @@
     <string name="gestao_portfolio">Gestão de portfólios de investimentos\n\n</string>
     <string name="Ernest_young"><![CDATA[Ernest & Young\n]]></string>
     <string name="contato">Contato</string>
+    <string name="servico_interesse">Serviço de interesse\n</string>
+    <string name="status_contato">Status de contato</string>
+    <string name="avaliar_serviço">Avaliar Serviço</string>
+
+
 
     <!--EditarPortfolio-->
     <string name="editar_portfolio_titulo">Dados Complementares</string>
@@ -298,6 +305,7 @@
     <string name="editar_portfolio_label_sobre_empresa">Sobre a Empresa</string>
     <string name="editar_portfolio_label_url_empresa">Link Website</string>
     <string name="editar_portfolio_label_data_certificada_empresa">Empresa Certificada desde</string>
+
 
 
 </resources>

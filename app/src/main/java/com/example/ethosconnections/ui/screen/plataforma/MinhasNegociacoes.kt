@@ -112,7 +112,7 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
                 ) {
                     titulosColunas.forEach { titulo ->
                         Text(
-                            text = titulo,
+                            stringResource(R.string.titulo),
                             style = tituloConteudoBranco,
                             modifier = Modifier.padding(horizontal = 2.dp)
                         )
