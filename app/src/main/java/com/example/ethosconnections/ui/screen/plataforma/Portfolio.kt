@@ -20,6 +20,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,7 +71,15 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
             empresaViewModel.getEmpresaById(idEmpresa, token)
         }
     }
-    val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
+
+    val servicosState by servicoViewModel.servicos.observeAsState(SnapshotStateList())
+    val servicosPortfolioEmpresa = remember { SnapshotStateList<Servico>() }
+
+    LaunchedEffect(servicosState) {
+        servicosPortfolioEmpresa.clear()
+        servicosPortfolioEmpresa.addAll(servicosState.filter { it.fkPrestadoraServico == fkPrestadoraAtual.value })
+    }
+
     val portfolioAtual = remember { portfolioViewModel.portfolio }.observeAsState()
     val empresaAtual = remember { empresaViewModel.empresa }.observeAsState()
 
@@ -91,7 +100,7 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            BoxTodosServicos(navController, servicos.value)
+            BoxTodosServicos(navController, servicosPortfolioEmpresa)
         }
     }
 }
@@ -291,8 +300,11 @@ fun BoxTodosServicos(navController: NavController, servicos: SnapshotStateList<S
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            GridServicos(servicos, navController)
-        }
+            if (servicos.isEmpty()) {
+                Text(text = stringResource(R.string.txt_sem_servicos), style = tituloConteudoBranco)
+            } else {
+                GridServicos(servicos, navController)
+            }        }
     }
 }
 

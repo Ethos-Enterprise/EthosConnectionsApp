@@ -57,17 +57,26 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import java.util.UUID
 
 @Composable
 fun MeuPortfolio(navController: NavController,servicoViewModel: ServicoViewModel, portfolioViewModel: PortfolioViewModel, empresaDataStore: EmpresaDataStore) {
+    val idPrestadoraState = remember { mutableStateOf<UUID?>(null) }
 
     LaunchedEffect(key1 = true) {
+        val idPrestadora = empresaDataStore.getId()
+        idPrestadoraState.value = idPrestadora
         servicoViewModel.getServicos(empresaDataStore.getToken())
     }
-    val servicos = remember { servicoViewModel.servicos }.observeAsState(SnapshotStateList())
 
-    Log.d("NavControllerLog", "NavController: $navController, Backstack: ${navController.graph}")
 
+    val servicosStateMeuPortfolio by servicoViewModel.servicos.observeAsState(SnapshotStateList())
+    val servicosMeuPortfolio = remember { SnapshotStateList<Servico>() }
+
+    LaunchedEffect(servicosStateMeuPortfolio) {
+        servicosMeuPortfolio.clear()
+        servicosMeuPortfolio.addAll(servicosStateMeuPortfolio.filter { it.fkPrestadoraServico == idPrestadoraState.value })
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +96,7 @@ fun MeuPortfolio(navController: NavController,servicoViewModel: ServicoViewModel
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            BoxTodosMeusServicos(navController, servicos.value)
+            BoxTodosMeusServicos(navController, servicosMeuPortfolio)
         }
     }
 }
@@ -225,7 +234,6 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
             Divider(modifier = Modifier.padding(bottom = 10.dp))
 
             Text(
-//                text = "Líder global na prestação de serviços de audit & assurance, consulting, financial advisory, risk advisory, tax e serviços relacionados. A nossa rede de firmas membro compreende mais de 150 países e territórios e presta serviços a quatro em cada cinco entidades listadas na Fortune Global 500®.",
                 text = portfolio?.sobreEmpresa?: stringResource(R.string.txt_sobre_empresa),
                 style = letraDescricao,
                 modifier = Modifier
@@ -335,9 +343,11 @@ fun BoxTodosMeusServicos(navController: NavController, servicos: SnapshotStateLi
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            GridServicos(servicos, navController)
-            Text(text = stringResource(R.string.txt_sem_servicos), style = tituloConteudoBranco)
-        }
+            if (servicos.isEmpty()) {
+                Text(text = stringResource(R.string.txt_sem_servicos), style = tituloConteudoBranco)
+            } else {
+                GridServicos(servicos, navController)
+            }        }
     }
 }
 

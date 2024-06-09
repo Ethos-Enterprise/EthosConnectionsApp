@@ -13,9 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.compose.cor_primaria
+import com.example.compose.preto_azulado
 import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
@@ -31,8 +31,11 @@ data class Negociacao(
 )
 
 @Composable
-fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDataStore, interacaoViewModel: InteracaoViewModel) {
-
+fun MinhasNegociacoes(
+    navController: NavController,
+    empresaDataStore: EmpresaDataStore,
+    interacaoViewModel: InteracaoViewModel
+) {
     LaunchedEffect(key1 = true) {
         val empresaAtual = empresaDataStore.getEmpresaFlow().first()
 
@@ -45,7 +48,6 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
 
     var interacoes = remember { interacaoViewModel.interacoes }.observeAsState(SnapshotStateList())
 
-
     val negociacoes = listOf(
         Negociacao(id = "1", texto = "Em andamento"),
         Negociacao(id = "2", texto = "Pendente"),
@@ -57,13 +59,25 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
         listOf("Empresa C", "Serviço C", "03/05/2024", "Finalizado")
     )
     var selectedNegociacao by remember { mutableStateOf<String?>(null) }
-    val titulosColunas = listOf("Nome da Empresa", "Serviço", "Data de Contato", "Status Atual")
+    val titulosColunas = listOf("Empresa", "Serviço", "Data de Contato", "Status Atual")
 
-    Column(modifier = Modifier.padding(2.dp)) {
+    // Filtra os dados conforme o status selecionado
+    val dadosFiltrados = remember(selectedNegociacao) {
+        if (selectedNegociacao == null) {
+            dadosTabela
+        } else {
+            dadosTabela.filter { it[3] == negociacoes.first { it.id == selectedNegociacao }.texto }
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth()
+    ) {
         Text(
             stringResource(R.string.titulo_Minhas_Nego),
             style = tituloConteudoBranco,
-            modifier = Modifier.padding(8.dp)
         )
         BoxEthos {
             Text(
@@ -71,15 +85,16 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
                 style = tituloConteudoAzul,
                 modifier = Modifier.padding(2.dp)
             )
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column {
                 negociacoes.forEach { negociacao ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
                             .clickable {
                                 selectedNegociacao = negociacao.id
                             }
-                            .padding(vertical = 1.dp)
                     ) {
                         RadioButton(
                             selected = selectedNegociacao == negociacao.id,
@@ -88,8 +103,8 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
                         )
                         Text(
                             text = negociacao.texto,
-                            modifier = Modifier.padding(start = 1.dp),
-                            style = letraPadrao
+                            style = letraPadrao,
+                            modifier = Modifier.padding(start = 8.dp)
                         )
                     }
                 }
@@ -102,47 +117,55 @@ fun MinhasNegociacoes(navController: NavController, empresaDataStore: EmpresaDat
             style = tituloConteudoBranco,
             modifier = Modifier.padding(2.dp)
         )
-        BoxEthos {
-            Column(modifier = Modifier.padding(1.dp)) {
-                // Títulos das colunas
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    titulosColunas.forEach { titulo ->
-                        Text(
-                            stringResource(R.string.titulo),
-                            style = tituloConteudoBranco,
-                            modifier = Modifier.padding(horizontal = 2.dp)
-                        )
-                    }
-                }
-                Divider(modifier = Modifier.padding(bottom = 10.dp))
 
-                // Dados da tabela
-                dadosTabela.forEach { rowData ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        rowData.forEach { cellData ->
-                            Text(
-                                text = cellData,
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-                        }
+        Column(
+            modifier = Modifier
+                .padding(1.dp)
+                .fillMaxWidth()
+        ) {
+
+            dadosFiltrados.forEach { rowData ->
+                Card(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = preto_azulado,
+                        contentColor = Color.White
+                    ),
+                    elevation = CardDefaults.cardElevation(8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = rowData[0],
+                            style = tituloConteudoAzul,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Divider(color = Color.LightGray, thickness = 1.dp)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "${titulosColunas[1]}: ${rowData[1]}",
+                            style = letraPadrao,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = "${titulosColunas[2]}: ${rowData[2]}",
+                            style = letraPadrao,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = "${titulosColunas[3]}: ${rowData[3]}",
+                            style = letraPadrao,
+                        )
                     }
                 }
             }
         }
-
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun MinhasNegociacoesPreview() {
-   // MinhasNegociacoes()
+    // MinhasNegociacoes()
 }

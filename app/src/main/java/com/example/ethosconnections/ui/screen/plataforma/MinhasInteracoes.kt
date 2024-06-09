@@ -160,7 +160,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                                         fontSize = 12.sp
                                     )
                                     Text(
-                                        stringResource(R.string.status_contato)  +" ${interacao.nomeServico}",
+                                        stringResource(R.string.status_contato)  +" ${interacao.status}",
                                         style = tituloConteudoBrancoNegrito,
                                         fontSize = 12.sp
                                     )

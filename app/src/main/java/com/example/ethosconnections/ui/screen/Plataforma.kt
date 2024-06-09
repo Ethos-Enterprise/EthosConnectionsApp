@@ -82,6 +82,7 @@
     import com.example.ethosconnections.viewmodel.prestadora.PrestadoraViewModel
     import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
     import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+    import com.example.ethosconnections.viewmodel.token.TokenViewModel
     import kotlinx.coroutines.launch
     import java.util.UUID
 
@@ -100,6 +101,7 @@
         interacaoViewModel: InteracaoViewModel,
         portfolioViewModel: PortfolioViewModel,
         prestadoraViewModel: PrestadoraViewModel,
+        tokenViewModel: TokenViewModel,
         empresaDataStore: EmpresaDataStore,
         portfolioDataStore: PortfolioDataStore
     ) {
@@ -289,7 +291,7 @@
                         startDestination = "solucoesEsg"
                     ) {
                         composable("solucoesEsg") {
-                            SolucoesESG(componenteNavController, servicoViewModel, empresaDataStore)
+                            SolucoesESG(componenteNavController, servicoViewModel, tokenViewModel, empresaDataStore)
                         }
 
                         composable("avaliacaoServico/{id}/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}/{idEmpresa}") { backStackEntry ->

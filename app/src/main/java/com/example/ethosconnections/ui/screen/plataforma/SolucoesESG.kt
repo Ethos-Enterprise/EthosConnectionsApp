@@ -61,10 +61,11 @@ import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloPagina
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
+import com.example.ethosconnections.viewmodel.token.TokenViewModel
 import java.util.UUID
 
 @Composable
-fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel, empresaDataStore: EmpresaDataStore) {
+fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel,tokenViewModel: TokenViewModel, empresaDataStore: EmpresaDataStore) {
 
     val context = LocalContext.current
 
@@ -124,123 +125,134 @@ fun SolucoesESG(navController: NavController, servicoViewModel: ServicoViewModel
         filtroAplicado.value =  context.getString(R.string.txt_exibindo_todas_solucoes_esg)
     }
 
-    Column {
 
-        Text(stringResource(R.string.titulo_pagina_solucoes_esg), style = tituloPagina)
+        Column {
 
-        BoxEthos {
-            Text(stringResource(R.string.subtitulo_filtro_solucoes_esg), style = tituloConteudoBranco)
-            Spacer(modifier = Modifier.height(14.dp))
+            Text(stringResource(R.string.titulo_pagina_solucoes_esg), style = tituloPagina)
+
+            BoxEthos {
+                Text(
+                    stringResource(R.string.subtitulo_filtro_solucoes_esg),
+                    style = tituloConteudoBranco
+                )
+                Spacer(modifier = Modifier.height(14.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    CategoriaCard(
+                        imagemCard = R.mipmap.environmental,
+                        contentDescription = "Categoria Ambiental",
+                        buttonText = stringResource(R.string.txt_area_e),
+                        onClick = { filtrarServicosPorAreaEsg("ENVIRONMENTAL") },
+                        cardSelecionado = cardSelecionado.value == 0,
+                        setSelectedCard = { selected ->
+                            if (selected) {
+                                cardSelecionado.value = 0
+                            }
+                        }
+                    )
+                    CategoriaCard(
+                        imagemCard = R.mipmap.social,
+                        contentDescription = "Categoria Social",
+                        buttonText = stringResource(R.string.txt_area_s),
+                        onClick = { filtrarServicosPorAreaEsg("SOCIAL") },
+                        cardSelecionado = cardSelecionado.value == 1,
+                        setSelectedCard = { selected ->
+                            if (selected) {
+                                cardSelecionado.value = 1
+                            }
+                        }
+                    )
+                    CategoriaCard(
+                        imagemCard = R.mipmap.governance,
+                        contentDescription = "Categoria Governance",
+                        buttonText = stringResource(R.string.txt_area_g),
+                        onClick = { filtrarServicosPorAreaEsg("GOVERNANCE") },
+                        cardSelecionado = cardSelecionado.value == 2,
+                        setSelectedCard = { selected ->
+                            if (selected) {
+                                cardSelecionado.value = 2
+                            }
+                        }
+                    )
+                }
+            }
+            BoxEthos {
+                OutlinedTextField(
+                    value = pesquisa.value,
+                    onValueChange = { pesquisa.value = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(color = Color.White),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.White,
+                        unfocusedIndicatorColor = Color(0xFF01A2C3)
+                    ),
+
+                    placeholder = {
+                        Text(
+                            stringResource(R.string.placeholder_busca_solucoes_esg),
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(bottom = 0.dp)
+                        )
+                    },
+                    trailingIcon = {
+                        IconButton(
+                            onClick = { filtrarServicosPorPesquisa() },
+                            modifier = Modifier
+                                .background(cor_primaria)
+                                .padding(PaddingValues(0.dp))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Buscar",
+                                tint = Color.White,
+
+                                )
+                        }
+                    }
+                )
+
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CategoriaCard(
-                    imagemCard = R.mipmap.environmental,
-                    contentDescription = "Categoria Ambiental",
-                    buttonText = stringResource(R.string.txt_area_e),
-                    onClick = { filtrarServicosPorAreaEsg("ENVIRONMENTAL") },
-                    cardSelecionado = cardSelecionado.value == 0,
-                    setSelectedCard = { selected ->
-                        if (selected) {
-                            cardSelecionado.value = 0
-                        }
-                    }
-                )
-                CategoriaCard(
-                    imagemCard = R.mipmap.social,
-                    contentDescription = "Categoria Social",
-                    buttonText = stringResource(R.string.txt_area_s),
-                    onClick = { filtrarServicosPorAreaEsg("SOCIAL") },
-                    cardSelecionado = cardSelecionado.value == 1,
-                    setSelectedCard = { selected ->
-                        if (selected) {
-                            cardSelecionado.value = 1
-                        }
-                    }
-                )
-                CategoriaCard(
-                    imagemCard = R.mipmap.governance,
-                    contentDescription = "Categoria Governance",
-                    buttonText = stringResource(R.string.txt_area_g),
-                    onClick = { filtrarServicosPorAreaEsg("GOVERNANCE") },
-                    cardSelecionado = cardSelecionado.value == 2,
-                    setSelectedCard = { selected ->
-                        if (selected) {
-                            cardSelecionado.value = 2
-                        }
-                    }
-                )
-            }
-        }
-        BoxEthos {
-            OutlinedTextField(
-                value = pesquisa.value,
-                onValueChange = { pesquisa.value = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent),
-                textStyle = TextStyle(color = Color.White),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.White,
-                    unfocusedIndicatorColor = Color(0xFF01A2C3)
-                ),
+                Text(text = filtroAplicado.value, style = letraPadrao)
 
-                placeholder = {
-                    Text(
-                        stringResource(R.string.placeholder_busca_solucoes_esg),
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(bottom = 0.dp)
-                    )
-                },
-                trailingIcon = {
-                    IconButton(
-                        onClick = { filtrarServicosPorPesquisa() } ,
-                        modifier = Modifier
-                            .background(cor_primaria)
-                            .padding(PaddingValues(0.dp))
-                    ) {
+                if(filtroAplicado.value != "Exibindo todas as soluções") {
+
+                Box(modifier = Modifier
+                    .clickable { limparFiltros() }
+                ) {
+                    Row {
+
+                        Text(
+                            text = stringResource(R.string.txt_limpar_filtros_solucoes_esg),
+                            style = letraPadrao
+                        )
+                        Spacer(modifier = Modifier.width(13.dp))
                         Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Buscar",
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = stringResource(R.string.txt_limpar_filtros_solucoes_esg),
                             tint = Color.White,
-
-                            )
+                        )
                     }
                 }
-            )
+                }
 
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Text(text = filtroAplicado.value, style = letraPadrao)
-            Box( modifier = Modifier
-                .clickable { limparFiltros() }
-            ){
-                Row {
-
-                Text(text = stringResource(R.string.txt_limpar_filtros_solucoes_esg), style = letraPadrao)
-                    Spacer(modifier = Modifier.width(13.dp))
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = stringResource(R.string.txt_limpar_filtros_solucoes_esg),
-                    tint = Color.White,
-                )
             }
-            }
+            Spacer(modifier = Modifier.height(10.dp))
 
+            GridServicos(servicosFiltrados.value ?: servicos.value, navController)
         }
-        Spacer(modifier = Modifier.height(10.dp))
-
-        GridServicos(servicosFiltrados.value ?: servicos.value, navController)
-    }
 
 }
 

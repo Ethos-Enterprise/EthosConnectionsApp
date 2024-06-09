@@ -16,4 +16,9 @@ class PrestadoraRepository constructor(private val service: PrestadoraService) {
         token: String
     ) = service.postPrestadora(prestadoraNova ,token)
 
+    suspend fun deletePrestadora(
+        id: UUID,
+        token: String
+    ) = service.deletePrestadora(id ,token)
+
 }

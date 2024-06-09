@@ -11,6 +11,7 @@ import com.example.ethosconnections.models.EmpresaNova
 import com.example.ethosconnections.models.Prestadora
 import com.example.ethosconnections.models.PrestadoraNova
 import com.example.ethosconnections.repositories.PrestadoraRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -114,4 +115,28 @@ class PrestadoraViewModel(
         }
     }
 
+    fun deletePrestadora(id: UUID,token: String, callback: (Boolean) -> Unit) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
+            callback(false)
+        }
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            try {
+                val response = repository.deletePrestadora(id, "Bearer $token")
+                if (response.isSuccessful) {
+                    errorMessage.postValue("")
+                    callback(true)
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
+                    callback(false)
+                }
+            } catch (e: HttpException) {
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+                callback(false)
+            } catch (e: Exception) {
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
+                callback(false)
+            }
+        }
+    }
 }

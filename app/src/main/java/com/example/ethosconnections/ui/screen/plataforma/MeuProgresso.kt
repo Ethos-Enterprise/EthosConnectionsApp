@@ -1,5 +1,6 @@
 package com.example.ethosconnections.ui.screen.plataforma
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -91,10 +92,17 @@ fun MeuProgresso(
             token = retrievedToken
             val idEmpresa = it.id
             if (idEmpresa != null) {
-                metaViewModel.getAllMetas( token.toString())
+                metaViewModel.getAllMetas(token.toString())
+                Log.d("MeuProgresso", "ID da Empresa: $idEmpresa")
             }
         }
     }
+
+    val metas = metaViewModel.allMetas.value
+    val idEmpresaAtual = empresa?.id
+    Log.d("MeuProgresso", "ID da Empresa Atual: $idEmpresaAtual")
+    val filteredMetas = metas?.filter { it.fkEmpresa == idEmpresaAtual }
+    Log.d("MeuProgresso", "Metas Filtradas: ${filteredMetas?.size}")
 
     var mostrarDialogo by remember { mutableStateOf(false) }
 
@@ -154,9 +162,6 @@ fun MeuProgresso(
             }
             Spacer(modifier = Modifier.height(5.dp))
             Divider(modifier = Modifier.padding(bottom = 10.dp))
-            val metas = metaViewModel.allMetas.value
-            val idEmpresaAtual = empresa?.id
-            val filteredMetas = metas?.filter { it.fkEmpresa == idEmpresaAtual }
 
             Column(
                 modifier = Modifier.fillMaxWidth()

@@ -7,6 +7,7 @@ import com.example.ethosconnections.models.PrestadoraNova
 import com.example.ethosconnections.models.Servico
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -30,4 +31,6 @@ interface PrestadoraService {
     @GET("v1.0/prestadoras/{id}")
     suspend fun getPrestadoraPorId(@Path("id") id:UUID, @Header("Authorization") token: String): Response<Prestadora>
 
+    @DELETE("v1.0/prestadoras/{id}")
+    suspend fun deletePrestadora(@Path("id") id: UUID,  @Header("Authorization") token: String): Response<Prestadora>
 }

@@ -19,6 +19,8 @@ import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -98,14 +100,16 @@ class InteracaoViewModel(
 
                 for (interacao in interacoesList) {
                     val servicoViewModel =
-                        ServicoViewModel(context, ServicoRepository(ServicoService.create()), empresaDataStore )
+                        ServicoViewModel(context, ServicoRepository(ServicoService.create()), empresaDataStore)
 
-                    val servico = withContext(Dispatchers.IO) {
-                        servicoViewModel.getServicoById(interacao.fkServico, token)
-                        servicoViewModel.servico.value
+                    val servico = servicoViewModel.getServicoById(interacao.fkServico, token)
+                    servicoViewModel.servico.observeForever { servico ->
+                        interacao.nomeServico = servico?.nomeServico ?: context.getString(R.string.nao_encontrado)
                     }
-                    interacao.nomeServico = servico?.nomeServico ?: context.getString(R.string.nao_encontrado)
-                    interacao.nomeEmpresa = context.getString(R.string.nao_encontrado)
+
+                    val empresaResponse = empresaRepository.getEmpresaPorId(interacao.fkEmpresa, "Bearer $token")
+                    val empresa = empresaResponse.body()
+                    interacao.nomeEmpresa = empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado)
                 }
 
                 withContext(Dispatchers.Main) {
@@ -128,7 +132,7 @@ class InteracaoViewModel(
     }
 
 
-    fun getInteracoesServicos(fkPrestadora:  UUID, token: String) {
+    fun getInteracoesServicos(fkPrestadora: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val responseServicos = servicoRepository.getServicos("Bearer $token")
@@ -136,49 +140,57 @@ class InteracaoViewModel(
                     val servicosPrestadora = responseServicos.body()
                         ?.filter { servico -> servico.fkPrestadoraServico == fkPrestadora }
 
-                    val todasInteracoes = mutableListOf<Interacao>()
-
                     servicosPrestadora?.let {
-                        for (servicoPrestadora in it) {
-                            val interacoesResponse = repository.getInteracoesByServico(
-                                servicoPrestadora.id,
-                                "Bearer $token"
-                            )
-                            if (interacoesResponse.isSuccessful) {
-                                for (interacao in interacoesResponse.body()!!) {
-                                    val empresaResponse = empresaRepository.getEmpresaPorId(
-                                        interacao.fkEmpresa,
-                                        "Bearer $token"
-                                    )
-                                        val empresa = empresaResponse.body()
-                                        todasInteracoes.add(
-                                            Interacao(
-                                                interacao.id,
-                                                interacao.status,
-                                                interacao.data,
-                                                interacao.fkServico,
-                                                interacao.fkEmpresa,
-                                                empresa?.razaoSocial?: context.getString(R.string.nao_encontrado),
-                                                servicoPrestadora.nomeServico
-                                            )
+                        val interacoesDeServicos = it.map { servicoPrestadora ->
+                            async {
+                                val interacoesResponse = repository.getInteracoesByServico(
+                                    servicoPrestadora.id,
+                                    "Bearer $token"
+                                )
+                                if (interacoesResponse.isSuccessful) {
+                                    interacoesResponse.body()?.map { interacao ->
+                                        val empresaResponse = empresaRepository.getEmpresaPorId(
+                                            interacao.fkEmpresa,
+                                            "Bearer $token"
                                         )
+                                        val empresa = empresaResponse.body()
+                                        Log.d("EmpresaResponse", "Empresa: ${empresa?.razaoSocial}")
 
+                                        Interacao(
+                                            interacao.id,
+                                            interacao.status,
+                                            interacao.data,
+                                            interacao.fkServico,
+                                            interacao.fkEmpresa,
+                                            empresa?.razaoSocial ?: context.getString(R.string.nao_encontrado),
+                                            servicoPrestadora.nomeServico
+                                        )
+                                    } ?: emptyList()
+                                } else {
+                                    Log.e("InteracoesResponse", "Failed to get interacoes for servico: ${servicoPrestadora.id}")
+                                    emptyList()
                                 }
                             }
+                        }.awaitAll().flatten()
+
+                        withContext(Dispatchers.Main) {
+                            interacoes.value!!.clear()
+                            interacoes.value!!.addAll(interacoesDeServicos)
+                            errorMessage.postValue("")
+                            Log.d("InteracoesDeServicos", interacoesDeServicos.toString())
                         }
-                        interacoes.value!!.addAll(todasInteracoes)
                     }
-                    Log.e("a", todasInteracoes.toString())
-
                 } else {
-                    errorMessage.postValue(context.getString(R.string.erro_desconhecido))
-                    Log.e("a", errorMessage.toString())
-
+                    withContext(Dispatchers.Main) {
+                        errorMessage.postValue(context.getString(R.string.erro_desconhecido))
+                        Log.e("GetServicosResponse", "Failed to get servicos: ${responseServicos.errorBody()?.string()}")
+                    }
                 }
             } catch (e: Exception) {
-                errorMessage.postValue(context.getString(R.string.erro_exception))
-                Log.e("a", errorMessage.toString())
-
+                withContext(Dispatchers.Main) {
+                    errorMessage.postValue(context.getString(R.string.erro_exception))
+                    Log.e("GetInteracoesServicosException", e.message.toString())
+                }
             }
         }
     }

@@ -62,15 +62,27 @@ class MainActivity : ComponentActivity() {
 
         val empresaViewModel = ViewModelProvider(
             this,
-            EmpresaViewModelFactory(this, EmpresaRepository(EmpresaService.create()), empresaDataStore)
+            EmpresaViewModelFactory(
+                this,
+                EmpresaRepository(EmpresaService.create()),
+                empresaDataStore
+            )
         ).get(EmpresaViewModel::class.java)
         val servicoViewModel = ViewModelProvider(
             this,
-            ServicoViewModelFactory(this, ServicoRepository(ServicoService.create()), empresaDataStore)
+            ServicoViewModelFactory(
+                this,
+                ServicoRepository(ServicoService.create()),
+                empresaDataStore
+            )
         ).get(ServicoViewModel::class.java)
         val portfolioViewModel = ViewModelProvider(
             this,
-            PortfolioViewModelFactory(this, PortfolioRepository(PortfolioService.create()), portfolioDataStore)
+            PortfolioViewModelFactory(
+                this,
+                PortfolioRepository(PortfolioService.create()),
+                portfolioDataStore
+            )
         ).get(PortfolioViewModel::class.java)
         val metaViewModel = ViewModelProvider(
             this,
@@ -79,7 +91,11 @@ class MainActivity : ComponentActivity() {
 
         val interacaoViewModel = ViewModelProvider(
             this,
-            InteracaoViewModelFactory(this, InteracaoRepository(InteracaoService.create()) , empresaDataStore)
+            InteracaoViewModelFactory(
+                this,
+                InteracaoRepository(InteracaoService.create()),
+                empresaDataStore
+            )
         ).get(InteracaoViewModel::class.java)
 
         val tokenViewModel = ViewModelProvider(
@@ -101,7 +117,6 @@ class MainActivity : ComponentActivity() {
                 } else {
                     "home"
                 }
-
                 setContent {
                     AppTheme {
                         val navController = rememberNavController()
@@ -128,6 +143,7 @@ class MainActivity : ComponentActivity() {
                                     interacaoViewModel,
                                     portfolioViewModel,
                                     prestadoraViewModel,
+                                    tokenViewModel,
                                     empresaDataStore,
                                     portfolioDataStore
                                 )
