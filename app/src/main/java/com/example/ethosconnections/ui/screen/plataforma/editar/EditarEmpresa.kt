@@ -34,6 +34,7 @@ import com.example.ethosconnections.R
 import com.example.ethosconnections.datastore.EmpresaDataStore
 import com.example.ethosconnections.ui.screen.plataforma.components.BoxEthos
 import com.example.ethosconnections.ui.theme.letraButton
+import com.example.ethosconnections.ui.theme.letraPadrao
 import com.example.ethosconnections.ui.theme.tituloConteudoAzul
 import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 
@@ -48,6 +49,8 @@ fun EditarEmpresa(navController: NavController, empresaDataStore: EmpresaDataSto
     val cep = remember { mutableStateOf(TextFieldValue("")) }
     val areaAtuacao = remember { mutableStateOf(TextFieldValue("")) }
     val quantidadeFuncionarios = remember { mutableStateOf(TextFieldValue("")) }
+
+    val planoAtual = empresaDataStore.getPlanoFlow().collectAsState(initial = null).value
 
     LaunchedEffect(empresa) {
         empresa?.let { empresa ->
@@ -172,12 +175,12 @@ fun EditarEmpresa(navController: NavController, empresaDataStore: EmpresaDataSto
                 shape = RoundedCornerShape(4.dp)
             )
         }
-        buttons(navController)
+        buttons(navController, planoAtual.toString())
     }
 }
 
 @Composable
-fun buttons(navController: NavController) {
+fun buttons(navController: NavController, planoAtual: String) {
 
     Box(
         modifier = Modifier
@@ -193,7 +196,14 @@ fun buttons(navController: NavController) {
         ) {
 
             OutlinedButton(
-                onClick = { navController.navigate("portfolio") },
+                onClick = {
+                        if (planoAtual == "Provider") {
+                            navController.navigate("meuPortfolio")
+                        } else {
+                            navController.navigate("meuPerfil")
+                        }
+
+                },
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 10.dp),

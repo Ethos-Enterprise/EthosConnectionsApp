@@ -219,13 +219,13 @@
     <string name="titulo_Minhas_Nego">Minhas Negociações\n</string>
     <string name="status_negociacoes">Status das Negociações\n</string>
     <string name="controle_Negociacoes">Controle de Negociações\n</string>
-    <string name="em_andamento">Em andamento:</string>
+    <string name="em_andamento">Em andamento:  </string>
     <string name="titulo">titulo\n</string>
 
     <!-- Meu Plano -->
-    <string name="titulo_meu_plano">Meu plano\n</string>
+    <string name="titulo_meu_plano">Meu plano</string>
     <string name="titulo_plano_atual">Plano Atual</string>
-    <string name="titulo_outros_plano">Outros planos\n</string>
+    <string name="titulo_outros_plano">Outros planos</string>
     <string name="nome_meu_plano">Plano Free</string>
     <string name="titulo_Plano_Free">Plano Free</string>
     <string name="descricao_plano_free">\Ideal para buscar serviços para sua empresa.\,\n</string>
@@ -278,22 +278,22 @@
     <string name="anterior">Anterior</string>
 
     <!--    Minhas interações -->
-    <string name="Categorias_de_interacoes">Categoria de interações\n</string>
-    <string name="titulo_minhas_interacoes">Minhas interações\n</string>
+    <string name="Categorias_de_interacoes">Categoria de interações</string>
+    <string name="titulo_minhas_interacoes">Minhas interações</string>
     <string name="empresas_contratadas">Empresas Contatadas</string>
-    <string name="status_finalizado">Finalizado\n</string>
-    <string name="quant_empresas">0 Empresas\n</string>
+    <string name="status_finalizado">Finalizado:  </string>
+    <string name="quant_empresas">0 Empresas</string>
     <string name="historico_curtidas">Histórico de Curtidas</string>
-    <string name="total">Total:</string>
-    <string name="quant_empresas2">2 Empresas\n</string>
-    <string name="treinamento_responsabilidade">Treinamento de Responsabilidade Social Corporativa (RSC)\n\n</string>
-    <string name="deloitte">Deloitte\n</string>
-    <string name="saiba_mais">Saiba mais\n</string>
+    <string name="total">Total: </string>
+    <string name="quant_empresas2">2 Empresas</string>
+    <string name="treinamento_responsabilidade">Treinamento de Responsabilidade Social Corporativa (RSC)</string>
+    <string name="deloitte">Deloitte</string>
+    <string name="saiba_mais">Saiba mais</string>
     <string name="Remover">Remover\n</string>
-    <string name="gestao_portfolio">Gestão de portfólios de investimentos\n\n</string>
+    <string name="gestao_portfolio">Gestão de portfólios de investimentos</string>
     <string name="Ernest_young"><![CDATA[Ernest & Young\n]]></string>
     <string name="contato">Contato</string>
-    <string name="servico_interesse">Serviço de interesse\n</string>
+    <string name="servico_interesse">Serviço de interesse</string>
     <string name="status_contato">Status de contato</string>
     <string name="avaliar_serviço">Avaliar Serviço</string>
 

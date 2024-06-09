@@ -17,6 +17,7 @@ import com.example.ethosconnections.service.PrestadoraService
 import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -127,7 +128,7 @@ class InteracaoViewModel(
     }
 
 
-    fun getInteracoesServicos(fkPrestadora: UUID, token: String) {
+    fun getInteracoesServicos(fkPrestadora:  UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val responseServicos = servicoRepository.getServicos("Bearer $token")
@@ -149,7 +150,6 @@ class InteracaoViewModel(
                                         interacao.fkEmpresa,
                                         "Bearer $token"
                                     )
-                                    if (empresaResponse.isSuccessful) {
                                         val empresa = empresaResponse.body()
                                         todasInteracoes.add(
                                             Interacao(
@@ -158,12 +158,11 @@ class InteracaoViewModel(
                                                 interacao.data,
                                                 interacao.fkServico,
                                                 interacao.fkEmpresa,
-                                                empresa?.razaoSocial
-                                                    ?: context.getString(R.string.nao_encontrado),
+                                                empresa?.razaoSocial?: context.getString(R.string.nao_encontrado),
                                                 servicoPrestadora.nomeServico
                                             )
                                         )
-                                    }
+
                                 }
                             }
                         }

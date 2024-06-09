@@ -51,6 +51,7 @@
     import com.example.compose.preto_azulado
     import com.example.ethosconnections.R
     import com.example.ethosconnections.datastore.EmpresaDataStore
+    import com.example.ethosconnections.datastore.PortfolioDataStore
     import com.example.ethosconnections.repositories.EmpresaRepository
     import com.example.ethosconnections.service.EmpresaService
     import com.example.ethosconnections.ui.screen.plataforma.AvaliacaoServico
@@ -78,6 +79,7 @@
     import com.example.ethosconnections.viewmodel.interacao.InteracaoViewModel
     import com.example.ethosconnections.viewmodel.meta.MetaViewModel
     import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
+    import com.example.ethosconnections.viewmodel.prestadora.PrestadoraViewModel
     import com.example.ethosconnections.viewmodel.progresso.ProgressoViewModel
     import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
     import kotlinx.coroutines.launch
@@ -89,7 +91,6 @@
         val rota: String
     )
 
-
     @Composable
     fun Plataforma(
         navController: NavController,
@@ -98,9 +99,10 @@
         metaViewModel: MetaViewModel,
         interacaoViewModel: InteracaoViewModel,
         portfolioViewModel: PortfolioViewModel,
-        empresaDataStore: EmpresaDataStore
+        prestadoraViewModel: PrestadoraViewModel,
+        empresaDataStore: EmpresaDataStore,
+        portfolioDataStore: PortfolioDataStore
     ) {
-
 
         val progressoViewModel: ProgressoViewModel = viewModel()
 
@@ -282,7 +284,6 @@
                     contentAlignment = Alignment.TopStart
                 ) {
 
-
                     NavHost(
                         navController = componenteNavController,
                         startDestination = "solucoesEsg"
@@ -290,6 +291,7 @@
                         composable("solucoesEsg") {
                             SolucoesESG(componenteNavController, servicoViewModel, empresaDataStore)
                         }
+
                         composable("avaliacaoServico/{id}/{nomeServico}/{nomeEmpresa}/{categoria}/{preco}/{descricao}/{fkPrestadoraServico}/{idEmpresa}") { backStackEntry ->
                             val id = UUID.fromString(backStackEntry.arguments?.getString("id") ?: "")
                             val nomeServico = backStackEntry.arguments?.getString("nomeServico") ?: ""
@@ -313,15 +315,18 @@
                                 interacaoViewModel
                             )
                         }
+
                         composable("meuProgresso") {
                             MeuProgresso(componenteNavController, progressoViewModel, metaViewModel,empresaDataStore)
                         }
+
                         composable("portfolio/{fkPrestadora}/{idEmpresa}") { backStackEntry ->
                             val fkPrestadora = UUID.fromString(backStackEntry.arguments?.getString("fkPrestadora") ?: "")
                             val idEmpresa = UUID.fromString(backStackEntry.arguments?.getString("idEmpresa") ?: "")
 
                             Portfolio(componenteNavController, servicoViewModel, portfolioViewModel,empresaViewModel, empresaDataStore, fkPrestadora, idEmpresa)
                         }
+
                         composable("editarEmpresa") {
                             EditarEmpresa(componenteNavController, empresaDataStore)
                         }
@@ -333,7 +338,6 @@
                         composable("editarServicos") {
                             EditarServico(componenteNavController ,servicoViewModel ,empresaDataStore)
                         }
-
 
                         composable("cadastrarServico") {
                             CadastrarServico()
@@ -363,7 +367,8 @@
                                 componenteNavController,
                                 plano = backStackEntry.arguments?.getString("plano") ?: "",
                                 preco = backStackEntry.arguments?.getDouble("preco") ?: 0.0,
-                                empresaDataStore = empresaDataStore
+                                empresaDataStore = empresaDataStore,
+                                prestadoraViewModel
                             )
                         }
                         composable("meuPerfil") {

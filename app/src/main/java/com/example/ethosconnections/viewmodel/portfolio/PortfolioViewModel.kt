@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ethosconnections.R
+import com.example.ethosconnections.datastore.PortfolioDataStore
 import com.example.ethosconnections.models.Portfolio
 import com.example.ethosconnections.models.Token
 import com.example.ethosconnections.repositories.PortfolioRepository
@@ -12,26 +14,51 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class PortfolioViewModel(private val context: Context, private val repository: PortfolioRepository) : ViewModel() {
+class PortfolioViewModel(private val context: Context, private val repository: PortfolioRepository, private val portfolioDataStore: PortfolioDataStore) : ViewModel() {
     val portfolio = MutableLiveData<Portfolio>()
     val errorMessage = MutableLiveData<String>()
 
-    fun getPortfolio(id: UUID, token: String) {
+    fun getPortfolioById(id: UUID, token: String) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
         }
-
-        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(exceptionHandler) {
             try {
-                val response = repository.getPortfolioById(id, "Bearer $token")
+                val response = withContext(Dispatchers.IO) {
+                    repository.getPortfolioById(id, "Bearer $token")
+                }
                 if (response.isSuccessful) {
                     portfolio.postValue(response.body())
                     errorMessage.postValue("")
                 } else {
-                    errorMessage.postValue(response.errorBody()?.string())
+                    errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
+                }
+            } catch (e: HttpException) {
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))
+            } catch (e: Exception) {
+                errorMessage.postValue(e.message ?: context.getString(R.string.erro_exception))
+            }
+        }
+    }
+
+    fun getPortfolioByFkPrestadora(id: UUID, token: String) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            errorMessage.postValue(throwable.message ?: context.getString(R.string.erro_desconhecido))
+        }
+        viewModelScope.launch(exceptionHandler) {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    repository.getPortfolioByFkPrestadora(id, "Bearer $token")
+                }
+                if (response.isSuccessful) {
+                    portfolio.postValue(response.body())
+                    errorMessage.postValue("")
+                } else {
+                    errorMessage.postValue(response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido))
                 }
             } catch (e: HttpException) {
                 errorMessage.postValue(e.message ?: context.getString(R.string.erro_http))

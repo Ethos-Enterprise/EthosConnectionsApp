@@ -187,7 +187,7 @@ fun BoxMeusDadosGerais(navController: NavController, empresaDataStore: EmpresaDa
     LaunchedEffect(Unit) {
         empresaDataStore.getEmpresaFlow().collect { empresa ->
             empresa?.let {
-                portfolioViewModel.getPortfolio(it.id!!, empresaDataStore.getToken())
+                portfolioViewModel.getPortfolioByFkPrestadora(it.id!!, empresaDataStore.getToken())
             }
         }
     }

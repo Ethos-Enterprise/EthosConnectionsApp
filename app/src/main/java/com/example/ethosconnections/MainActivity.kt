@@ -12,16 +12,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.ethosconnections.datastore.EmpresaDataStore
+import com.example.ethosconnections.datastore.PortfolioDataStore
 import com.example.ethosconnections.repositories.EmpresaRepository
 import com.example.ethosconnections.repositories.InteracaoRepository
 import com.example.ethosconnections.repositories.MetaRepository
 import com.example.ethosconnections.repositories.PortfolioRepository
+import com.example.ethosconnections.repositories.PrestadoraRepository
 import com.example.ethosconnections.repositories.ServicoRepository
 import com.example.ethosconnections.repositories.TokenRepository
 import com.example.ethosconnections.service.EmpresaService
 import com.example.ethosconnections.service.InteracaoService
 import com.example.ethosconnections.service.MetaService
 import com.example.ethosconnections.service.PortfolioService
+import com.example.ethosconnections.service.PrestadoraService
 import com.example.ethosconnections.service.ServicoService
 import com.example.ethosconnections.service.TokenService
 import com.example.ethosconnections.ui.screen.Cadastro
@@ -36,6 +39,8 @@ import com.example.ethosconnections.viewmodel.meta.MetaViewModel
 import com.example.ethosconnections.viewmodel.meta.MetaViewModelFactory
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModel
 import com.example.ethosconnections.viewmodel.portfolio.PortfolioViewModelFactory
+import com.example.ethosconnections.viewmodel.prestadora.PrestadoraViewModel
+import com.example.ethosconnections.viewmodel.prestadora.PrestadoraViewModelFactory
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModel
 import com.example.ethosconnections.viewmodel.servico.ServicoViewModelFactory
 import com.example.ethosconnections.viewmodel.token.TokenViewModel
@@ -47,11 +52,13 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private lateinit var empresaDataStore: EmpresaDataStore
+    private lateinit var portfolioDataStore: PortfolioDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         empresaDataStore = EmpresaDataStore(this)
+        portfolioDataStore = PortfolioDataStore(this)
 
         val empresaViewModel = ViewModelProvider(
             this,
@@ -63,20 +70,27 @@ class MainActivity : ComponentActivity() {
         ).get(ServicoViewModel::class.java)
         val portfolioViewModel = ViewModelProvider(
             this,
-            PortfolioViewModelFactory(this, PortfolioRepository(PortfolioService.create()))
+            PortfolioViewModelFactory(this, PortfolioRepository(PortfolioService.create()), portfolioDataStore)
         ).get(PortfolioViewModel::class.java)
         val metaViewModel = ViewModelProvider(
             this,
             MetaViewModelFactory(this, MetaRepository(MetaService.create()))
         ).get(MetaViewModel::class.java)
+
         val interacaoViewModel = ViewModelProvider(
             this,
             InteracaoViewModelFactory(this, InteracaoRepository(InteracaoService.create()) , empresaDataStore)
         ).get(InteracaoViewModel::class.java)
+
         val tokenViewModel = ViewModelProvider(
             this,
             TokenViewModelFactory(this, TokenRepository(TokenService.create()), empresaDataStore)
         ).get(TokenViewModel::class.java)
+
+        val prestadoraViewModel = ViewModelProvider(
+            this,
+            PrestadoraViewModelFactory(this, PrestadoraRepository(PrestadoraService.create()))
+        ).get(PrestadoraViewModel::class.java)
 
         lifecycleScope.launch {
             val empresa = empresaDataStore.getEmpresaFlow().first()
@@ -113,7 +127,9 @@ class MainActivity : ComponentActivity() {
                                     metaViewModel,
                                     interacaoViewModel,
                                     portfolioViewModel,
-                                    empresaDataStore
+                                    prestadoraViewModel,
+                                    empresaDataStore,
+                                    portfolioDataStore
                                 )
                             }
                         }

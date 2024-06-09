@@ -76,7 +76,7 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                 Text(
                     stringResource(R.string.titulo_meu_perfil),
                     style = tituloConteudoAzul)
-                Divider(modifier = Modifier.padding(bottom = 10.dp))
+                Divider(modifier = Modifier.padding(bottom = 8.dp))
 
                 Text(
                     stringResource(R.string.titulo_minhas_informacoes)
@@ -108,6 +108,8 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
                     )
 
                 }
+                Spacer(modifier = Modifier.height(10.dp))
+
                 Text(
                     stringResource(R.string.endereco_contatos),
                     style = tituloConteudoBranco)
@@ -158,7 +160,7 @@ fun MeuPerfil(navController: NavController,empresaDataStore: EmpresaDataStore) {
         Rodape(
             acaoBotaoEsquerda = {navController.navigate("editarEmpresa") },
             nomeBotaoEsquerda = "Editar Dados",
-            acaoBotaoDireita = {},
+            acaoBotaoDireita = {navController.navigate("meuPerfil")},
             nomeBotaoDireita = "Salvar",
         )
     }

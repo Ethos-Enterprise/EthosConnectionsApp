@@ -19,6 +19,9 @@ interface PortfolioService {
     @GET("v1.0/portfolios/{id}")
     suspend fun getPortfolioById(@Path("id") id: UUID, @Header("Authorization") token: String): Response<Portfolio>
 
+    @GET("v1.0/portfolios/prestadora/{fkPrestadoraServico}")
+    suspend fun getPortfolioByFkPrestadora(@Path("fkPrestadoraServico") id: UUID, @Header("Authorization") token: String): Response<Portfolio>
+
     @PUT("v1.0/portfolios/{id}")
     suspend fun putPortfolioById(@Path("id") id: UUID, @Body request: Portfolio, @Header("Authorization") token: String): Response<Portfolio>
 

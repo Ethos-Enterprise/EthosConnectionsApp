@@ -9,7 +9,7 @@ import com.example.ethosconnections.viewmodel.empresa.EmpresaViewModel
 
 class PrestadoraViewModelFactory constructor(private val context: Context, private val repository: PrestadoraRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(EmpresaViewModel::class.java)) {
+        return if (modelClass.isAssignableFrom(PrestadoraViewModel::class.java)) {
             PrestadoraViewModel(context, this.repository) as T
         } else {
             throw IllegalArgumentException(" Prestadora ${context.getString(R.string.view_model_nao_encontrado)}")

@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ethosconnections.R
 import com.example.ethosconnections.models.Empresa
+import com.example.ethosconnections.models.EmpresaNova
 import com.example.ethosconnections.models.Prestadora
+import com.example.ethosconnections.models.PrestadoraNova
 import com.example.ethosconnections.repositories.PrestadoraRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,11 +18,49 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.UUID
 
-class PrestadoraViewModel(private val context: Context, private val repository: PrestadoraRepository): ViewModel() {
+class PrestadoraViewModel(
+    private val context: Context,
+    private val repository: PrestadoraRepository
+) : ViewModel() {
     val prestadoras = MutableLiveData(SnapshotStateList<Prestadora>())
     val prestadora = MutableLiveData<Prestadora>()
     val empresa = MutableLiveData<Prestadora>()
     val errorMessage = MutableLiveData<String>()
+
+    fun postPrestadora(idEmpresa: UUID, statusAprovacao: String, token: String, callback: (Boolean) -> Unit
+    ) {
+        val prestadoraNova = PrestadoraNova(idEmpresa, statusAprovacao)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = repository.postPrestadora(
+                    prestadoraNova,
+                    token = "Bearer $token"
+                )
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        errorMessage.value = ""
+                        callback(true)
+
+                    } else {
+                        errorMessage.value = response.errorBody()?.string()
+                            ?: context.getString(R.string.erro_desconhecido)
+                        callback(false)
+                    }
+                }
+            } catch (e: HttpException) {
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_http)
+                    callback(false)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    errorMessage.value = e.message ?: context.getString(R.string.erro_exception)
+                    callback(false)
+                }
+            }
+        }
+    }
 
     fun getPrestadoras(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -33,7 +73,8 @@ class PrestadoraViewModel(private val context: Context, private val repository: 
                         errorMessage.value = ""
 
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
+                        errorMessage.value = response.errorBody()?.string()
+                            ?: context.getString(R.string.erro_desconhecido)
                     }
                 }
             } catch (e: HttpException) {
@@ -47,6 +88,7 @@ class PrestadoraViewModel(private val context: Context, private val repository: 
             }
         }
     }
+
     fun getPrestadoraPorId(id: UUID, token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -56,7 +98,8 @@ class PrestadoraViewModel(private val context: Context, private val repository: 
                         prestadora.value = response.body()
                         errorMessage.value = ""
                     } else {
-                        errorMessage.value = response.errorBody()?.string() ?: context.getString(R.string.erro_desconhecido)
+                        errorMessage.value = response.errorBody()?.string()
+                            ?: context.getString(R.string.erro_desconhecido)
                     }
                 }
             } catch (e: HttpException) {

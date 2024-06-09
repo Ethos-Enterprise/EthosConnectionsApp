@@ -81,7 +81,6 @@ fun getPlanos(context: Context): List<Plano> {
 @Composable
 fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
 
-
     val planoAtualNome = empresaDataStore.getPlanoFlow().collectAsState(initial = "Free").value
     val todosPlanos = getPlanos(LocalContext.current)
 
@@ -116,7 +115,6 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
                 })
             }
 
-
         }
 //        Spacer(modifier = Modifier.height(5.dp))
 //        Rodape(
@@ -126,14 +124,13 @@ fun MeuPlano(navController: NavController, empresaDataStore: EmpresaDataStore) {
 //            nomeBotaoDireita = "Salvar"
 //        )
     }
-
 }
 
 @Composable
 fun PlanoCaixa(plano: Plano, planoAtual: Boolean, onClick: () -> Unit) {
     Column(
         modifier = Modifier
-            .padding(2.dp)
+            .padding(15.dp)
             .background(Color.Transparent)
             .border(1.dp, Color.White, shape = RoundedCornerShape(5.dp))
             .padding(8.dp) // Adiciona padding interno

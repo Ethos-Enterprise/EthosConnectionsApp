@@ -3,6 +3,8 @@ package com.example.ethosconnections.ui.screen.plataforma
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,10 +53,26 @@ import com.example.ethosconnections.ui.theme.tituloConteudoBranco
 import com.example.ethosconnections.ui.theme.tituloConteudoBrancoNegrito
 import com.example.ethosconnections.ui.theme.tituloConteudoPreto
 import com.example.ethosconnections.ui.theme.tituloPagina
+import com.example.ethosconnections.viewmodel.prestadora.PrestadoraViewModel
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
-fun Pagamento(navController: NavController, plano: String,preco: Double, empresaDataStore: EmpresaDataStore) {
+fun Pagamento(
+    navController: NavController,
+    plano: String,
+    preco: Double,
+    empresaDataStore: EmpresaDataStore,
+    prestadoraViewModel: PrestadoraViewModel
+) {
+    var isLoading by remember { mutableStateOf(false) }
+
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.YEAR, 1)
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    val formattedDate = formatter.format(calendar.time)
 
     Column {
 
@@ -63,301 +83,363 @@ fun Pagamento(navController: NavController, plano: String,preco: Double, empresa
         var codigoPix by remember { mutableStateOf(gerarCodigoPix()) }
         val context = LocalContext.current
 
-        var planoFormatado = plano.replace( context.getString(R.string.txt_plano), "").trim()
+        var planoFormatado = plano.replace(context.getString(R.string.txt_plano), "").trim()
+
         LaunchedEffect(key1 = true) {
             delay(5000)
             empresaDataStore.mudarPlano(planoFormatado)
 
             if (planoFormatado.contains(context.getString(R.string.txt_plano_analytics))) {
-                navController.navigate("meuProgresso")
-            } else if (planoFormatado.contains(context.getString(R.string.txt_plano_provider))){
-                navController.navigate("meuPortfolio")
-            }else {
-            navController.navigate("solucoesEsg")
-        }
+                val handler = Handler(Looper.getMainLooper())
+                isLoading = true
+                handler.postDelayed({
+                    navController.navigate("meuProgresso")
+                },2000)
+            } else if (planoFormatado.contains(context.getString(R.string.txt_plano_provider))) {
+                val idEmpresa = empresaDataStore.getId()
+                val token = empresaDataStore.getToken()
+
+                if (idEmpresa != null) {
+                    prestadoraViewModel.postPrestadora(idEmpresa, "APROVADO", token) { success ->
+                        if (success) {
+                            val handler = Handler(Looper.getMainLooper())
+                            isLoading = true
+                            handler.postDelayed({
+                                navController.navigate("meuPortfolio")
+                            },2000)
+                        }
+                    }
+
+                } else {
+                    isLoading = false
+                }
+
+            } else {
+                val handler = Handler(Looper.getMainLooper())
+                isLoading = true
+                handler.postDelayed({
+                    navController.navigate("solucoesEsg")
+                },2000)
+            }
         }
 
-        BoxEthos {
-            Column {
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
-                    Image(
-                        modifier = Modifier.size(28.dp),
-                        painter = painterResource(id = R.mipmap.certo),
-                        contentDescription = "Icone de símbolo de certo"
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    Text(
-                        stringResource(R.string.subtitulo_pagina_pagamento),
-                        style = tituloConteudoBranco
-                    )
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(text = "Pagamento Aprovado", style = tituloConteudoBranco)
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
+        } else {
+            BoxEthos {
+                Column {
+                    Spacer(modifier = Modifier.height(20.dp))
 
-
-            var exibirBox1 by remember { mutableStateOf(true) }
-
-            Row {
-                Text(text = stringResource(R.string.txt_qr_code_pagamento), style = tituloConteudoBranco.copy(
-                    background = if (exibirBox1) Color.Gray else Color.Transparent
-                ), modifier = Modifier
-                    .clickable { exibirBox1 = true }
-                    .padding(end = 8.dp))
-                Text(text = stringResource(R.string.txt_pix_copia_e_cola_pagamento), style = tituloConteudoBranco.copy(
-                    background = if (!exibirBox1) Color.Gray else Color.Transparent
-                ), modifier = Modifier.clickable { exibirBox1 = false })
-            }
-
-            if (exibirBox1) {
-
-                Box(
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .padding(16.dp)
-                ) {
-
-                    Column(
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
-
-                        ) {
-                        Text(
-                            stringResource(R.string.txt_pagamento),
-                            style = tituloConteudoBranco,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
                         Image(
-                            modifier = Modifier
-                                .size(150.dp)
-                                .align(Alignment.CenterHorizontally),
-                            painter = painterResource(id = R.mipmap.qrcode),
-                            contentDescription = stringResource(R.string.txt_qr_code_pagamento)
+                            modifier = Modifier.size(28.dp),
+                            painter = painterResource(id = R.mipmap.certo),
+                            contentDescription = "Icone de símbolo de certo"
                         )
 
+                        Spacer(modifier = Modifier.width(15.dp))
 
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        Column {
-
-                            Row {
-
-                                Text(
-                                    text = stringResource(R.string.txt_nome_empresa_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: stringResource(R.string.txt_empresa_n_a
-                                    ), style = tituloConteudoBranco
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_recebedor_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = stringResource(R.string.txt_nome_social_ethos), style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_plano_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text ="${planoFormatado}", style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_vencimento_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_valor_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = "${preco}" , style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                        }
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                    }
-
-
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .padding(16.dp)
-                ) {
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-
-                        ) {
                         Text(
-                            stringResource(R.string.txt_pagamento),
-                            style = tituloConteudoBranco,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            stringResource(R.string.subtitulo_pagina_pagamento),
+                            style = tituloConteudoBranco
                         )
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
 
-                        Spacer(modifier = Modifier.height(30.dp))
 
-                        //Editar
-                        val context = LocalContext.current
-                        Column {
-                            Text(
-                                stringResource(R.string.txt_pix_pagamento),
-                                style = tituloConteudoBrancoNegrito
-                            )
+                var exibirBox1 by remember { mutableStateOf(true) }
 
-                            Text(
-                                text = codigoPix,
-                                style = tituloConteudoPreto,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .background(
-                                        color = Color(0xFFC1C1C1),
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .fillMaxWidth()
-                            )
+                Row {
+                    Text(text = stringResource(R.string.txt_qr_code_pagamento),
+                        style = tituloConteudoBranco.copy(
+                            background = if (exibirBox1) Color.Gray else Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .clickable { exibirBox1 = true }
+                            .padding(end = 8.dp))
+                    Text(text = stringResource(R.string.txt_pix_copia_e_cola_pagamento),
+                        style = tituloConteudoBranco.copy(
+                            background = if (!exibirBox1) Color.Gray else Color.Transparent
+                        ),
+                        modifier = Modifier.clickable { exibirBox1 = false })
+                }
 
-                            Spacer(modifier = Modifier.height(15.dp))
+                if (exibirBox1) {
 
-                            Button(
-                                onClick = {
-                                    copyToClipboard(context, codigoPix)
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.txt_pix_copiado_pagamento),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }, modifier = Modifier
-                                    .padding(8.dp)
-                                    .align(Alignment.CenterHorizontally)
-                                    .height(40.dp),
-                                shape = RoundedCornerShape(5.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    Color(0xFF01A2C3)
-                                )
+                    Box(
+                        modifier = Modifier
+                            .background(color = Color.Gray)
+                            .padding(16.dp)
+                    ) {
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+
                             ) {
-                                Text(
-                                    text = stringResource(R.string.txt_pix_copiar_pagamento),
-                                    style = letraButton
-                                )
+                            Text(
+                                stringResource(R.string.txt_pagamento),
+                                style = tituloConteudoBranco,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            Image(
+                                modifier = Modifier
+                                    .size(150.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                painter = painterResource(id = R.mipmap.qrcode),
+                                contentDescription = stringResource(R.string.txt_qr_code_pagamento)
+                            )
+
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            Column {
+
+                                Row {
+
+                                    Text(
+                                        text = stringResource(R.string.txt_nome_empresa_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = empresaDataStore.getRazaoSocialEmpresaFlow()
+                                            .collectAsState(initial = null).value ?: stringResource(
+                                            R.string.txt_empresa_n_a
+                                        ), style = tituloConteudoBranco
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_recebedor_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = stringResource(R.string.txt_nome_social_ethos),
+                                        style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_plano_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = planoFormatado, style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_vencimento_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = formattedDate, style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_valor_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = "${preco}", style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
                             }
+                            Spacer(modifier = Modifier.height(20.dp))
+
                         }
 
-                        Spacer(modifier = Modifier.height(30.dp))
-                        Column {
-
-                            Row {
-
-                                Text(
-                                    stringResource(R.string.txt_nome_empresa_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = empresaDataStore.getRazaoSocialEmpresaFlow().collectAsState(initial = null).value ?: stringResource(R.string.txt_empresa_n_a), style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_recebedor_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = stringResource(R.string.txt_nome_social_ethos), style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_plano_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_vencimento_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = "XXXXX", style = tituloConteudoBranco
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            Row {
-                                Text(
-                                    stringResource(R.string.txt_valor_pagamento), style = tituloConteudoBrancoNegrito
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    text = "${preco}" , style = tituloConteudoBranco
-                                )
-                            }
-
-                        }
-                        Spacer(modifier = Modifier.height(40.dp))
 
                     }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .background(color = Color.Gray)
+                            .padding(16.dp)
+                    ) {
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+
+                            ) {
+                            Text(
+                                stringResource(R.string.txt_pagamento),
+                                style = tituloConteudoBranco,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+
+                            Spacer(modifier = Modifier.height(30.dp))
+
+                            //Editar
+                            val context = LocalContext.current
+                            Column {
+                                Text(
+                                    stringResource(R.string.txt_pix_pagamento),
+                                    style = tituloConteudoBrancoNegrito
+                                )
+
+                                Text(
+                                    text = codigoPix,
+                                    style = tituloConteudoPreto,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .background(
+                                            color = Color(0xFFC1C1C1),
+                                            shape = RoundedCornerShape(4.dp)
+                                        )
+                                        .fillMaxWidth()
+                                )
+
+                                Spacer(modifier = Modifier.height(15.dp))
+
+                                Button(
+                                    onClick = {
+                                        copyToClipboard(context, codigoPix)
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.txt_pix_copiado_pagamento),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }, modifier = Modifier
+                                        .padding(8.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                        .height(40.dp),
+                                    shape = RoundedCornerShape(5.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        Color(0xFF01A2C3)
+                                    )
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.txt_pix_copiar_pagamento),
+                                        style = letraButton
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(30.dp))
+                            Column {
+
+                                Row {
+
+                                    Text(
+                                        stringResource(R.string.txt_nome_empresa_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = empresaDataStore.getRazaoSocialEmpresaFlow()
+                                            .collectAsState(initial = null).value
+                                            ?: stringResource(R.string.txt_empresa_n_a),
+                                        style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_recebedor_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = stringResource(R.string.txt_nome_social_ethos),
+                                        style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_plano_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = plano, style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_vencimento_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = formattedDate, style = tituloConteudoBranco
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+
+                                Row {
+                                    Text(
+                                        stringResource(R.string.txt_valor_pagamento),
+                                        style = tituloConteudoBrancoNegrito
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Text(
+                                        text = "${preco}", style = tituloConteudoBranco
+                                    )
+                                }
+
+                            }
+                            Spacer(modifier = Modifier.height(40.dp))
+
+                        }
 
 
+                    }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
+
             }
-            Spacer(modifier = Modifier.height(20.dp))
-
+            Spacer(modifier = Modifier.height(40.dp))
+            Rodape(
+                acaoBotaoEsquerda = {},
+                nomeBotaoEsquerda = stringResource(R.string.txt_button_concluir),
+                acaoBotaoDireita = {},
+                nomeBotaoDireita = stringResource(R.string.txt_button_cancelar)
+            )
         }
-        Spacer(modifier = Modifier.height(40.dp))
-        Rodape(
-            acaoBotaoEsquerda = {},
-            nomeBotaoEsquerda = stringResource(R.string.txt_button_concluir),
-            acaoBotaoDireita = {},
-            nomeBotaoDireita = stringResource(R.string.txt_button_cancelar)
-        )
-
     }
 
 }

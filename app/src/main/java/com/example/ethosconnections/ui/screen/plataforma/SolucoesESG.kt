@@ -288,6 +288,7 @@ fun CategoriaCard(
                     textAlign = TextAlign.Center,
                     text = buttonText,
                     style = letraPadrao,
+                    fontSize = 12.sp,
                     color = Color.White,
                     modifier = Modifier.padding(3.dp)
                 )

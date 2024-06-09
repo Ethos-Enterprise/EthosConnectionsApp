@@ -119,15 +119,15 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                     style = tituloConteudoBranco)
                 BoxEthos{
 
-                    Column {
-                        Row(modifier = Modifier.padding(end = 8.dp)) {
+                    Row {
+                        Row {
                             Text(
                                 stringResource(R.string.em_andamento),
                                 style = tituloConteudoBrancoNegrito)
                             Text(text = interacoes.value.size.toString() , style = tituloConteudoBranco, )
                         }
-
-                        Row() {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Row{
                             Text(
                                 stringResource(R.string.status_finalizado),
                                 style = tituloConteudoBrancoNegrito)
@@ -203,7 +203,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
                     style = tituloConteudoBranco)
 
                 BoxEthos{
-                    Row(modifier = Modifier.padding(end = 8.dp)) {
+                    Row {
                         Text(
                             stringResource(R.string.total),
                             style = tituloConteudoBrancoNegrito)
@@ -282,74 +282,7 @@ fun MinhasInteracoes(navController: NavController,empresaDataStore: EmpresaDataS
 
                 }
 
-                BoxEthos {
-                    Row {
-                        Image(
-                            modifier = Modifier
-                                .width(100.dp)
-                                .padding(top = 15.dp),
-                            painter = painterResource(id = R.mipmap.ey),
-                            contentDescription = "Logo EY"
-                        )
-                        Column(modifier = Modifier.padding(bottom = 8.dp)) {
-                            Text(
-                                stringResource(R.string.gestao_portfolio),
-                                style = tituloConteudoAzul
-                            )
-                            Text(
-                                stringResource(R.string.Ernest_young),
-                                style = tituloConteudoBranco,
-                                fontSize = 12.sp
-                            )
-                            Text(
-                                stringResource(R.string.saiba_mais),
-                                style = letraClicavel,
-                                fontSize = 12.sp,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Spacer(modifier = Modifier.weight(1f))
 
-                        OutlinedButton(
-                            onClick = { navController.navigate("minhasInteracoes") },
-                            modifier = Modifier
-                                .padding(horizontal = 5.dp)
-                                .size(width = 120.dp, height = 40.dp)
-                                .height(35.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            border = BorderStroke(1.dp, Color(0xFF01A2C3)),
-                        ) {
-                            Text(
-                                stringResource(R.string.Remover),
-                                style = letraButton,
-                                color = Color(0xFF01A2C3)
-                            )
-                        }
-
-                        Button(
-                            onClick = {
-                                navController.navigate("portfolio")
-                            },
-                            modifier = Modifier
-                                .padding(start = 5.dp)
-                                .background(Color(0xFF1B1F23))
-                                .widthIn(max = 120.dp)
-                                .height(40.dp),
-                            shape = RoundedCornerShape(3.dp)
-                        ) {
-                            Text(
-                                stringResource(R.string.contato),
-                                style = letraButton
-                            )
-                        }
-                    }
-
-                }
             }
 
         }

@@ -34,9 +34,9 @@ interface InteracaoService {
         @Header("Authorization") token: String
     ): Response<List<Interacao>>
 
-    @GET("v1.0/interacoes/servico/{fkPrestadora}")
+    @GET("v1.0/interacoes/servico/{fkServico}")
     suspend fun getInteracoesByServico(
-        @Path("fkPrestadora") fkPrestadora: UUID,
+        @Path("fkServico") fkPrestadora: UUID,
         @Header("Authorization") token: String
     ): Response<List<Interacao>>
 }

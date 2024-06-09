@@ -66,7 +66,7 @@ fun Portfolio(navController: NavController,servicoViewModel: ServicoViewModel, p
         val token = empresaDataStore.getToken()
         servicoViewModel.getServicos(token)
         fkPrestadoraAtual.value.let { prestadoraId ->
-            portfolioViewModel.getPortfolio(prestadoraId, token)
+            portfolioViewModel.getPortfolioByFkPrestadora(prestadoraId, token)
             empresaViewModel.getEmpresaById(idEmpresa, token)
         }
     }
